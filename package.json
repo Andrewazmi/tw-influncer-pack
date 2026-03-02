@@ -20,7 +20,7 @@
     "@salla.sa/twilight-tailwind-theme": "^2.14.76",
     "animejs": "^3.2.2",
     "fslightbox": "^3.5.1",
-    "lite-youtube-embed": "^0.2.0",
+    "lite-youtube-embed": "^0.3.4",
     "mmenu-light": "^3.2.2",
     "sweetalert2": "^11.17.2"
   },
