@@ -6,6 +6,7 @@
   --influencer-accent: var(--color-primary, #0f766e);
   --influencer-outline: rgba(255, 255, 255, 0.2);
   --influencer-copy-btn-bg: #111111;
+  --influencer-code-pill-height: 1.65rem;
 
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -44,6 +45,17 @@
     scrollbar-width: thin;
   }
 
+  .influencer-pack__creators.is-single {
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  .influencer-pack__creators.is-single .influencer-pack__creator {
+    width: min(100%, 300px);
+  }
+
   .influencer-pack__creator {
     scroll-snap-align: start;
   }
@@ -52,23 +64,23 @@
     border: 1px solid #e6e7eb;
     border-radius: 1rem;
     background: #ffffff;
-    padding: 0.65rem;
+    padding: 0.5rem 0.6rem;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
   }
 
   .influencer-pack__creator-link {
     display: flex;
     align-items: center;
-    gap: 0.625rem;
-    padding: 0.2rem;
-    min-height: 3.25rem;
+    gap: 0.45rem;
+    padding: 0.1rem 0;
+    min-height: 2.3rem;
     text-decoration: none;
     color: inherit;
   }
 
   .influencer-pack__creator-avatar {
-    width: 2.15rem;
-    height: 2.15rem;
+    width: 1.85rem;
+    height: 1.85rem;
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
@@ -89,7 +101,7 @@
   }
 
   .influencer-pack__creator-name {
-    font-size: 0.88rem;
+    font-size: 0.8rem;
     line-height: 1.1;
     white-space: nowrap;
     overflow: hidden;
@@ -98,7 +110,7 @@
 
   .influencer-pack__creator-handle {
     color: #727272;
-    font-size: 0.74rem;
+    font-size: 0.68rem;
     line-height: 1.1;
     white-space: nowrap;
     overflow: hidden;
@@ -112,16 +124,30 @@
     flex-wrap: wrap;
   }
 
+  .influencer-pack__creator-code,
+  .influencer-pack__reel-code,
+  .influencer-pack__promo-code,
+  .influencer-pack__copy-code {
+    height: var(--influencer-code-pill-height);
+    min-height: var(--influencer-code-pill-height);
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
   .influencer-pack__code-group--creator {
-    margin-top: 0.55rem;
+    margin-top: 0.35rem;
+    justify-content: flex-end;
   }
 
   .influencer-pack__creator-code {
-    font-size: 0.72rem;
+    font-size: 0.64rem;
     font-weight: 700;
     background: #f5f5f5;
     border-radius: 0.4rem;
-    padding: 0.2rem 0.45rem;
+    padding: 0 0.42rem;
     border: 1px dashed #dedede;
   }
 
@@ -245,7 +271,7 @@
     background: rgba(255, 255, 255, 0.14);
     border: 1px solid rgba(255, 255, 255, 0.4);
     font-size: 0.7rem;
-    padding: 0.2rem 0.45rem;
+    padding: 0 0.45rem;
     border-radius: 0.45rem;
     font-weight: 700;
   }
@@ -257,9 +283,8 @@
     color: #ffffff;
     font-size: 0.68rem;
     font-weight: 700;
-    padding: 0.28rem 0.62rem;
-    line-height: 1.1;
-    white-space: nowrap;
+    padding: 0 0.62rem;
+    justify-content: center;
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.2s ease;
   }
@@ -378,13 +403,11 @@
   }
 
   .influencer-pack__promo-code {
-    display: inline-flex;
-    align-items: center;
     margin: 0;
     background: #ffffff;
     border: 1px dashed #cdcdcd;
     border-radius: 0.45rem;
-    padding: 0.2rem 0.5rem;
+    padding: 0 0.5rem;
     font-weight: 700;
   }
 
