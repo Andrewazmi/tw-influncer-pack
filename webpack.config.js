@@ -7,6 +7,11 @@ const asset = file => path.resolve('src/assets', file || '');
 const public = file => path.resolve("public", file || '');
 
 module.exports = {
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000,
+        ignored: /node_modules/
+    },
     entry  : {
         app     : [asset('styles/app.scss'), asset('js/wishlist.js'), asset('js/app.js'), asset('js/blog.js'), asset('js/header.js')],
         home    : asset('js/home.js'),
