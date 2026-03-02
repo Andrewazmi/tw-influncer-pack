@@ -70,7 +70,7 @@
   }
 
   .influencer-pack__creator-link {
-    display: inline-flex;
+    display: inline-flex !important;
     align-items: center;
     justify-content: flex-start;
     gap: 0.45rem;
@@ -80,8 +80,9 @@
     color: inherit;
     width: auto !important;
     max-width: 100%;
-    direction: rtl;
+    direction: rtl !important;
     text-align: right;
+    flex-direction: row !important;
   }
 
   .influencer-pack__creator-avatar {
@@ -91,6 +92,7 @@
     overflow: hidden;
     flex-shrink: 0;
     background: #f3f3f3;
+    order: 1;
 
     img {
       width: 100%;
@@ -106,6 +108,7 @@
     align-items: flex-end;
     min-width: 0;
     text-align: right;
+    order: 2;
   }
 
   .influencer-pack__creator-name {
