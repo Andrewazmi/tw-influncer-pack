@@ -53,8 +53,7 @@
   }
 
   .influencer-pack__reels {
-    --influencer-reel-column: 74%;
-    --influencer-reel-height: clamp(24.5rem, 72vw, 34rem);
+    --influencer-reel-column: 84%;
     margin-bottom: 1.5rem;
   }
 
@@ -104,14 +103,12 @@
   }
 
   .influencer-pack__reels-track {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: var(--influencer-reel-column);
+    display: flex;
     gap: 1rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: calc((100% - var(--influencer-reel-column)) / 2);
-    padding-inline: calc((100% - var(--influencer-reel-column)) / 2);
+    scroll-padding-inline: calc((100% - var(--influencer-reel-column, 84%)) / 2);
+    padding-inline: calc((100% - var(--influencer-reel-column, 84%)) / 2);
     padding-bottom: 0.5rem;
     scrollbar-width: thin;
     outline: none;
@@ -128,6 +125,7 @@
   }
 
   .influencer-pack__reel-card {
+    flex: 0 0 var(--influencer-reel-column, 84%);
     scroll-snap-align: center;
     min-width: 0;
     transition: transform 0.34s ease, opacity 0.34s ease, filter 0.34s ease;
@@ -144,7 +142,7 @@
 
   .influencer-pack__reel-media {
     position: relative;
-    height: var(--influencer-reel-height);
+    aspect-ratio: 9 / 16;
     border-radius: 1.05rem;
     overflow: hidden;
     background: #1d1d1d;
@@ -659,8 +657,7 @@
 
   @media (min-width: 768px) {
     .influencer-pack__reels {
-      --influencer-reel-column: 48%;
-      --influencer-reel-height: clamp(29rem, 66vw, 37rem);
+      --influencer-reel-column: 56%;
     }
 
     .influencer-pack__reels-track {
@@ -701,8 +698,7 @@
 
   @media (min-width: 1024px) {
     .influencer-pack__reels {
-      --influencer-reel-column: 25.5%;
-      --influencer-reel-height: clamp(31rem, 56vw, 41rem);
+      --influencer-reel-column: 31%;
     }
 
     .influencer-pack__reels-track {
