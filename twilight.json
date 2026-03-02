@@ -30,7 +30,8 @@
         "menu-images",
         "filters",
         "component-video-with-products",
-        "component-influencer-pack"
+        "component-influencer-pack",
+        "component-influencer-pack-tiktok"
     ],
     "settings": [
         {
@@ -2114,6 +2115,123 @@
                             "id": "show_picked_products",
                             "operation": "=",
                             "value": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "28c3878c-5dbb-47c8-8f17-65fe2e5be1ca",
+            "title": {
+                "en": "Influencer Pack TikTok",
+                "ar": "باقة المؤثرين تيك توك"
+            },
+            "icon": "sicon-video",
+            "path": "home.influencer-pack-tiktok",
+            "fields": [
+                {
+                    "type": "static",
+                    "format": "description",
+                    "id": "influencer-pack-tiktok-desc",
+                    "value": "<div><h6>معاينة العنصر</h6><p>اعرض فيديوهات TikTok داخل سلايدر أفقي مشابه للمثال.</p></div>"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "عنوان القسم",
+                    "multilanguage": true,
+                    "id": "title",
+                    "value": {
+                        "ar": "تجارب العملاء على تيك توك",
+                        "en": "TikTok In The Wild"
+                    },
+                    "required": false,
+                    "format": "text",
+                    "placeholder": "اكتب عنوان القسم..."
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-typography",
+                    "label": "وصف القسم",
+                    "multilanguage": true,
+                    "id": "subtitle",
+                    "value": {
+                        "ar": "فيديوهات واقعية من تيك توك تعرض المنتج وتجربة العملاء",
+                        "en": "Real customer videos from TikTok"
+                    },
+                    "required": false,
+                    "format": "textarea",
+                    "placeholder": "اكتب وصف القسم..."
+                },
+                {
+                    "id": "section_bg_color",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "لون خلفية القسم",
+                    "icon": "sicon-format-fill",
+                    "value": "#c9ddd1",
+                    "required": false
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "label": "حجم بطاقة الفيديو",
+                    "id": "card_size",
+                    "format": "dropdown-list",
+                    "required": false,
+                    "selected": [
+                        {
+                            "label": "متوسط",
+                            "value": "regular"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "صغير",
+                            "value": "compact"
+                        },
+                        {
+                            "label": "متوسط",
+                            "value": "regular"
+                        },
+                        {
+                            "label": "كبير",
+                            "value": "large"
+                        }
+                    ],
+                    "source": "Manual"
+                },
+                {
+                    "type": "boolean",
+                    "icon": "sicon-toggle-off",
+                    "label": "عرض أسهم التنقل",
+                    "id": "show_navigation",
+                    "format": "switch",
+                    "required": false,
+                    "value": true,
+                    "selected": true
+                },
+                {
+                    "id": "reels",
+                    "type": "collection",
+                    "format": "collection",
+                    "required": true,
+                    "minLength": 1,
+                    "maxLength": 12,
+                    "item_label": "فيديو TikTok",
+                    "value": [],
+                    "fields": [
+                        {
+                            "type": "string",
+                            "icon": "sicon-link",
+                            "label": "رابط فيديو TikTok",
+                            "id": "reels.tiktok_url",
+                            "format": "url",
+                            "inputType": "url",
+                            "required": true,
+                            "value": null,
+                            "placeholder": "https://www.tiktok.com/@username/video/1234567890"
                         }
                     ]
                 }
