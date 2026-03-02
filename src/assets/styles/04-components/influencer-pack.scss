@@ -363,8 +363,40 @@
   }
 
   .influencer-pack__play-toggle .influencer-pack__play-glyph {
-    color: #111111 !important;
-    font-weight: 800;
+    width: 0;
+    height: 0;
+    border-top: 0.36rem solid transparent;
+    border-bottom: 0.36rem solid transparent;
+    border-left: 0.56rem solid #111111;
+    margin-inline-start: 0.08rem;
+    display: inline-block;
+  }
+
+  .influencer-pack__play-toggle.is-playing .influencer-pack__play-glyph {
+    width: 0.6rem;
+    height: 0.62rem;
+    border: 0;
+    margin-inline-start: 0;
+    position: relative;
+  }
+
+  .influencer-pack__play-toggle.is-playing .influencer-pack__play-glyph::before,
+  .influencer-pack__play-toggle.is-playing .influencer-pack__play-glyph::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 0.2rem;
+    height: 100%;
+    background: #111111;
+    border-radius: 2px;
+  }
+
+  .influencer-pack__play-toggle.is-playing .influencer-pack__play-glyph::before {
+    left: 0;
+  }
+
+  .influencer-pack__play-toggle.is-playing .influencer-pack__play-glyph::after {
+    right: 0;
   }
 
   .influencer-pack__mute-toggle i,

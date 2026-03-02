@@ -445,13 +445,8 @@ function setToggleState(toggle, isPlaying) {
     return;
   }
 
-  const glyph = toggle.querySelector('.influencer-pack__play-glyph');
   toggle.classList.toggle('is-playing', isPlaying);
   toggle.setAttribute('aria-label', isPlaying ? 'Pause reel' : 'Play reel');
-
-  if (glyph) {
-    glyph.textContent = isPlaying ? '❚❚' : '▶';
-  }
 }
 
 function updateMuteToggle(toggle, isMuted) {
