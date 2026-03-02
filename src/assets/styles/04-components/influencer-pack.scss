@@ -13,9 +13,11 @@
 
   .influencer-pack__header {
     margin-bottom: 1.25rem;
+    text-align: center;
   }
 
   .influencer-pack__title {
+    font-family: inherit;
     font-size: 1.625rem;
     line-height: 1.2;
     font-weight: 800;
@@ -24,9 +26,10 @@
   }
 
   .influencer-pack__subtitle {
+    font-family: inherit;
     max-width: 60ch;
     color: #5d5d5d;
-    margin: 0;
+    margin: 0 auto;
   }
 
   .influencer-pack__creators {
