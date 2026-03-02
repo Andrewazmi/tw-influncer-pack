@@ -42,7 +42,7 @@ function setupInfluencerPack(block) {
     reel.dataset.index = String(index);
 
     const video = reel.querySelector('.influencer-pack__video');
-    const toggle = reel.querySelector('.influencer-pack__play-toggle');
+    const toggle = ensurePlayGlyph(reel.querySelector('.influencer-pack__play-toggle'));
     const muteToggle = reel.querySelector('.influencer-pack__mute-toggle');
     const progressFill = reel.querySelector('.influencer-pack__progress-fill');
 
@@ -473,6 +473,22 @@ function updateMuteToggle(toggle, isMuted) {
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
+}
+
+function ensurePlayGlyph(toggle) {
+  if (!toggle) {
+    return toggle;
+  }
+
+  if (!toggle.querySelector('.influencer-pack__play-glyph')) {
+    toggle.innerHTML = '';
+    const glyph = document.createElement('span');
+    glyph.className = 'influencer-pack__play-glyph';
+    glyph.setAttribute('aria-hidden', 'true');
+    toggle.appendChild(glyph);
+  }
+
+  return toggle;
 }
 
 function syncToggleWithVideoState(video, toggle) {
