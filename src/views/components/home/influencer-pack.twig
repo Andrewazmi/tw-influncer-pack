@@ -104,6 +104,14 @@
               {% set reel_products = [] %}
             {% endif %}
             {% set reel_product_count = reel_products|length %}
+            {% set reel_product_ids = [] %}
+            {% for product in reel_products %}
+              {% set reel_product_id = product.id|default(product.value|default(product)) %}
+              {% if reel_product_id %}
+                {% set reel_product_ids = reel_product_ids|merge([reel_product_id]) %}
+              {% endif %}
+            {% endfor %}
+            {% set reel_product_count = reel_product_ids|length %}
             {% set reel_primary_product = null %}
             {% set reel_primary_raw = reel.primary_product|default(null) %}
             {% set reel_primary_id = '' %}
@@ -118,8 +126,8 @@
               {% endif %}
               {% if reel_primary_id %}
                 {% for product in reel_products %}
-                  {% set reel_product_id = product.id|default(product.value|default('')) %}
-                  {% if reel_product_id and (reel_product_id ~ '') == (reel_primary_id ~ '') %}
+                  {% set reel_product_item_id = product.id|default(product.value|default('')) %}
+                  {% if reel_product_item_id and (reel_product_item_id ~ '') == (reel_primary_id ~ '') %}
                     {% set reel_primary_product = product %}
                   {% endif %}
                 {% endfor %}
@@ -130,7 +138,7 @@
             {% if not reel_primary_product and reel_product_count %}
               {% set reel_primary_product = reel_products|first %}
             {% endif %}
-            {% set reel_primary_title = reel_primary_product.name|default('') %}
+            {% set reel_primary_title = reel_primary_product.name|default(reel_primary_product.title|default(reel_primary_product.label|default(''))) %}
             {% set reel_primary_image = '' %}
             {% if reel_primary_product and reel_primary_product.image is defined %}
               {% if reel_primary_product.image is iterable %}
@@ -284,42 +292,14 @@
                         <i class="sicon-cancel"></i>
                       </button>
                     </header>
-                    <div class="influencer-pack__reel-strip-list">
-                      {% for product in reel_products %}
-                        {% set product_image = '' %}
-                        {% if product.image is defined %}
-                          {% if product.image is iterable %}
-                            {% set product_image = product.image.url|default(product.image.path|default('')) %}
-                          {% else %}
-                            {% set product_image = product.image|default('') %}
-                          {% endif %}
-                        {% endif %}
-                        {% if not product_image %}
-                          {% set product_image = product.thumbnail|default('') %}
-                        {% endif %}
-                        {% set product_price_label = product.formatted_price|default(product.price_formatted|default(product.sale_price_formatted|default(''))) %}
-                        <article class="influencer-pack__strip-item">
-                          <a href="{{ product.url|default('#') }}" class="influencer-pack__strip-item-media" aria-label="{{ product.name|default('منتج') }}">
-                            {% if product_image %}
-                              <img src="{{ product_image }}" alt="{{ product.name|default('منتج') }}" loading="lazy">
-                            {% endif %}
-                          </a>
-                          <div class="influencer-pack__strip-item-main">
-                            <a href="{{ product.url|default('#') }}" class="influencer-pack__strip-item-title">{{ product.name|default('منتج') }}</a>
-                            {% if product_price_label %}
-                              <p class="influencer-pack__strip-item-price">{{ product_price_label }}</p>
-                            {% elseif product.price is defined and product.price is not same as(null) %}
-                              <p class="influencer-pack__strip-item-price">{{ product.price|money }}</p>
-                            {% endif %}
-                            <div class="influencer-pack__strip-item-actions">
-                              <a href="{{ product.url|default('#') }}" class="influencer-pack__strip-item-link">عرض المنتج</a>
-                              {% if product.id is defined and product.id %}
-                                <button type="button" class="influencer-pack__strip-item-cart" data-product-id="{{ product.id }}">أضف للسلة</button>
-                              {% endif %}
-                            </div>
-                          </div>
-                        </article>
-                      {% endfor %}
+                    <div class="influencer-pack__reel-strip-products">
+                      <salla-products-slider
+                        source="selected"
+                        source-value="[{{ reel_product_ids|join(',') }}]"
+                        limit="{{ reel_product_count }}"
+                        slider-id="influencer-pack-reel-strip-{{ position }}-{{ loop.index0 }}"
+                        block-title=" ">
+                      </salla-products-slider>
                     </div>
                   </div>
                 </div>

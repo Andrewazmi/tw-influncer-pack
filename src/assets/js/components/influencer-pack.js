@@ -716,15 +716,16 @@ function updateMuteToggle(toggle, isMuted) {
   }
 }
 
-function syncNavIcons(navPrev, navNext, isRtl) {
+function syncNavIcons(navPrev, navNext, _isRtl) {
   const prevArrow = navPrev ? navPrev.querySelector('.influencer-pack__nav-arrow') : null;
   const nextArrow = navNext ? navNext.querySelector('.influencer-pack__nav-arrow') : null;
   const prevIcon = navPrev ? navPrev.querySelector('i') : null;
   const nextIcon = navNext ? navNext.querySelector('i') : null;
-  const prevChar = isRtl ? '›' : '‹';
-  const nextChar = isRtl ? '‹' : '›';
-  const prevIconClass = isRtl ? 'sicon-keyboard_arrow_right' : 'sicon-keyboard_arrow_left';
-  const nextIconClass = isRtl ? 'sicon-keyboard_arrow_left' : 'sicon-keyboard_arrow_right';
+  // Keep reel navigation visually fixed as "< >" to match the original component behavior.
+  const prevChar = '‹';
+  const nextChar = '›';
+  const prevIconClass = 'sicon-keyboard_arrow_right';
+  const nextIconClass = 'sicon-keyboard_arrow_left';
 
   if (prevArrow) {
     prevArrow.textContent = prevChar;
