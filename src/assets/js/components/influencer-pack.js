@@ -328,7 +328,7 @@ function resetYoutube(reel) {
 }
 
 function bindCopyCodeButtons(block) {
-  block.addEventListener('click', async (event) => {
+  block.addEventListener('click', (event) => {
     const button = event.target.closest('.influencer-pack__copy-code');
     if (!button || !block.contains(button)) {
       return;
@@ -342,39 +342,56 @@ function bindCopyCodeButtons(block) {
       return;
     }
 
-    const copied = await copyText(code);
-    if (!copied) {
-      return;
-    }
-
     const originalText = button.dataset.originalText || button.textContent || 'نسخ الكود';
     button.dataset.originalText = originalText;
-    button.textContent = 'تم النسخ';
-    button.classList.add('is-copied');
-    window.setTimeout(() => {
-      button.classList.remove('is-copied');
-      button.textContent = originalText;
-    }, 1200);
+    copyText(code).then((copied) => {
+      if (!copied) {
+        return;
+      }
+
+      button.textContent = 'تم النسخ';
+      button.classList.add('is-copied');
+      window.setTimeout(() => {
+        button.classList.remove('is-copied');
+        button.textContent = originalText;
+      }, 1200);
+    });
   });
 }
 
-async function copyText(value) {
-  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-    try {
-      await navigator.clipboard.writeText(value);
-      return true;
-    } catch (error) {
-      // Fallback to execCommand when clipboard API is blocked.
-    }
+function copyText(value) {
+  // Keep a synchronous copy path for iframe/editor contexts.
+  if (legacyCopy(value)) {
+    return Promise.resolve(true);
   }
 
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    return navigator.clipboard
+      .writeText(value)
+      .then(() => true)
+      .catch(() => false);
+  }
+
+  return Promise.resolve(false);
+}
+
+function legacyCopy(value) {
   const temp = document.createElement('textarea');
   temp.value = value;
   temp.setAttribute('readonly', '');
+  temp.setAttribute('aria-hidden', 'true');
   temp.style.position = 'absolute';
+  temp.style.opacity = '0';
   temp.style.left = '-9999px';
+  temp.style.top = '0';
+  temp.style.pointerEvents = 'none';
   document.body.appendChild(temp);
+
+  const previousSelection = document.getSelection();
+  const selectedRange = previousSelection && previousSelection.rangeCount ? previousSelection.getRangeAt(0) : null;
+
   temp.select();
+  temp.setSelectionRange(0, temp.value.length);
 
   let success = false;
   try {
@@ -384,7 +401,12 @@ async function copyText(value) {
   }
 
   document.body.removeChild(temp);
-  return success;
+  if (selectedRange && previousSelection) {
+    previousSelection.removeAllRanges();
+    previousSelection.addRange(selectedRange);
+  }
+
+  return Boolean(success);
 }
 
 function setToggleState(toggle, isPlaying) {
