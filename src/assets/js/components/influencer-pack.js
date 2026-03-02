@@ -49,8 +49,17 @@ function setupInfluencerPack(block) {
     if (video) {
       setVideoMuted(video, mutedByDefault);
       video.playsInline = true;
-      video.preload = autoplayEnabled ? 'metadata' : (index <= 1 ? 'metadata' : 'none');
+      video.autoplay = autoplayEnabled && mutedByDefault;
+      video.preload = autoplayEnabled ? 'auto' : (index <= 1 ? 'metadata' : 'none');
       updateMuteToggle(muteToggle, video.muted);
+
+      video.addEventListener('loadeddata', () => {
+        maybeAutoplay(reel);
+      });
+
+      video.addEventListener('canplay', () => {
+        maybeAutoplay(reel);
+      });
 
       video.addEventListener('play', () => {
         reel.classList.add('is-playing');
@@ -180,6 +189,8 @@ function setupInfluencerPack(block) {
   }
 
   setActiveReel(0, false);
+  window.setTimeout(() => autoplayMutedReels(), 120);
+  window.setTimeout(() => autoplayMutedReels(), 420);
 
   function scrollToReel(index) {
     if (!reels.length) {
@@ -223,6 +234,10 @@ function setupInfluencerPack(block) {
 
     const video = reel.querySelector('.influencer-pack__video');
     if (!video || !video.muted) {
+      return;
+    }
+
+    if (video.readyState < 2) {
       return;
     }
 
