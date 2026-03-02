@@ -35,7 +35,6 @@
 {% if promo_aria_label == 'pages.offers.title' %}
   {% set promo_aria_label = 'عروض الخصم' %}
 {% endif %}
-{% set creators_is_compact = creators_count > 0 and creators_count <= 2 %}
 
 <section
   id="{{ block_id }}"
@@ -57,10 +56,9 @@
 
     {% if show_creators %}
       <div
-        class="influencer-pack__creators{{ creators_is_compact ? ' is-few' : '' }}{{ creators_count == 1 ? ' is-single' : '' }}"
+        class="influencer-pack__creators"
         role="list"
-        aria-label="{{ creators_aria_label }}"
-        {{ creators_is_compact ? 'style="display:flex;justify-content:center;flex-wrap:wrap;overflow:visible;padding-bottom:0;"' : '' }}>
+        aria-label="{{ creators_aria_label }}">
         {% for creator in creators %}
           {% set profile_url = creator.profile_url|default('') %}
           {% if profile_url is iterable %}
@@ -72,8 +70,8 @@
             {% endif %}
           {% endif %}
           {% set creator_name = creator.name|default('') %}
-          <article class="influencer-pack__creator" role="listitem" {{ creators_is_compact ? 'style="width:auto;max-width:100%;margin-inline:auto;"' : '' }}>
-            <div class="influencer-pack__creator-card" {{ creators_is_compact ? 'style="width:fit-content;max-width:100%;"' : '' }}>
+          <article class="influencer-pack__creator" role="listitem">
+            <div class="influencer-pack__creator-card">
               {% if profile_url %}
                 <a href="{{ profile_url }}" class="influencer-pack__creator-link" aria-label="{{ creator_name ? creator_name : 'Creator Profile' }}">
               {% else %}

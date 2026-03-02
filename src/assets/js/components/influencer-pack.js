@@ -21,7 +21,6 @@ function setupInfluencerPack(block) {
   }
 
   bindCopyCodeButtons(block);
-  setCreatorsLayout(block);
 
   const track = block.querySelector('.influencer-pack__reels-track');
   const reels = Array.from(block.querySelectorAll('.influencer-pack__reel-card'));
@@ -289,17 +288,6 @@ function setupInfluencerPack(block) {
       setToggleState(reel.querySelector('.influencer-pack__play-toggle'), false);
     });
   }
-}
-
-function setCreatorsLayout(block) {
-  const creatorsTrack = block.querySelector('.influencer-pack__creators');
-  if (!creatorsTrack) {
-    return;
-  }
-
-  const creatorsCount = creatorsTrack.querySelectorAll('.influencer-pack__creator').length;
-  creatorsTrack.classList.toggle('is-single', creatorsCount === 1);
-  creatorsTrack.classList.toggle('is-few', creatorsCount > 0 && creatorsCount <= 2);
 }
 
 function pauseReelMedia(reel) {
