@@ -88,6 +88,9 @@ function setupInfluencerPack(block) {
         const progress = Math.min((video.currentTime / video.duration) * 100, 100);
         progressFill.style.width = `${progress}%`;
       });
+
+      // Autoplay can start before listeners are fully attached in some browsers.
+      syncToggleWithVideoState(video, toggle);
     }
 
     if (toggle) {
@@ -243,6 +246,9 @@ function setupInfluencerPack(block) {
 
     const playAttempt = video.play();
     if (playAttempt && typeof playAttempt.catch === 'function') {
+      playAttempt.then(() => {
+        syncToggleWithVideoState(video, reel.querySelector('.influencer-pack__play-toggle'));
+      });
       playAttempt
         .catch(() => {
           reel.classList.add('is-manual-required');
@@ -274,6 +280,9 @@ function setupInfluencerPack(block) {
       if (video.paused) {
         const playAttempt = video.play();
         if (playAttempt && typeof playAttempt.catch === 'function') {
+          playAttempt.then(() => {
+            syncToggleWithVideoState(video, toggle);
+          });
           playAttempt.catch(() => {
             reel.classList.add('is-manual-required');
             setToggleState(toggle, false);
@@ -469,4 +478,13 @@ function updateMuteToggle(toggle, isMuted) {
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
+}
+
+function syncToggleWithVideoState(video, toggle) {
+  if (!video || !toggle) {
+    return;
+  }
+
+  const isPlaying = !video.paused && !video.ended && video.currentTime > 0;
+  setToggleState(toggle, isPlaying);
 }
