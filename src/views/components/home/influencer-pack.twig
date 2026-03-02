@@ -51,7 +51,7 @@
 
     {% if show_reels %}
       <section class="influencer-pack__reels" aria-label="{{ section_title ? section_title : 'Influencer reels' }}">
-        <div class="influencer-pack__reels-head">
+        <div class="influencer-pack__reels-shell">
           <button
             type="button"
             class="influencer-pack__nav influencer-pack__nav--prev"
@@ -64,13 +64,24 @@
             aria-label="{{ trans('common.actions.next')|default('Next reel') }}">
             <i class="sicon-keyboard_arrow_left"></i>
           </button>
-        </div>
 
-        <div class="influencer-pack__reels-track" tabindex="0" aria-label="{{ trans('common.messages.scroll')|default('Scrollable reels') }}">
-          {% for reel in reels %}
+          <div class="influencer-pack__reels-track" tabindex="0" aria-label="{{ trans('common.messages.scroll')|default('Scrollable reels') }}">
+            {% for reel in reels %}
             {% set video_mode = reel.video_mode|default('external') %}
             {% if video_mode is iterable %}
               {% set video_mode = video_mode|first|default('external') %}
+            {% endif %}
+            {% set reel_cta_mode = reel.cta_mode|default('auto') %}
+            {% if reel_cta_mode is iterable %}
+              {% set reel_cta_mode_item = reel_cta_mode|first %}
+              {% if reel_cta_mode_item is iterable %}
+                {% set reel_cta_mode = reel_cta_mode_item.value|default('auto') %}
+              {% else %}
+                {% set reel_cta_mode = reel_cta_mode_item|default('auto') %}
+              {% endif %}
+            {% endif %}
+            {% if reel_cta_mode not in ['auto', 'products', 'link'] %}
+              {% set reel_cta_mode = 'auto' %}
             {% endif %}
             {% set reel_cta_url = reel.cta_url|default('') %}
             {% if reel_cta_url is iterable %}
@@ -81,18 +92,81 @@
                 {% set reel_cta_url = reel_cta_item|default('') %}
               {% endif %}
             {% endif %}
+            {% set reel_cta_text = reel.cta_text|default('') %}
+            {% if reel_cta_text is iterable %}
+              {% set reel_cta_text = reel_cta_text.ar|default(reel_cta_text.en|default(reel_cta_text|first|default(''))) %}
+            {% endif %}
+            {% if not reel_cta_text %}
+              {% set reel_cta_text = 'اطلب الآن' %}
+            {% endif %}
+            {% set reel_products = reel.products|default([]) %}
+            {% if reel_products is not iterable %}
+              {% set reel_products = [] %}
+            {% endif %}
+            {% set reel_product_count = reel_products|length %}
+            {% set reel_primary_product = null %}
+            {% set reel_primary_raw = reel.primary_product|default(null) %}
+            {% set reel_primary_id = '' %}
+            {% if reel_primary_raw %}
+              {% if reel_primary_raw is iterable %}
+                {% set reel_primary_raw = reel_primary_raw|first %}
+              {% endif %}
+              {% if reel_primary_raw is iterable %}
+                {% set reel_primary_id = reel_primary_raw.id|default(reel_primary_raw.value|default('')) %}
+              {% elseif reel_primary_raw %}
+                {% set reel_primary_id = reel_primary_raw %}
+              {% endif %}
+              {% if reel_primary_id %}
+                {% for product in reel_products %}
+                  {% set reel_product_id = product.id|default(product.value|default('')) %}
+                  {% if reel_product_id and (reel_product_id ~ '') == (reel_primary_id ~ '') %}
+                    {% set reel_primary_product = product %}
+                  {% endif %}
+                {% endfor %}
+              {% elseif reel_primary_raw is iterable %}
+                {% set reel_primary_product = reel_primary_raw %}
+              {% endif %}
+            {% endif %}
+            {% if not reel_primary_product and reel_product_count %}
+              {% set reel_primary_product = reel_products|first %}
+            {% endif %}
+            {% set reel_primary_title = reel_primary_product.name|default('') %}
+            {% set reel_primary_image = '' %}
+            {% if reel_primary_product and reel_primary_product.image is defined %}
+              {% if reel_primary_product.image is iterable %}
+                {% set reel_primary_image = reel_primary_product.image.url|default(reel_primary_product.image.path|default('')) %}
+              {% else %}
+                {% set reel_primary_image = reel_primary_product.image|default('') %}
+              {% endif %}
+            {% endif %}
+            {% if not reel_primary_image %}
+              {% set reel_primary_image = reel_primary_product.thumbnail|default('') %}
+            {% endif %}
+            {% set reel_cta_kind = 'none' %}
+            {% if reel_cta_mode == 'products' and reel_product_count %}
+              {% set reel_cta_kind = 'products' %}
+            {% elseif reel_cta_mode == 'link' and reel_cta_url %}
+              {% set reel_cta_kind = 'link' %}
+            {% elseif reel_cta_mode == 'auto' %}
+              {% if reel_product_count %}
+                {% set reel_cta_kind = 'products' %}
+              {% elseif reel_cta_url %}
+                {% set reel_cta_kind = 'link' %}
+              {% endif %}
+            {% endif %}
             {% set has_external_video = video_mode == 'external' and reel.video_url %}
             {% set has_youtube_video = video_mode == 'youtube' and reel.youtube_id %}
             {% set has_media = has_external_video or has_youtube_video or reel.poster %}
             {% set reel_creator_name = reel.creator_name|default('') %}
             {% set reel_caption = reel.caption|default('') %}
             {% set reel_alt = reel_caption ? reel_caption : (reel_creator_name ? reel_creator_name : 'Reel preview') %}
-            <article
-              class="influencer-pack__reel-card"
-              data-index="{{ loop.index0 }}"
-              data-mode="{{ video_mode }}"
-              data-has-external="{{ has_external_video ? 'true' : 'false' }}"
-              data-has-youtube="{{ has_youtube_video ? 'true' : 'false' }}">
+            {% set reel_strip_id = block_id ~ '-strip-' ~ loop.index0 %}
+              <article
+                class="influencer-pack__reel-card"
+                data-index="{{ loop.index0 }}"
+                data-mode="{{ video_mode }}"
+                data-has-external="{{ has_external_video ? 'true' : 'false' }}"
+                data-has-youtube="{{ has_youtube_video ? 'true' : 'false' }}">
               <div class="influencer-pack__reel-media">
                 {% if reel.poster %}
                   <img
@@ -139,6 +213,28 @@
                   {% endif %}
                 </div>
 
+                {% if reel_primary_product and reel_product_count %}
+                  <button
+                    type="button"
+                    class="influencer-pack__reel-product-pin"
+                    data-open-strip="{{ reel_strip_id }}"
+                    aria-label="تسوق منتجات الريل">
+                    {% if reel_primary_image %}
+                      <img src="{{ reel_primary_image }}" alt="{{ reel_primary_title ? reel_primary_title : 'منتج الريل' }}" loading="lazy">
+                    {% endif %}
+                    <span class="influencer-pack__reel-product-pin-meta">
+                      {% if reel_primary_title %}
+                        <span class="influencer-pack__reel-product-pin-title">{{ reel_primary_title }}</span>
+                      {% else %}
+                        <span class="influencer-pack__reel-product-pin-title">منتج مميز</span>
+                      {% endif %}
+                    </span>
+                    {% if reel_product_count > 1 %}
+                      <span class="influencer-pack__reel-product-pin-count">+{{ reel_product_count - 1 }}</span>
+                    {% endif %}
+                  </button>
+                {% endif %}
+
                 <div class="influencer-pack__reel-bottom{{ has_external_video ? ' has-mute' : '' }}">
                   {% if has_external_video %}
                     <button
@@ -162,8 +258,10 @@
                   <div class="influencer-pack__progress" aria-hidden="true">
                     <span class="influencer-pack__progress-fill"></span>
                   </div>
-                  {% if reel.cta_text and reel_cta_url %}
-                    <a href="{{ reel_cta_url }}" class="influencer-pack__cta">{{ reel.cta_text }}</a>
+                  {% if reel_cta_kind == 'products' %}
+                    <button type="button" class="influencer-pack__cta influencer-pack__cta--products" data-open-strip="{{ reel_strip_id }}">{{ reel_cta_text }}</button>
+                  {% elseif reel_cta_kind == 'link' %}
+                    <a href="{{ reel_cta_url }}" class="influencer-pack__cta">{{ reel_cta_text }}</a>
                   {% endif %}
                 </div>
               </div>
@@ -172,11 +270,63 @@
                 <p class="influencer-pack__caption">{{ reel_caption }}</p>
               {% endif %}
 
-              {% if not has_external_video and not has_youtube_video and reel.cta_text and reel_cta_url %}
-                <a href="{{ reel_cta_url }}" class="influencer-pack__cta influencer-pack__cta--fallback">{{ reel.cta_text }}</a>
+              {% if not has_external_video and not has_youtube_video and reel_cta_kind == 'link' %}
+                <a href="{{ reel_cta_url }}" class="influencer-pack__cta influencer-pack__cta--fallback">{{ reel_cta_text }}</a>
               {% endif %}
-            </article>
-          {% endfor %}
+
+              {% if reel_product_count %}
+                <div class="influencer-pack__reel-strip" id="{{ reel_strip_id }}" hidden aria-hidden="true">
+                  <button type="button" class="influencer-pack__reel-strip-backdrop" data-close-strip aria-label="إغلاق نافذة المنتجات"></button>
+                  <div class="influencer-pack__reel-strip-panel" role="dialog" aria-modal="true" aria-label="تسوق منتجات الريل">
+                    <header class="influencer-pack__reel-strip-head">
+                      <h3>تسوق منتجات الريل</h3>
+                      <button type="button" class="influencer-pack__reel-strip-close" data-close-strip aria-label="إغلاق">
+                        <i class="sicon-cancel"></i>
+                      </button>
+                    </header>
+                    <div class="influencer-pack__reel-strip-list">
+                      {% for product in reel_products %}
+                        {% set product_image = '' %}
+                        {% if product.image is defined %}
+                          {% if product.image is iterable %}
+                            {% set product_image = product.image.url|default(product.image.path|default('')) %}
+                          {% else %}
+                            {% set product_image = product.image|default('') %}
+                          {% endif %}
+                        {% endif %}
+                        {% if not product_image %}
+                          {% set product_image = product.thumbnail|default('') %}
+                        {% endif %}
+                        {% set product_price_label = product.formatted_price|default(product.price_formatted|default(product.sale_price_formatted|default(''))) %}
+                        <article class="influencer-pack__strip-item">
+                          <a href="{{ product.url|default('#') }}" class="influencer-pack__strip-item-media" aria-label="{{ product.name|default('منتج') }}">
+                            {% if product_image %}
+                              <img src="{{ product_image }}" alt="{{ product.name|default('منتج') }}" loading="lazy">
+                            {% endif %}
+                          </a>
+                          <div class="influencer-pack__strip-item-main">
+                            <a href="{{ product.url|default('#') }}" class="influencer-pack__strip-item-title">{{ product.name|default('منتج') }}</a>
+                            {% if product_price_label %}
+                              <p class="influencer-pack__strip-item-price">{{ product_price_label }}</p>
+                            {% elseif product.price is defined and product.price is not same as(null) %}
+                              <p class="influencer-pack__strip-item-price">{{ product.price|money }}</p>
+                            {% endif %}
+                            <div class="influencer-pack__strip-item-actions">
+                              <a href="{{ product.url|default('#') }}" class="influencer-pack__strip-item-link">عرض المنتج</a>
+                              {% if product.id is defined and product.id %}
+                                <button type="button" class="influencer-pack__strip-item-cart" data-product-id="{{ product.id }}">أضف للسلة</button>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </article>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+              </article>
+            {% endfor %}
+          </div>
         </div>
       </section>
     {% endif %}
