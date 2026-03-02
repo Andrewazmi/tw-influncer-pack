@@ -2,19 +2,15 @@
 | Variable                           | Type       | Description
 |------------------------------------|------------|---------------------------------------------
 | component                          | object     | Component settings from twilight.json
-| component.creators                 | object[]   | Creator cards collection
 | component.reels                    | object[]   | Reels collection
 | component.promo_blocks             | object[]   | Promo blocks collection
 | component.picked_products          | Product[]  | Selected products
 | position                           | int        | Component order on home page
 #}
 {% set block_id = 'influencer-pack-' ~ position %}
-{% set creators = component.creators|default([]) %}
-{% set creators_count = creators|length %}
 {% set reels = component.reels|default([]) %}
 {% set promo_blocks = component.promo_blocks|default([]) %}
 {% set picked_products = component.picked_products|default([]) %}
-{% set show_creators = component.show_creators|default(true) and creators|length %}
 {% set show_reels = component.show_reels|default(true) and reels|length %}
 {% set show_promo_blocks = component.show_promo_blocks|default(true) and promo_blocks|length %}
 {% set show_picked_products = component.show_picked_products|default(true) and picked_products|length %}
@@ -30,7 +26,6 @@
   {% set copy_button_text = 'نسخ الكود' %}
 {% endif %}
 {% set copy_button_color = component.copy_code_button_color|default('#111111') %}
-{% set creators_aria_label = 'المؤثرون' %}
 {% set promo_aria_label = trans('pages.offers.title') %}
 {% if promo_aria_label == 'pages.offers.title' %}
   {% set promo_aria_label = 'عروض الخصم' %}
@@ -54,59 +49,6 @@
       </header>
     {% endif %}
 
-    {% if show_creators %}
-      <div
-        class="influencer-pack__creators"
-        role="list"
-        aria-label="{{ creators_aria_label }}">
-        {% for creator in creators %}
-          {% set profile_url = creator.profile_url|default('') %}
-          {% if profile_url is iterable %}
-            {% set profile_url_item = profile_url|first %}
-            {% if profile_url_item is iterable %}
-              {% set profile_url = profile_url_item.value|default('') %}
-            {% else %}
-              {% set profile_url = profile_url_item|default('') %}
-            {% endif %}
-          {% endif %}
-          {% set creator_name = creator.name|default('') %}
-          <article class="influencer-pack__creator" role="listitem">
-            <div class="influencer-pack__creator-card">
-              {% if profile_url %}
-                <a href="{{ profile_url }}" class="influencer-pack__creator-link" aria-label="{{ creator_name ? creator_name : 'Creator Profile' }}">
-              {% else %}
-                <div class="influencer-pack__creator-link">
-              {% endif %}
-                <span class="influencer-pack__creator-avatar">
-                  {% if creator.avatar %}
-                    <img src="{{ creator.avatar }}" alt="{{ creator_name ? creator_name : 'Creator avatar' }}" loading="lazy">
-                  {% endif %}
-                </span>
-                <span class="influencer-pack__creator-meta">
-                  {% if creator_name %}
-                    <strong class="influencer-pack__creator-name">{{ creator_name }}</strong>
-                  {% endif %}
-                  {% if creator.handle %}
-                    <span class="influencer-pack__creator-handle" dir="ltr">{{ creator.handle }}</span>
-                  {% endif %}
-                </span>
-              {% if profile_url %}
-                </a>
-              {% else %}
-                </div>
-              {% endif %}
-              {% if creator.promo_code %}
-                <span class="influencer-pack__code-group influencer-pack__code-group--creator">
-                  <span class="influencer-pack__creator-code" dir="ltr">{{ creator.promo_code }}</span>
-                  <button type="button" class="influencer-pack__copy-code" data-code="{{ creator.promo_code|e('html_attr') }}">{{ copy_button_text }}</button>
-                </span>
-              {% endif %}
-            </div>
-          </article>
-        {% endfor %}
-      </div>
-    {% endif %}
-
     {% if show_reels %}
       <section class="influencer-pack__reels" aria-label="{{ section_title ? section_title : 'Influencer reels' }}">
         <div class="influencer-pack__reels-head">
@@ -114,13 +56,13 @@
             type="button"
             class="influencer-pack__nav influencer-pack__nav--prev"
             aria-label="{{ trans('common.actions.previous')|default('Previous reel') }}">
-            <i class="sicon-keyboard_arrow_left"></i>
+            <i class="sicon-keyboard_arrow_right"></i>
           </button>
           <button
             type="button"
             class="influencer-pack__nav influencer-pack__nav--next"
             aria-label="{{ trans('common.actions.next')|default('Next reel') }}">
-            <i class="sicon-keyboard_arrow_right"></i>
+            <i class="sicon-keyboard_arrow_left"></i>
           </button>
         </div>
 
