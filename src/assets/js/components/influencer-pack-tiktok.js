@@ -141,8 +141,8 @@ function syncNavIcons(navPrev, navNext, isRtl) {
     return;
   }
 
-  prevIcon.className = isRtl ? 'sicon-keyboard_arrow_left' : 'sicon-keyboard_arrow_right';
-  nextIcon.className = isRtl ? 'sicon-keyboard_arrow_right' : 'sicon-keyboard_arrow_left';
+  prevIcon.className = isRtl ? 'sicon-keyboard_arrow_right' : 'sicon-keyboard_arrow_left';
+  nextIcon.className = isRtl ? 'sicon-keyboard_arrow_left' : 'sicon-keyboard_arrow_right';
 }
 
 function syncNavDisabledState(prevButton, nextButton, activeIndex, total) {
