@@ -710,13 +710,21 @@ function updateMuteToggle(toggle, isMuted) {
 }
 
 function syncNavIcons(navPrev, navNext, isRtl) {
+  const prevArrow = navPrev ? navPrev.querySelector('.influencer-pack__nav-arrow') : null;
+  const nextArrow = navNext ? navNext.querySelector('.influencer-pack__nav-arrow') : null;
   const prevIcon = navPrev ? navPrev.querySelector('i') : null;
   const nextIcon = navNext ? navNext.querySelector('i') : null;
-  if (prevIcon) {
-    prevIcon.className = isRtl ? 'sicon-keyboard_arrow_right' : 'sicon-keyboard_arrow_left';
+
+  if (prevArrow) {
+    prevArrow.textContent = '‹';
+  } else if (prevIcon) {
+    prevIcon.className = 'sicon-keyboard_arrow_left';
   }
-  if (nextIcon) {
-    nextIcon.className = isRtl ? 'sicon-keyboard_arrow_left' : 'sicon-keyboard_arrow_right';
+
+  if (nextArrow) {
+    nextArrow.textContent = '›';
+  } else if (nextIcon) {
+    nextIcon.className = 'sicon-keyboard_arrow_right';
   }
 }
 

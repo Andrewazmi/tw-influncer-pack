@@ -89,9 +89,13 @@
     inset-inline-end: 0.25rem;
   }
 
-  .influencer-pack__nav i {
+  .influencer-pack__nav i,
+  .influencer-pack__nav-arrow {
     font-size: 1.2rem;
     display: block;
+    line-height: 1;
+    font-weight: 700;
+    font-style: normal;
   }
 
   .influencer-pack__nav:hover {
@@ -109,12 +113,21 @@
     display: flex;
     gap: 1rem;
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: calc((100% - var(--influencer-reel-column, 84%)) / 2);
     padding-inline: calc((100% - var(--influencer-reel-column, 84%)) / 2);
-    padding-bottom: 0.5rem;
-    scrollbar-width: thin;
+    padding-bottom: 0.2rem;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none;
     outline: none;
+  }
+
+  .influencer-pack__reels-track::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+    background: transparent;
   }
 
   .influencer-pack__reels-track.is-single {
