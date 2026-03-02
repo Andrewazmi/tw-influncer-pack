@@ -1,7 +1,7 @@
 /**
  * Influencer Pack component behavior
  * - One active reel at a time
- * - Active reel autoplay when muted
+ * - Autoplay all muted reels (when enabled)
  * - Keyboard and swipe-friendly controls
  */
 
@@ -49,7 +49,7 @@ function setupInfluencerPack(block) {
     if (video) {
       setVideoMuted(video, mutedByDefault);
       video.playsInline = true;
-      video.preload = index <= 1 ? 'metadata' : 'none';
+      video.preload = autoplayEnabled ? 'metadata' : (index <= 1 ? 'metadata' : 'none');
       updateMuteToggle(muteToggle, video.muted);
 
       video.addEventListener('play', () => {
@@ -170,12 +170,7 @@ function setupInfluencerPack(block) {
             return;
           }
 
-          const activeReel = reels[activeIndex];
-          if (!activeReel) {
-            return;
-          }
-
-          maybeAutoplay(activeReel);
+          autoplayMutedReels();
         });
       },
       { threshold: [0.15] }
@@ -213,15 +208,12 @@ function setupInfluencerPack(block) {
       reel.setAttribute('aria-current', isActive ? 'true' : 'false');
 
       if (!isActive) {
-        pauseReelMedia(reel);
         resetYoutube(reel);
       }
     });
 
     primeNeighborVideos(reels, activeIndex);
-    const activeReel = reels[activeIndex];
-
-    maybeAutoplay(activeReel);
+    autoplayMutedReels();
   }
 
   function maybeAutoplay(reel) {
@@ -242,6 +234,16 @@ function setupInfluencerPack(block) {
           setToggleState(reel.querySelector('.influencer-pack__play-toggle'), false);
         });
     }
+  }
+
+  function autoplayMutedReels() {
+    if (!sectionVisible || reduceMotion || !autoplayEnabled) {
+      return;
+    }
+
+    reels.forEach((reel) => {
+      maybeAutoplay(reel);
+    });
   }
 
   function handleToggle(reel, isUserIntent) {

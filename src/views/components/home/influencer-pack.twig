@@ -166,6 +166,8 @@
                     playsinline
                     preload="none"
                     poster="{{ reel.poster }}"
+                    {{ autoplay_enabled and muted_enabled ? 'autoplay' : '' }}
+                    {{ muted_enabled ? 'loop' : '' }}
                     {{ muted_enabled ? 'muted' : '' }}>
                     <source src="{{ reel.video_url }}">
                   </video>
