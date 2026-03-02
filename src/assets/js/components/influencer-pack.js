@@ -299,6 +299,7 @@ function setCreatorsLayout(block) {
 
   const creatorsCount = creatorsTrack.querySelectorAll('.influencer-pack__creator').length;
   creatorsTrack.classList.toggle('is-single', creatorsCount === 1);
+  creatorsTrack.classList.toggle('is-few', creatorsCount > 0 && creatorsCount <= 2);
 }
 
 function pauseReelMedia(reel) {

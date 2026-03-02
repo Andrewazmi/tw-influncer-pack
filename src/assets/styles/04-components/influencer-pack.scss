@@ -36,7 +36,7 @@
   .influencer-pack__creators {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: minmax(220px, 280px);
+    grid-auto-columns: max-content;
     gap: 0.75rem;
     overflow-x: auto;
     padding-bottom: 0.75rem;
@@ -48,6 +48,14 @@
   .influencer-pack__creators.is-single {
     display: flex;
     justify-content: center;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  .influencer-pack__creators.is-few {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     overflow: visible;
     padding-bottom: 0;
   }
@@ -68,21 +76,28 @@
   }
 
   .influencer-pack__creator-card {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
     border: 1px solid #e6e7eb;
     border-radius: 1rem;
     background: #ffffff;
     padding: 0.45rem 0.55rem;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+    width: fit-content;
+    max-width: 100%;
   }
 
   .influencer-pack__creator-link {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 0.45rem;
     padding: 0.1rem 0;
     min-height: 2rem;
     text-decoration: none;
     color: inherit;
+    width: auto;
+    max-width: 100%;
   }
 
   .influencer-pack__creator-avatar {
