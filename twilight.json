@@ -29,7 +29,8 @@
         "component-hero-media",
         "menu-images",
         "filters",
-        "component-video-with-products"
+        "component-video-with-products",
+        "component-influencer-pack"
     ],
     "settings": [
         {
@@ -1798,15 +1799,15 @@
                             "placeholder": "CODE20"
                         },
                         {
-                            "type": "items",
+                            "type": "string",
                             "icon": "sicon-link",
                             "label": "رابط المؤثر",
                             "id": "creators.profile_url",
                             "value": null,
                             "required": false,
-                            "format": "variable-list",
-                            "searchable": true,
-                            "source": "custom"
+                            "format": "url",
+                            "inputType": "url",
+                            "placeholder": "https://example.com"
                         }
                     ]
                 },
@@ -1952,15 +1953,15 @@
                             "format": "text"
                         },
                         {
-                            "type": "items",
+                            "type": "string",
                             "icon": "sicon-link",
                             "label": "رابط الزر",
                             "id": "reels.cta_url",
                             "value": null,
                             "required": false,
-                            "format": "variable-list",
-                            "searchable": true,
-                            "source": "custom"
+                            "format": "url",
+                            "inputType": "url",
+                            "placeholder": "https://example.com"
                         },
                         {
                             "type": "string",
@@ -2046,15 +2047,15 @@
                             "format": "text"
                         },
                         {
-                            "type": "items",
+                            "type": "string",
                             "icon": "sicon-link",
                             "label": "رابط الزر",
                             "id": "promo_blocks.cta_url",
                             "value": null,
                             "required": false,
-                            "format": "variable-list",
-                            "searchable": true,
-                            "source": "custom"
+                            "format": "url",
+                            "inputType": "url",
+                            "placeholder": "https://example.com"
                         }
                     ]
                 },
