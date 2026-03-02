@@ -42,6 +42,7 @@ function setupInfluencerPack(block) {
     reel.dataset.index = String(index);
 
     const video = reel.querySelector('.influencer-pack__video');
+    const mediaSurface = reel.querySelector('.influencer-pack__reel-media');
     const toggle = ensurePlayGlyph(reel.querySelector('.influencer-pack__play-toggle'));
     const muteToggle = reel.querySelector('.influencer-pack__mute-toggle');
     const progressFill = reel.querySelector('.influencer-pack__progress-fill');
@@ -89,6 +90,21 @@ function setupInfluencerPack(block) {
         progressFill.style.width = `${progress}%`;
       });
 
+      // Some mobile browsers don't reliably bubble tap events from <video> to parent wrappers.
+      video.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setActiveReel(index, true);
+        handleToggle(reel, true);
+      });
+
+      video.addEventListener('touchend', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setActiveReel(index, true);
+        handleToggle(reel, true);
+      });
+
       // Autoplay can start before listeners are fully attached in some browsers.
       syncToggleWithVideoState(video, toggle);
     }
@@ -111,6 +127,8 @@ function setupInfluencerPack(block) {
         }
       });
     }
+
+    bindMediaSurfaceToggle(mediaSurface, reel, index, setActiveReel, handleToggle);
   });
 
   if (navPrev) {
@@ -143,6 +161,8 @@ function setupInfluencerPack(block) {
       handleToggle(reels[activeIndex], true);
     }
   });
+
+  bindWheelNavigation(track, reels, () => activeIndex, scrollToReel, reduceMotion);
 
   if ('IntersectionObserver' in window) {
     const reelObserver = new IntersectionObserver(
@@ -235,6 +255,10 @@ function setupInfluencerPack(block) {
       return;
     }
 
+    if (reel.dataset.userPaused === 'true') {
+      return;
+    }
+
     const video = reel.querySelector('.influencer-pack__video');
     if (!video || !video.muted) {
       return;
@@ -278,6 +302,7 @@ function setupInfluencerPack(block) {
 
     if (video) {
       if (video.paused) {
+        reel.dataset.userPaused = 'false';
         const playAttempt = video.play();
         if (playAttempt && typeof playAttempt.catch === 'function') {
           playAttempt.then(() => {
@@ -289,6 +314,7 @@ function setupInfluencerPack(block) {
           });
         }
       } else {
+        reel.dataset.userPaused = 'true';
         video.pause();
       }
       return;
@@ -492,6 +518,118 @@ function ensurePlayGlyph(toggle) {
   renderPlayIcon(toggle, toggle.classList.contains('is-playing'));
 
   return toggle;
+}
+
+function bindMediaSurfaceToggle(surface, reel, index, onActivate, onToggle) {
+  if (!surface || !reel) {
+    return;
+  }
+
+  const tapMaxDistance = 12;
+  const tapMaxDuration = 350;
+  let pointerStart = null;
+  let skipSyntheticClick = false;
+
+  surface.addEventListener('pointerdown', (event) => {
+    if (isInteractiveMediaTarget(event.target)) {
+      pointerStart = null;
+      return;
+    }
+
+    pointerStart = {
+      x: event.clientX,
+      y: event.clientY,
+      time: Date.now(),
+      pointerType: event.pointerType || 'mouse',
+    };
+  });
+
+  surface.addEventListener('pointerup', (event) => {
+    if (!pointerStart || isInteractiveMediaTarget(event.target)) {
+      pointerStart = null;
+      return;
+    }
+
+    const deltaX = Math.abs(event.clientX - pointerStart.x);
+    const deltaY = Math.abs(event.clientY - pointerStart.y);
+    const duration = Date.now() - pointerStart.time;
+    const isMousePointer = pointerStart.pointerType === 'mouse';
+    pointerStart = null;
+
+    if (deltaX > tapMaxDistance || deltaY > tapMaxDistance || (!isMousePointer && duration > tapMaxDuration)) {
+      return;
+    }
+
+    skipSyntheticClick = true;
+    window.setTimeout(() => {
+      skipSyntheticClick = false;
+    }, 350);
+
+    onActivate(index, true);
+    onToggle(reel, true);
+  });
+
+  surface.addEventListener('pointercancel', () => {
+    pointerStart = null;
+  });
+
+  surface.addEventListener('click', (event) => {
+    if (skipSyntheticClick) {
+      skipSyntheticClick = false;
+      return;
+    }
+
+    if (isInteractiveMediaTarget(event.target)) {
+      return;
+    }
+
+    onActivate(index, true);
+    onToggle(reel, true);
+  });
+}
+
+function isInteractiveMediaTarget(target) {
+  if (!(target instanceof Element)) {
+    return false;
+  }
+
+  return Boolean(target.closest('a, button, input, select, textarea, label, [role="button"], lite-youtube'));
+}
+
+function bindWheelNavigation(track, reels, getActiveIndex, scrollToReel, reduceMotion) {
+  if (!track || !reels.length) {
+    return;
+  }
+
+  let wheelLock = false;
+  track.addEventListener(
+    'wheel',
+    (event) => {
+      const dominantDelta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+      if (Math.abs(dominantDelta) < 12) {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (wheelLock) {
+        return;
+      }
+
+      const direction = dominantDelta > 0 ? 1 : -1;
+      const nextIndex = clamp(getActiveIndex() + direction, 0, reels.length - 1);
+      if (nextIndex === getActiveIndex()) {
+        return;
+      }
+
+      wheelLock = true;
+      scrollToReel(nextIndex);
+      window.setTimeout(() => {
+        wheelLock = false;
+      }, reduceMotion ? 80 : 260);
+    },
+    { passive: false }
+  );
 }
 
 function syncToggleWithVideoState(video, toggle) {

@@ -34,6 +34,7 @@ version-manager.sh
 setup-hooks.sh
 commit-with-message.sh
 README.md
+preview.local.sh
 
 # Python files
 py/
@@ -60,5 +61,4 @@ var/
 *.egg
 venv/
 .env
-
 
