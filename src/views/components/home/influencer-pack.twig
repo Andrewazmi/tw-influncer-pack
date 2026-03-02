@@ -1,0 +1,204 @@
+{#
+| Variable                           | Type       | Description
+|------------------------------------|------------|---------------------------------------------
+| component                          | object     | Component settings from twilight.json
+| component.creators                 | object[]   | Creator cards collection
+| component.reels                    | object[]   | Reels collection
+| component.promo_blocks             | object[]   | Promo blocks collection
+| component.picked_products          | Product[]  | Selected products
+| position                           | int        | Component order on home page
+#}
+{% set block_id = 'influencer-pack-' ~ position %}
+{% set show_creators = component.show_creators|default(true) and component.creators|length %}
+{% set show_reels = component.show_reels|default(true) and component.reels|length %}
+{% set show_promo_blocks = component.show_promo_blocks|default(true) and component.promo_blocks|length %}
+{% set show_picked_products = component.show_picked_products|default(true) and component.picked_products|length %}
+{% set autoplay_enabled = component.reels_autoplay|default(true) %}
+{% set muted_enabled = component.reels_muted is same as(false) ? false : true %}
+
+<section
+  id="{{ block_id }}"
+  class="s-block s-block--influencer-pack"
+  data-autoplay="{{ autoplay_enabled ? 'true' : 'false' }}"
+  data-muted="{{ muted_enabled ? 'true' : 'false' }}">
+  <div class="container">
+    {% if component.title or component.subtitle %}
+      <header class="influencer-pack__header">
+        {% if component.title %}
+          <h2 class="influencer-pack__title">{{ component.title }}</h2>
+        {% endif %}
+        {% if component.subtitle %}
+          <p class="influencer-pack__subtitle">{{ component.subtitle }}</p>
+        {% endif %}
+      </header>
+    {% endif %}
+
+    {% if show_creators %}
+      <div class="influencer-pack__creators" role="list" aria-label="{{ trans('blocks.header.main_menu')|default('Creator Cards') }}">
+        {% for creator in component.creators %}
+          {% set profile_url = creator.profile_url %}
+          <article class="influencer-pack__creator" role="listitem">
+            {% if profile_url %}
+              <a href="{{ profile_url }}" class="influencer-pack__creator-link" aria-label="{{ creator.name ?: 'Creator Profile' }}">
+            {% else %}
+              <div class="influencer-pack__creator-link">
+            {% endif %}
+              <span class="influencer-pack__creator-avatar">
+                {% if creator.avatar %}
+                  <img src="{{ creator.avatar }}" alt="{{ creator.name ?: 'Creator avatar' }}" loading="lazy">
+                {% endif %}
+              </span>
+              <span class="influencer-pack__creator-meta">
+                {% if creator.name %}
+                  <strong class="influencer-pack__creator-name">{{ creator.name }}</strong>
+                {% endif %}
+                {% if creator.handle %}
+                  <span class="influencer-pack__creator-handle" dir="ltr">{{ creator.handle }}</span>
+                {% endif %}
+              </span>
+              {% if creator.promo_code %}
+                <span class="influencer-pack__creator-code" dir="ltr">{{ creator.promo_code }}</span>
+              {% endif %}
+            {% if profile_url %}
+              </a>
+            {% else %}
+              </div>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if show_reels %}
+      <section class="influencer-pack__reels" aria-label="{{ component.title ?: 'Influencer reels' }}">
+        <div class="influencer-pack__reels-head">
+          <button
+            type="button"
+            class="influencer-pack__nav influencer-pack__nav--prev"
+            aria-label="{{ trans('common.actions.previous')|default('Previous reel') }}">
+            <i class="sicon-keyboard_arrow_left"></i>
+          </button>
+          <button
+            type="button"
+            class="influencer-pack__nav influencer-pack__nav--next"
+            aria-label="{{ trans('common.actions.next')|default('Next reel') }}">
+            <i class="sicon-keyboard_arrow_right"></i>
+          </button>
+        </div>
+
+        <div class="influencer-pack__reels-track" tabindex="0" aria-label="{{ trans('common.messages.scroll')|default('Scrollable reels') }}">
+          {% for reel in component.reels %}
+            {% set video_mode = reel.video_mode|default('external') %}
+            {% set has_external_video = video_mode == 'external' and reel.video_url %}
+            {% set has_youtube_video = video_mode == 'youtube' and reel.youtube_id %}
+            {% set has_media = has_external_video or has_youtube_video or reel.poster %}
+            <article
+              class="influencer-pack__reel-card"
+              data-index="{{ loop.index0 }}"
+              data-mode="{{ video_mode }}"
+              data-has-external="{{ has_external_video ? 'true' : 'false' }}"
+              data-has-youtube="{{ has_youtube_video ? 'true' : 'false' }}">
+              <div class="influencer-pack__reel-media">
+                {% if reel.poster %}
+                  <img
+                    class="influencer-pack__poster"
+                    src="{{ reel.poster }}"
+                    alt="{{ reel.caption ?: reel.creator_name ?: 'Reel preview' }}"
+                    loading="{{ loop.index <= 2 ? 'eager' : 'lazy' }}">
+                {% endif %}
+
+                {% if has_external_video %}
+                  <video
+                    class="influencer-pack__video"
+                    playsinline
+                    preload="none"
+                    poster="{{ reel.poster }}"
+                    {{ muted_enabled ? 'muted' : '' }}>
+                    <source src="{{ reel.video_url }}">
+                  </video>
+                {% elseif has_youtube_video %}
+                  <div class="influencer-pack__youtube" hidden>
+                    <lite-youtube videoid="{{ reel.youtube_id }}" params="rel=0"></lite-youtube>
+                  </div>
+                {% endif %}
+
+                <div class="influencer-pack__reel-top">
+                  {% if reel.creator_name %}
+                    <span class="influencer-pack__reel-creator">{{ reel.creator_name }}</span>
+                  {% endif %}
+                  {% if reel.promo_code %}
+                    <span class="influencer-pack__reel-code" dir="ltr">{{ reel.promo_code }}</span>
+                  {% endif %}
+                </div>
+
+                <div class="influencer-pack__reel-bottom">
+                  <button
+                    type="button"
+                    class="influencer-pack__play-toggle"
+                    aria-label="{{ trans('common.actions.play')|default('Play reel') }}"
+                    {{ has_media ? '' : 'disabled' }}>
+                    <i class="sicon-play2"></i>
+                  </button>
+                  <div class="influencer-pack__progress" aria-hidden="true">
+                    <span class="influencer-pack__progress-fill"></span>
+                  </div>
+                  {% if reel.cta_text and reel.cta_url %}
+                    <a href="{{ reel.cta_url }}" class="influencer-pack__cta">{{ reel.cta_text }}</a>
+                  {% endif %}
+                </div>
+              </div>
+
+              {% if reel.caption %}
+                <p class="influencer-pack__caption">{{ reel.caption }}</p>
+              {% endif %}
+
+              {% if not has_external_video and not has_youtube_video and reel.cta_text and reel.cta_url %}
+                <a href="{{ reel.cta_url }}" class="influencer-pack__cta influencer-pack__cta--fallback">{{ reel.cta_text }}</a>
+              {% endif %}
+            </article>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+    {% if show_promo_blocks %}
+      <section class="influencer-pack__promos" aria-label="{{ trans('pages.offers.title')|default('Promo blocks') }}">
+        {% for promo in component.promo_blocks %}
+          <article class="influencer-pack__promo">
+            {% if promo.title %}
+              <h3 class="influencer-pack__promo-title">{{ promo.title }}</h3>
+            {% endif %}
+            {% if promo.code %}
+              <p class="influencer-pack__promo-code" dir="ltr">{{ promo.code }}</p>
+            {% endif %}
+            {% if promo.description %}
+              <p class="influencer-pack__promo-description">{{ promo.description }}</p>
+            {% endif %}
+            {% if promo.cta_text and promo.cta_url %}
+              <a href="{{ promo.cta_url }}" class="influencer-pack__promo-link">{{ promo.cta_text }}</a>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </section>
+    {% endif %}
+
+    {% if show_picked_products %}
+      <section class="influencer-pack__products">
+        {% if component.picked_products_title %}
+          <div class="s-block__title">
+            <div class="right-side">
+              <h2>{{ component.picked_products_title }}</h2>
+            </div>
+          </div>
+        {% endif %}
+        <salla-products-slider
+          source="selected"
+          source-value="[{{ component.picked_products|map((product) => product.id)|join(',') }}]"
+          limit="{{ component.picked_products|length > 12 ? 12 : component.picked_products|length }}"
+          slider-id="influencer-pack-products-{{ position }}"
+          block-title=" ">
+        </salla-products-slider>
+      </section>
+    {% endif %}
+  </div>
+</section>
