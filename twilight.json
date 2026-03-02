@@ -1847,6 +1847,30 @@
                     "selected": true
                 },
                 {
+                    "type": "string",
+                    "icon": "sicon-copy",
+                    "label": "نص زر نسخ الكود",
+                    "multilanguage": true,
+                    "id": "copy_code_button_text",
+                    "value": {
+                        "ar": "نسخ الكود",
+                        "en": "Copy code"
+                    },
+                    "required": false,
+                    "format": "text",
+                    "description": "النص الظاهر في زر نسخ الأكواد"
+                },
+                {
+                    "id": "copy_code_button_color",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "لون زر نسخ الكود",
+                    "icon": "sicon-format-fill",
+                    "value": "#111111",
+                    "required": false
+                },
+                {
                     "id": "reels",
                     "type": "collection",
                     "format": "collection",

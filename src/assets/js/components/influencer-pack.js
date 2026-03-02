@@ -15,6 +15,13 @@ salla.onReady(() => {
 });
 
 function setupInfluencerPack(block) {
+  const copyButtonColor = block.dataset.copyButtonColor;
+  if (copyButtonColor) {
+    block.style.setProperty('--influencer-copy-btn-bg', copyButtonColor);
+  }
+
+  bindCopyCodeButtons(block);
+
   const track = block.querySelector('.influencer-pack__reels-track');
   const reels = Array.from(block.querySelectorAll('.influencer-pack__reel-card'));
   if (!track || !reels.length) {
@@ -317,6 +324,60 @@ function resetYoutube(reel) {
   shell.appendChild(next);
   shell.hidden = true;
   reel.classList.remove('is-youtube-open');
+}
+
+function bindCopyCodeButtons(block) {
+  block.addEventListener('click', async (event) => {
+    const button = event.target.closest('.influencer-pack__copy-code');
+    if (!button || !block.contains(button)) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const code = (button.dataset.code || '').trim();
+    if (!code) {
+      return;
+    }
+
+    const copied = await copyText(code);
+    if (!copied) {
+      return;
+    }
+
+    button.classList.add('is-copied');
+    window.setTimeout(() => button.classList.remove('is-copied'), 1200);
+  });
+}
+
+async function copyText(value) {
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    try {
+      await navigator.clipboard.writeText(value);
+      return true;
+    } catch (error) {
+      // Fallback to execCommand when clipboard API is blocked.
+    }
+  }
+
+  const temp = document.createElement('textarea');
+  temp.value = value;
+  temp.setAttribute('readonly', '');
+  temp.style.position = 'absolute';
+  temp.style.left = '-9999px';
+  document.body.appendChild(temp);
+  temp.select();
+
+  let success = false;
+  try {
+    success = document.execCommand('copy');
+  } catch (error) {
+    success = false;
+  }
+
+  document.body.removeChild(temp);
+  return success;
 }
 
 function setToggleState(toggle, isPlaying) {
