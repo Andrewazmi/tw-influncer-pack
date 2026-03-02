@@ -141,8 +141,10 @@ function syncNavIcons(navPrev, navNext, isRtl) {
     return;
   }
 
-  prevIcon.className = isRtl ? 'sicon-keyboard_arrow_right' : 'sicon-keyboard_arrow_left';
-  nextIcon.className = isRtl ? 'sicon-keyboard_arrow_left' : 'sicon-keyboard_arrow_right';
+  // Salla icon names are visually inverted for these arrows.
+  // Keep fixed visual direction: prev as "<" and next as ">".
+  prevIcon.className = 'sicon-keyboard_arrow_right';
+  nextIcon.className = 'sicon-keyboard_arrow_left';
 }
 
 function syncNavDisabledState(prevButton, nextButton, activeIndex, total) {
