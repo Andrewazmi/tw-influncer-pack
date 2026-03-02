@@ -19499,7 +19499,15 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   padding-bottom: 0;
 }
 .s-block--influencer-pack .influencer-pack__creators.is-single .influencer-pack__creator {
-  width: min(100%, 300px);
+  width: auto;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.s-block--influencer-pack .influencer-pack__creators.is-single .influencer-pack__creator-card {
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
 }
 .s-block--influencer-pack .influencer-pack__creator {
   scroll-snap-align: start;
@@ -19508,7 +19516,7 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   border: 1px solid #e6e7eb;
   border-radius: 1rem;
   background: #ffffff;
-  padding: 0.5rem 0.6rem;
+  padding: 0.45rem 0.55rem;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
 }
 .s-block--influencer-pack .influencer-pack__creator-link {
@@ -19516,7 +19524,7 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   align-items: center;
   gap: 0.45rem;
   padding: 0.1rem 0;
-  min-height: 2.3rem;
+  min-height: 2rem;
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;

@@ -53,7 +53,14 @@
   }
 
   .influencer-pack__creators.is-single .influencer-pack__creator {
-    width: min(100%, 300px);
+    width: auto;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .influencer-pack__creators.is-single .influencer-pack__creator-card {
+    width: fit-content;
+    max-width: 100%;
   }
 
   .influencer-pack__creator {
@@ -64,7 +71,7 @@
     border: 1px solid #e6e7eb;
     border-radius: 1rem;
     background: #ffffff;
-    padding: 0.5rem 0.6rem;
+    padding: 0.45rem 0.55rem;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
   }
 
@@ -73,7 +80,7 @@
     align-items: center;
     gap: 0.45rem;
     padding: 0.1rem 0;
-    min-height: 2.3rem;
+    min-height: 2rem;
     text-decoration: none;
     color: inherit;
   }
