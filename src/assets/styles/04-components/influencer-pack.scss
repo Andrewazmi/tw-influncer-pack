@@ -342,19 +342,30 @@
   }
 
   .influencer-pack__mute-toggle {
+    width: 2.3rem;
     height: 2.3rem;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.4);
     background: rgba(0, 0, 0, 0.52);
     color: #ffffff;
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 0 0.7rem;
+    font-size: 1rem;
+    padding: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    white-space: nowrap;
     flex-shrink: 0;
+  }
+
+  .influencer-pack__play-toggle i,
+  .influencer-pack__mute-toggle i {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .influencer-pack__play-fallback {
+    font-size: 0.95rem;
+    line-height: 1;
+    margin-inline-start: 0.08rem;
   }
 
   .influencer-pack__play-toggle[disabled] {

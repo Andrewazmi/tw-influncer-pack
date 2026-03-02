@@ -196,7 +196,8 @@
                       aria-label="{{ muted_enabled ? 'تشغيل الصوت' : 'كتم الصوت' }}"
                       data-label-muted="تشغيل الصوت"
                       data-label-unmuted="كتم الصوت">
-                      <span>{{ muted_enabled ? 'تشغيل الصوت' : 'كتم الصوت' }}</span>
+                      <i class="{{ muted_enabled ? 'sicon-volume-off' : 'sicon-volume' }}" aria-hidden="true"></i>
+                      <span class="sr-only">{{ muted_enabled ? 'تشغيل الصوت' : 'كتم الصوت' }}</span>
                     </button>
                   {% endif %}
                   <button
@@ -205,6 +206,7 @@
                     aria-label="{{ trans('common.actions.play')|default('Play reel') }}"
                     {{ has_media ? '' : 'disabled' }}>
                     <i class="sicon-play2"></i>
+                    <span class="influencer-pack__play-fallback" aria-hidden="true">▶</span>
                   </button>
                   <div class="influencer-pack__progress" aria-hidden="true">
                     <span class="influencer-pack__progress-fill"></span>

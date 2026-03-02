@@ -420,12 +420,17 @@ function setToggleState(toggle, isPlaying) {
   }
 
   const icon = toggle.querySelector('i');
+  const fallback = toggle.querySelector('.influencer-pack__play-fallback');
   toggle.classList.toggle('is-playing', isPlaying);
   toggle.setAttribute('aria-label', isPlaying ? 'Pause reel' : 'Play reel');
 
   if (icon) {
     icon.classList.remove('sicon-play2', 'sicon-pause');
     icon.classList.add(isPlaying ? 'sicon-pause' : 'sicon-play2');
+  }
+
+  if (fallback) {
+    fallback.textContent = isPlaying ? '❚❚' : '▶';
   }
 }
 
@@ -437,12 +442,17 @@ function updateMuteToggle(toggle, isMuted) {
   const mutedLabel = toggle.dataset.labelMuted || 'تشغيل الصوت';
   const unmutedLabel = toggle.dataset.labelUnmuted || 'كتم الصوت';
   const nextLabel = isMuted ? mutedLabel : unmutedLabel;
-  const text = toggle.querySelector('span');
+  const text = toggle.querySelector('.sr-only');
+  const icon = toggle.querySelector('i');
 
   toggle.setAttribute('aria-pressed', isMuted ? 'true' : 'false');
   toggle.setAttribute('aria-label', nextLabel);
   if (text) {
     text.textContent = nextLabel;
+  }
+  if (icon) {
+    icon.classList.remove('sicon-volume', 'sicon-volume-off');
+    icon.classList.add(isMuted ? 'sicon-volume-off' : 'sicon-volume');
   }
 }
 
