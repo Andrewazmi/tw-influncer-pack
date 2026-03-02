@@ -246,59 +246,27 @@
   }
 
   .influencer-pack__play-toggle .influencer-pack__play-glyph,
+  .influencer-pack__play-toggle i,
   .influencer-pack__mute-toggle i {
     font-size: 1rem;
     line-height: 1;
   }
 
+  .influencer-pack__play-toggle::before {
+    content: none !important;
+  }
+
   .influencer-pack__play-toggle .influencer-pack__play-glyph {
-    width: 0.66rem;
-    height: 0.66rem;
-    display: inline-block;
-    position: relative;
+    display: inline-block !important;
+    width: auto;
+    height: auto;
     pointer-events: none;
+    color: #111111 !important;
   }
 
-  .influencer-pack__play-toggle .influencer-pack__play-glyph::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: #111111 !important;
-    clip-path: polygon(15% 8%, 92% 50%, 15% 92%);
-  }
-
-  .influencer-pack__play-toggle.is-playing .influencer-pack__play-glyph {
-    width: 0.6rem;
-    height: 0.62rem;
-    position: relative;
-  }
-
-  .influencer-pack__play-toggle.is-playing .influencer-pack__play-glyph::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0.2rem;
-    height: 100%;
-    background: #111111 !important;
-    border-radius: 2px;
-    clip-path: none;
-  }
-
-  .influencer-pack__play-toggle.is-playing .influencer-pack__play-glyph::before,
-  .influencer-pack__play-toggle.is-playing .influencer-pack__play-glyph::after {
-    clip-path: none;
-  }
-
-  .influencer-pack__play-toggle.is-playing .influencer-pack__play-glyph::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 0.2rem;
-    height: 100%;
-    background: #111111 !important;
-    border-radius: 2px;
+  .influencer-pack__play-toggle i,
+  .influencer-pack__play-toggle i::before {
+    color: #111111 !important;
   }
 
   .influencer-pack__mute-toggle i,

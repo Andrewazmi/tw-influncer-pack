@@ -445,6 +445,7 @@ function setToggleState(toggle, isPlaying) {
     return;
   }
 
+  renderPlayIcon(toggle, isPlaying);
   toggle.classList.toggle('is-playing', isPlaying);
   toggle.setAttribute('aria-label', isPlaying ? 'Pause reel' : 'Play reel');
 }
@@ -488,6 +489,8 @@ function ensurePlayGlyph(toggle) {
     toggle.appendChild(glyph);
   }
 
+  renderPlayIcon(toggle, toggle.classList.contains('is-playing'));
+
   return toggle;
 }
 
@@ -498,4 +501,27 @@ function syncToggleWithVideoState(video, toggle) {
 
   const isPlaying = !video.paused && !video.ended && video.currentTime > 0;
   setToggleState(toggle, isPlaying);
+}
+
+function renderPlayIcon(toggle, isPlaying) {
+  if (!toggle) {
+    return;
+  }
+
+  let glyph = toggle.querySelector('.influencer-pack__play-glyph');
+  if (!glyph) {
+    glyph = document.createElement('span');
+    glyph.className = 'influencer-pack__play-glyph';
+    glyph.setAttribute('aria-hidden', 'true');
+    toggle.innerHTML = '';
+    toggle.appendChild(glyph);
+  }
+
+  glyph.textContent = isPlaying ? '❚❚' : '▶';
+  glyph.style.color = '#111111';
+  glyph.style.display = 'inline-block';
+  glyph.style.lineHeight = '1';
+  glyph.style.fontWeight = '800';
+  glyph.style.fontSize = isPlaying ? '0.72rem' : '0.92rem';
+  glyph.style.marginInlineStart = isPlaying ? '0' : '0.08rem';
 }
