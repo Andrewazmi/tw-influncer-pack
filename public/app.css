@@ -19755,21 +19755,44 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   padding: 0.75rem 0.75rem 0.85rem;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.84) 10%, rgba(0, 0, 0, 0.18) 100%);
 }
+.s-block--influencer-pack .influencer-pack__reel-bottom.has-mute {
+  grid-template-columns: auto auto 1fr auto;
+}
 .s-block--influencer-pack .influencer-pack__play-toggle {
   width: 2.3rem;
   height: 2.3rem;
   border-radius: 999px;
-  border: 1px solid var(--influencer-outline);
-  background: rgba(0, 0, 0, 0.45);
-  color: var(--influencer-text);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  background: #ffffff;
+  color: #111111;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+.s-block--influencer-pack .influencer-pack__mute-toggle {
+  height: 2.3rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.52);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
   flex-shrink: 0;
 }
 .s-block--influencer-pack .influencer-pack__play-toggle[disabled] {
   cursor: not-allowed;
   opacity: 0.6;
+}
+.s-block--influencer-pack .influencer-pack__mute-toggle:hover,
+.s-block--influencer-pack .influencer-pack__play-toggle:hover {
+  transform: translateY(-1px);
 }
 .s-block--influencer-pack .influencer-pack__progress {
   height: 0.33rem;
@@ -19870,6 +19893,7 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
 .s-block--influencer-pack .influencer-pack__creator-link:focus-visible,
 .s-block--influencer-pack .influencer-pack__nav:focus-visible,
 .s-block--influencer-pack .influencer-pack__play-toggle:focus-visible,
+.s-block--influencer-pack .influencer-pack__mute-toggle:focus-visible,
 .s-block--influencer-pack .influencer-pack__cta:focus-visible,
 .s-block--influencer-pack .influencer-pack__promo-link:focus-visible,
 .s-block--influencer-pack .influencer-pack__copy-code:focus-visible {

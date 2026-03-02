@@ -1,7 +1,7 @@
 /**
  * Influencer Pack component behavior
  * - One active reel at a time
- * - Muted first-reel autoplay fallback
+ * - Active reel autoplay when muted
  * - Keyboard and swipe-friendly controls
  */
 
@@ -36,7 +36,6 @@ function setupInfluencerPack(block) {
   const navNext = block.querySelector('.influencer-pack__nav--next');
 
   let activeIndex = 0;
-  let firstAutoplayDone = false;
   let sectionVisible = true;
 
   reels.forEach((reel, index) => {
@@ -44,12 +43,14 @@ function setupInfluencerPack(block) {
 
     const video = reel.querySelector('.influencer-pack__video');
     const toggle = reel.querySelector('.influencer-pack__play-toggle');
+    const muteToggle = reel.querySelector('.influencer-pack__mute-toggle');
     const progressFill = reel.querySelector('.influencer-pack__progress-fill');
 
     if (video) {
-      video.muted = mutedByDefault;
+      setVideoMuted(video, mutedByDefault);
       video.playsInline = true;
       video.preload = index <= 1 ? 'metadata' : 'none';
+      updateMuteToggle(muteToggle, video.muted);
 
       video.addEventListener('play', () => {
         reel.classList.add('is-playing');
@@ -84,6 +85,18 @@ function setupInfluencerPack(block) {
       toggle.addEventListener('click', () => {
         setActiveReel(index, true);
         handleToggle(reel, true);
+      });
+    }
+
+    if (muteToggle && video) {
+      muteToggle.addEventListener('click', () => {
+        setActiveReel(index, true);
+        const nextMutedState = !video.muted;
+        setVideoMuted(video, nextMutedState);
+        updateMuteToggle(muteToggle, nextMutedState);
+        if (nextMutedState) {
+          maybeAutoplay(reel);
+        }
       });
     }
   });
@@ -208,46 +221,32 @@ function setupInfluencerPack(block) {
     primeNeighborVideos(reels, activeIndex);
     const activeReel = reels[activeIndex];
 
-    if (isUserIntent) {
-      firstAutoplayDone = true;
-    }
-
     maybeAutoplay(activeReel);
   }
 
   function maybeAutoplay(reel) {
-    if (!reel || !sectionVisible || reduceMotion || !autoplayEnabled || !mutedByDefault || firstAutoplayDone) {
+    if (!reel || !sectionVisible || reduceMotion || !autoplayEnabled) {
       return;
     }
 
     const video = reel.querySelector('.influencer-pack__video');
-    if (!video) {
+    if (!video || !video.muted) {
       return;
     }
 
     const playAttempt = video.play();
     if (playAttempt && typeof playAttempt.catch === 'function') {
       playAttempt
-        .then(() => {
-          firstAutoplayDone = true;
-        })
         .catch(() => {
           reel.classList.add('is-manual-required');
           setToggleState(reel.querySelector('.influencer-pack__play-toggle'), false);
-          firstAutoplayDone = true;
         });
-    } else {
-      firstAutoplayDone = true;
     }
   }
 
   function handleToggle(reel, isUserIntent) {
     if (!reel) {
       return;
-    }
-
-    if (isUserIntent) {
-      firstAutoplayDone = true;
     }
 
     const video = reel.querySelector('.influencer-pack__video');
@@ -295,6 +294,12 @@ function pauseReelMedia(reel) {
   if (video && !video.paused) {
     video.pause();
   }
+}
+
+function setVideoMuted(video, isMuted) {
+  video.muted = isMuted;
+  video.defaultMuted = isMuted;
+  video.loop = isMuted;
 }
 
 function primeNeighborVideos(reels, activeIndex) {
@@ -421,6 +426,23 @@ function setToggleState(toggle, isPlaying) {
   if (icon) {
     icon.classList.remove('sicon-play2', 'sicon-pause');
     icon.classList.add(isPlaying ? 'sicon-pause' : 'sicon-play2');
+  }
+}
+
+function updateMuteToggle(toggle, isMuted) {
+  if (!toggle) {
+    return;
+  }
+
+  const mutedLabel = toggle.dataset.labelMuted || 'تشغيل الصوت';
+  const unmutedLabel = toggle.dataset.labelUnmuted || 'كتم الصوت';
+  const nextLabel = isMuted ? mutedLabel : unmutedLabel;
+  const text = toggle.querySelector('span');
+
+  toggle.setAttribute('aria-pressed', isMuted ? 'true' : 'false');
+  toggle.setAttribute('aria-label', nextLabel);
+  if (text) {
+    text.textContent = nextLabel;
   }
 }
 

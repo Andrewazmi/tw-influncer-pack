@@ -187,7 +187,18 @@
                   {% endif %}
                 </div>
 
-                <div class="influencer-pack__reel-bottom">
+                <div class="influencer-pack__reel-bottom{{ has_external_video ? ' has-mute' : '' }}">
+                  {% if has_external_video %}
+                    <button
+                      type="button"
+                      class="influencer-pack__mute-toggle"
+                      aria-pressed="{{ muted_enabled ? 'true' : 'false' }}"
+                      aria-label="{{ muted_enabled ? 'تشغيل الصوت' : 'كتم الصوت' }}"
+                      data-label-muted="تشغيل الصوت"
+                      data-label-unmuted="كتم الصوت">
+                      <span>{{ muted_enabled ? 'تشغيل الصوت' : 'كتم الصوت' }}</span>
+                    </button>
+                  {% endif %}
                   <button
                     type="button"
                     class="influencer-pack__play-toggle"
