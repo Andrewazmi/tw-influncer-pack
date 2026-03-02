@@ -468,7 +468,7 @@ function bindReelStripInteractions(block) {
       return;
     }
 
-    const strip = block.querySelector(`#${stripId}`);
+    const strip = document.getElementById(stripId);
     if (!strip) {
       return;
     }
@@ -477,6 +477,10 @@ function bindReelStripInteractions(block) {
       activeStrip.classList.remove('is-open');
       activeStrip.setAttribute('aria-hidden', 'true');
       activeStrip.hidden = true;
+    }
+
+    if (strip.parentElement !== document.body) {
+      document.body.appendChild(strip);
     }
 
     strip.hidden = false;
@@ -501,9 +505,15 @@ function bindReelStripInteractions(block) {
       openStrip(openButton.dataset.openStrip || '', openButton);
       return;
     }
+  });
+
+  block.ownerDocument.addEventListener('click', (event) => {
+    if (!activeStrip) {
+      return;
+    }
 
     const closeButton = event.target.closest('[data-close-strip]');
-    if (closeButton && block.contains(closeButton)) {
+    if (closeButton && activeStrip.contains(closeButton)) {
       event.preventDefault();
       event.stopPropagation();
       closeActiveStrip();
@@ -511,7 +521,7 @@ function bindReelStripInteractions(block) {
     }
 
     const addButton = event.target.closest('.influencer-pack__strip-item-cart');
-    if (addButton && block.contains(addButton)) {
+    if (addButton && activeStrip.contains(addButton)) {
       event.preventDefault();
       event.stopPropagation();
       addStripProductToCart(addButton);
@@ -721,11 +731,11 @@ function syncNavIcons(navPrev, navNext, _isRtl) {
   const nextArrow = navNext ? navNext.querySelector('.influencer-pack__nav-arrow') : null;
   const prevIcon = navPrev ? navPrev.querySelector('i') : null;
   const nextIcon = navNext ? navNext.querySelector('i') : null;
-  // Keep reel navigation visually fixed as "< >" to match the original component behavior.
-  const prevChar = '‹';
-  const nextChar = '›';
-  const prevIconClass = 'sicon-keyboard_arrow_right';
-  const nextIconClass = 'sicon-keyboard_arrow_left';
+  // Keep visual order as "< >" by button position in both LTR and RTL.
+  const prevChar = _isRtl ? '›' : '‹';
+  const nextChar = _isRtl ? '‹' : '›';
+  const prevIconClass = _isRtl ? 'sicon-keyboard_arrow_left' : 'sicon-keyboard_arrow_right';
+  const nextIconClass = _isRtl ? 'sicon-keyboard_arrow_right' : 'sicon-keyboard_arrow_left';
 
   if (prevArrow) {
     prevArrow.textContent = prevChar;
