@@ -43,6 +43,7 @@ function setupInfluencerPack(block) {
 
     const video = reel.querySelector('.influencer-pack__video');
     const mediaSurface = reel.querySelector('.influencer-pack__reel-media');
+    const mediaHitTarget = reel.querySelector('.influencer-pack__media-hit-target');
     const toggle = ensurePlayGlyph(reel.querySelector('.influencer-pack__play-toggle'));
     const muteToggle = reel.querySelector('.influencer-pack__mute-toggle');
     const progressFill = reel.querySelector('.influencer-pack__progress-fill');
@@ -111,6 +112,13 @@ function setupInfluencerPack(block) {
 
     if (toggle) {
       toggle.addEventListener('click', () => {
+        setActiveReel(index, true);
+        handleToggle(reel, true);
+      });
+    }
+
+    if (mediaHitTarget) {
+      mediaHitTarget.addEventListener('click', () => {
         setActiveReel(index, true);
         handleToggle(reel, true);
       });

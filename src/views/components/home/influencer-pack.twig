@@ -119,6 +119,14 @@
                   </div>
                 {% endif %}
 
+                {% if has_media %}
+                  <button
+                    type="button"
+                    class="influencer-pack__media-hit-target"
+                    aria-label="{{ trans('common.actions.play')|default('Play reel') }}">
+                  </button>
+                {% endif %}
+
                 <div class="influencer-pack__reel-top">
                   {% if reel_creator_name %}
                     <span class="influencer-pack__reel-creator">{{ reel_creator_name }}</span>

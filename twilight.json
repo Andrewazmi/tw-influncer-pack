@@ -1879,6 +1879,35 @@
                             "format": "textarea"
                         },
                         {
+                            "type": "items",
+                            "icon": "sicon-keyboard_arrow_down",
+                            "label": "سلوك زر الطلب",
+                            "id": "reels.cta_mode",
+                            "format": "dropdown-list",
+                            "required": false,
+                            "selected": [
+                                {
+                                    "label": "تلقائي (منتجات ثم رابط)",
+                                    "value": "auto"
+                                }
+                            ],
+                            "options": [
+                                {
+                                    "label": "تلقائي (منتجات ثم رابط)",
+                                    "value": "auto"
+                                },
+                                {
+                                    "label": "منتجات الريل",
+                                    "value": "products"
+                                },
+                                {
+                                    "label": "رابط فقط",
+                                    "value": "link"
+                                }
+                            ],
+                            "source": "Manual"
+                        },
+                        {
                             "type": "string",
                             "icon": "sicon-format-text-alt",
                             "label": "نص زر الطلب",
@@ -1901,6 +1930,37 @@
                             "format": "url",
                             "inputType": "url",
                             "placeholder": "https://example.com"
+                        },
+                        {
+                            "id": "reels.products",
+                            "type": "items",
+                            "format": "dropdown-list",
+                            "label": "منتجات الريل",
+                            "description": "اختر المنتجات المرتبطة بهذا الفيديو (حد أقصى 8)",
+                            "icon": "sicon-keyboard_arrow_down",
+                            "selected": [],
+                            "options": [],
+                            "source": "products",
+                            "required": false,
+                            "searchable": true,
+                            "multichoice": true,
+                            "maxLength": 8,
+                            "value": []
+                        },
+                        {
+                            "id": "reels.primary_product",
+                            "type": "items",
+                            "format": "dropdown-list",
+                            "label": "المنتج الأساسي على البطاقة",
+                            "description": "يظهر في يسار الفيديو. إذا لم يتم اختياره سيتم استخدام أول منتج تلقائياً",
+                            "icon": "sicon-keyboard_arrow_down",
+                            "selected": [],
+                            "options": [],
+                            "source": "products",
+                            "required": false,
+                            "searchable": true,
+                            "multichoice": false,
+                            "value": null
                         },
                         {
                             "type": "string",

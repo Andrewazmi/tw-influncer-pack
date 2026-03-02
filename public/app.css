@@ -19582,6 +19582,26 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
 .s-block--influencer-pack .influencer-pack__youtube {
   z-index: 3;
 }
+.s-block--influencer-pack .influencer-pack__media-hit-target {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+.s-block--influencer-pack .influencer-pack__media-hit-target:focus-visible {
+  outline: 2px solid var(--influencer-accent);
+  outline-offset: -2px;
+}
 .s-block--influencer-pack .influencer-pack__reel-top {
   position: absolute;
   top: 0;

@@ -145,6 +145,23 @@
     z-index: 3;
   }
 
+  .influencer-pack__media-hit-target {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+  }
+
+  .influencer-pack__media-hit-target:focus-visible {
+    outline: 2px solid var(--influencer-accent);
+    outline-offset: -2px;
+  }
+
   .influencer-pack__reel-top {
     position: absolute;
     top: 0;
