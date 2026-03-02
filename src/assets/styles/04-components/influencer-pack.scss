@@ -362,6 +362,16 @@
     line-height: 1;
   }
 
+  .influencer-pack__play-toggle i,
+  .influencer-pack__play-toggle i::before {
+    color: #111111 !important;
+  }
+
+  .influencer-pack__mute-toggle i,
+  .influencer-pack__mute-toggle i::before {
+    color: #ffffff !important;
+  }
+
   .influencer-pack__play-toggle[disabled] {
     cursor: not-allowed;
     opacity: 0.6;
