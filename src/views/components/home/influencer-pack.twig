@@ -42,7 +42,15 @@
     {% if show_creators %}
       <div class="influencer-pack__creators" role="list" aria-label="{{ trans('blocks.header.main_menu')|default('Creator Cards') }}">
         {% for creator in creators %}
-          {% set profile_url = creator.profile_url %}
+          {% set profile_url = creator.profile_url|default('') %}
+          {% if profile_url is iterable %}
+            {% set profile_url_item = profile_url|first %}
+            {% if profile_url_item is iterable %}
+              {% set profile_url = profile_url_item.value|default('') %}
+            {% else %}
+              {% set profile_url = profile_url_item|default('') %}
+            {% endif %}
+          {% endif %}
           {% set creator_name = creator.name|default('') %}
           <article class="influencer-pack__creator" role="listitem">
             {% if profile_url %}
@@ -96,6 +104,18 @@
         <div class="influencer-pack__reels-track" tabindex="0" aria-label="{{ trans('common.messages.scroll')|default('Scrollable reels') }}">
           {% for reel in reels %}
             {% set video_mode = reel.video_mode|default('external') %}
+            {% if video_mode is iterable %}
+              {% set video_mode = video_mode|first|default('external') %}
+            {% endif %}
+            {% set reel_cta_url = reel.cta_url|default('') %}
+            {% if reel_cta_url is iterable %}
+              {% set reel_cta_item = reel_cta_url|first %}
+              {% if reel_cta_item is iterable %}
+                {% set reel_cta_url = reel_cta_item.value|default('') %}
+              {% else %}
+                {% set reel_cta_url = reel_cta_item|default('') %}
+              {% endif %}
+            {% endif %}
             {% set has_external_video = video_mode == 'external' and reel.video_url %}
             {% set has_youtube_video = video_mode == 'youtube' and reel.youtube_id %}
             {% set has_media = has_external_video or has_youtube_video or reel.poster %}
@@ -152,8 +172,8 @@
                   <div class="influencer-pack__progress" aria-hidden="true">
                     <span class="influencer-pack__progress-fill"></span>
                   </div>
-                  {% if reel.cta_text and reel.cta_url %}
-                    <a href="{{ reel.cta_url }}" class="influencer-pack__cta">{{ reel.cta_text }}</a>
+                  {% if reel.cta_text and reel_cta_url %}
+                    <a href="{{ reel_cta_url }}" class="influencer-pack__cta">{{ reel.cta_text }}</a>
                   {% endif %}
                 </div>
               </div>
@@ -162,8 +182,8 @@
                 <p class="influencer-pack__caption">{{ reel_caption }}</p>
               {% endif %}
 
-              {% if not has_external_video and not has_youtube_video and reel.cta_text and reel.cta_url %}
-                <a href="{{ reel.cta_url }}" class="influencer-pack__cta influencer-pack__cta--fallback">{{ reel.cta_text }}</a>
+              {% if not has_external_video and not has_youtube_video and reel.cta_text and reel_cta_url %}
+                <a href="{{ reel_cta_url }}" class="influencer-pack__cta influencer-pack__cta--fallback">{{ reel.cta_text }}</a>
               {% endif %}
             </article>
           {% endfor %}
@@ -174,6 +194,15 @@
     {% if show_promo_blocks %}
       <section class="influencer-pack__promos" aria-label="{{ trans('pages.offers.title')|default('Promo blocks') }}">
         {% for promo in promo_blocks %}
+          {% set promo_cta_url = promo.cta_url|default('') %}
+          {% if promo_cta_url is iterable %}
+            {% set promo_cta_item = promo_cta_url|first %}
+            {% if promo_cta_item is iterable %}
+              {% set promo_cta_url = promo_cta_item.value|default('') %}
+            {% else %}
+              {% set promo_cta_url = promo_cta_item|default('') %}
+            {% endif %}
+          {% endif %}
           <article class="influencer-pack__promo">
             {% if promo.title %}
               <h3 class="influencer-pack__promo-title">{{ promo.title }}</h3>
@@ -184,8 +213,8 @@
             {% if promo.description %}
               <p class="influencer-pack__promo-description">{{ promo.description }}</p>
             {% endif %}
-            {% if promo.cta_text and promo.cta_url %}
-              <a href="{{ promo.cta_url }}" class="influencer-pack__promo-link">{{ promo.cta_text }}</a>
+            {% if promo.cta_text and promo_cta_url %}
+              <a href="{{ promo_cta_url }}" class="influencer-pack__promo-link">{{ promo.cta_text }}</a>
             {% endif %}
           </article>
         {% endfor %}
