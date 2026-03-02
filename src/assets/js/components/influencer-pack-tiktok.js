@@ -13,6 +13,15 @@ function setupTikTokPack(block) {
   if (bgColor) {
     block.style.setProperty('--tiktok-section-bg', bgColor);
   }
+  const navBgColor = block.dataset.navBgColor;
+  if (navBgColor) {
+    block.style.setProperty('--tiktok-nav-bg', navBgColor);
+  }
+  const navIconColor = block.dataset.navIconColor;
+  if (navIconColor) {
+    block.style.setProperty('--tiktok-nav-icon', navIconColor);
+    block.style.setProperty('--tiktok-nav-border', navIconColor);
+  }
 
   const track = block.querySelector('.influencer-pack-tiktok__track');
   const cards = Array.from(block.querySelectorAll('.influencer-pack-tiktok__card'));

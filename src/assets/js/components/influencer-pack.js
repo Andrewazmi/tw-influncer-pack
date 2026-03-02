@@ -35,7 +35,14 @@ function setupInfluencerPack(block) {
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const navPrev = block.querySelector('.influencer-pack__nav--prev');
   const navNext = block.querySelector('.influencer-pack__nav--next');
-  const isRtl = getComputedStyle(track).direction === 'rtl' || document.documentElement.dir === 'rtl';
+  const htmlDir = (document.documentElement.getAttribute('dir') || '').toLowerCase();
+  const bodyDir = (document.body && document.body.getAttribute('dir') ? document.body.getAttribute('dir') : '').toLowerCase();
+  const htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+  const isRtl =
+    getComputedStyle(track).direction === 'rtl' ||
+    htmlDir === 'rtl' ||
+    bodyDir === 'rtl' ||
+    htmlLang.startsWith('ar');
 
   syncNavIcons(navPrev, navNext, isRtl);
   syncNavDisabledState(navPrev, navNext, 0, reels.length);
@@ -714,17 +721,21 @@ function syncNavIcons(navPrev, navNext, isRtl) {
   const nextArrow = navNext ? navNext.querySelector('.influencer-pack__nav-arrow') : null;
   const prevIcon = navPrev ? navPrev.querySelector('i') : null;
   const nextIcon = navNext ? navNext.querySelector('i') : null;
+  const prevChar = isRtl ? '›' : '‹';
+  const nextChar = isRtl ? '‹' : '›';
+  const prevIconClass = isRtl ? 'sicon-keyboard_arrow_right' : 'sicon-keyboard_arrow_left';
+  const nextIconClass = isRtl ? 'sicon-keyboard_arrow_left' : 'sicon-keyboard_arrow_right';
 
   if (prevArrow) {
-    prevArrow.textContent = '‹';
+    prevArrow.textContent = prevChar;
   } else if (prevIcon) {
-    prevIcon.className = 'sicon-keyboard_arrow_left';
+    prevIcon.className = prevIconClass;
   }
 
   if (nextArrow) {
-    nextArrow.textContent = '›';
+    nextArrow.textContent = nextChar;
   } else if (nextIcon) {
-    nextIcon.className = 'sicon-keyboard_arrow_right';
+    nextIcon.className = nextIconClass;
   }
 }
 

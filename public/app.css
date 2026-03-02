@@ -20148,6 +20148,9 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   --tiktok-card-width: 20.3125rem;
   --tiktok-track-gap: 1.5rem;
   --tiktok-nav-size: 2.875rem;
+  --tiktok-nav-bg: #dff0a8;
+  --tiktok-nav-icon: #5f4c4c;
+  --tiktok-nav-border: #5f4c4c;
   background: #c9ddd1;
   background: var(--tiktok-section-bg);
   border-radius: 1.25rem;
@@ -20193,14 +20196,12 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   scroll-behavior: smooth;
   scroll-padding-inline: max(1rem, (100% - var(--tiktok-card-width)) / 2);
   scroll-snap-type: inline mandatory;
-  scrollbar-width: thin;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 .s-block--influencer-pack-tiktok .influencer-pack-tiktok__track::-webkit-scrollbar {
-  height: 0.5rem;
-}
-.s-block--influencer-pack-tiktok .influencer-pack-tiktok__track::-webkit-scrollbar-thumb {
-  background-color: rgba(53, 43, 48, 0.35);
-  border-radius: 999px;
+  display: none;
+  height: 0;
 }
 .s-block--influencer-pack-tiktok .influencer-pack-tiktok__card {
   background: #f2ece9;
@@ -20227,11 +20228,11 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
 }
 .s-block--influencer-pack-tiktok .influencer-pack-tiktok__nav {
   align-items: center;
-  background: #dff0a8;
-  border: 2px solid #5f4c4c;
+  background: var(--tiktok-nav-bg);
+  border: 2px solid var(--tiktok-nav-border);
   border-radius: 999px;
   bottom: -3.75rem;
-  color: #5f4c4c;
+  color: var(--tiktok-nav-icon);
   display: inline-flex;
   height: var(--tiktok-nav-size);
   justify-content: center;

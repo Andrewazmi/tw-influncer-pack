@@ -2213,6 +2213,40 @@
                     "selected": true
                 },
                 {
+                    "id": "nav_button_bg_color",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "لون خلفية أسهم التنقل",
+                    "icon": "sicon-format-fill",
+                    "value": "#dff0a8",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "show_navigation",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "id": "nav_button_icon_color",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "لون أيقونة/حدود أسهم التنقل",
+                    "icon": "sicon-format-color-text",
+                    "value": "#5f4c4c",
+                    "required": false,
+                    "conditions": [
+                        {
+                            "id": "show_navigation",
+                            "operation": "=",
+                            "value": true
+                        }
+                    ]
+                },
+                {
                     "id": "reels",
                     "type": "collection",
                     "format": "collection",
