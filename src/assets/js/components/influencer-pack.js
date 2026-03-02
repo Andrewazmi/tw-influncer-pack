@@ -27,6 +27,7 @@ function setupInfluencerPack(block) {
   if (!track || !reels.length) {
     return;
   }
+  track.classList.toggle('is-single', reels.length === 1);
 
   const autoplayEnabled = block.dataset.autoplay === 'true';
   const mutedByDefault = block.dataset.muted !== 'false';
@@ -346,8 +347,14 @@ function bindCopyCodeButtons(block) {
       return;
     }
 
+    const originalText = button.dataset.originalText || button.textContent || 'نسخ الكود';
+    button.dataset.originalText = originalText;
+    button.textContent = 'تم النسخ';
     button.classList.add('is-copied');
-    window.setTimeout(() => button.classList.remove('is-copied'), 1200);
+    window.setTimeout(() => {
+      button.classList.remove('is-copied');
+      button.textContent = originalText;
+    }, 1200);
   });
 }
 

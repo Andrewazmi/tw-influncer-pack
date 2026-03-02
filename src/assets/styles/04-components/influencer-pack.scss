@@ -35,7 +35,7 @@
   .influencer-pack__creators {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: minmax(180px, 220px);
+    grid-auto-columns: minmax(220px, 280px);
     gap: 0.75rem;
     overflow-x: auto;
     padding-bottom: 0.75rem;
@@ -45,25 +45,25 @@
   }
 
   .influencer-pack__creator {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
     scroll-snap-align: start;
+  }
+
+  .influencer-pack__creator-card {
+    border: 1px solid #e6e7eb;
+    border-radius: 1rem;
+    background: #ffffff;
+    padding: 0.65rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
   }
 
   .influencer-pack__creator-link {
     display: flex;
     align-items: center;
     gap: 0.625rem;
-    background: #ffffff;
-    border: 1px solid #e9e9e9;
-    border-radius: 999px;
-    padding: 0.5rem 0.7rem;
+    padding: 0.2rem;
     min-height: 3.25rem;
     text-decoration: none;
     color: inherit;
-    flex: 1 1 auto;
-    min-width: 0;
   }
 
   .influencer-pack__creator-avatar {
@@ -109,6 +109,11 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  .influencer-pack__code-group--creator {
+    margin-top: 0.55rem;
   }
 
   .influencer-pack__creator-code {
@@ -160,6 +165,16 @@
     padding-bottom: 0.5rem;
     scrollbar-width: thin;
     outline: none;
+  }
+
+  .influencer-pack__reels-track.is-single {
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .influencer-pack__reels-track.is-single .influencer-pack__reel-card {
+    width: min(100%, 420px);
   }
 
   .influencer-pack__reel-card {
@@ -240,9 +255,9 @@
     border-radius: 999px;
     background: var(--influencer-copy-btn-bg);
     color: #ffffff;
-    font-size: 0.66rem;
+    font-size: 0.68rem;
     font-weight: 700;
-    padding: 0.2rem 0.5rem;
+    padding: 0.28rem 0.62rem;
     line-height: 1.1;
     white-space: nowrap;
     cursor: pointer;
@@ -336,15 +351,28 @@
   }
 
   .influencer-pack__promo {
-    background: linear-gradient(135deg, #fafafa 0%, #f2f2f2 100%);
-    border: 1px solid #e6e6e6;
-    border-radius: 0.85rem;
-    padding: 0.9rem;
+    background: #ffffff;
+    border: 1px solid #e7e8ed;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 10px 20px rgba(17, 17, 17, 0.04);
+  }
+
+  .influencer-pack__promo-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.7rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .influencer-pack__code-group--promo {
+    justify-content: flex-end;
   }
 
   .influencer-pack__promo-title {
     font-size: 0.95rem;
-    margin: 0 0 0.35rem;
+    margin: 0;
     font-weight: 800;
     color: #1a1a1a;
   }
@@ -361,7 +389,7 @@
   }
 
   .influencer-pack__promo-description {
-    margin: 0.4rem 0 0;
+    margin: 0;
     color: #666;
     font-size: 0.84rem;
     line-height: 1.5;
@@ -377,6 +405,14 @@
 
   .influencer-pack__products {
     margin-top: 0.5rem;
+  }
+
+  .influencer-pack__products-title {
+    margin-bottom: 0.5rem;
+  }
+
+  .influencer-pack__products-title h2 {
+    margin: 0;
   }
 
   .influencer-pack__creator-link:focus-visible,

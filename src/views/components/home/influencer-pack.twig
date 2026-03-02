@@ -21,11 +21,19 @@
 {% set muted_enabled = component.reels_muted is same as(false) ? false : true %}
 {% set section_title = component.title|default('') %}
 {% set section_subtitle = component.subtitle|default('') %}
-{% set copy_button_text = component.copy_code_button_text|default('Copy code') %}
+{% set copy_button_text = component.copy_code_button_text|default('نسخ الكود') %}
 {% if copy_button_text is iterable %}
-  {% set copy_button_text = copy_button_text.ar|default(copy_button_text.en|default(copy_button_text|first|default('Copy code'))) %}
+  {% set copy_button_text = copy_button_text.ar|default(copy_button_text.en|default(copy_button_text|first|default('نسخ الكود'))) %}
+{% endif %}
+{% if not copy_button_text or copy_button_text == 'Copy code' %}
+  {% set copy_button_text = 'نسخ الكود' %}
 {% endif %}
 {% set copy_button_color = component.copy_code_button_color|default('#111111') %}
+{% set creators_aria_label = 'المؤثرون' %}
+{% set promo_aria_label = trans('pages.offers.title') %}
+{% if promo_aria_label == 'pages.offers.title' %}
+  {% set promo_aria_label = 'عروض الخصم' %}
+{% endif %}
 
 <section
   id="{{ block_id }}"
@@ -46,7 +54,7 @@
     {% endif %}
 
     {% if show_creators %}
-      <div class="influencer-pack__creators" role="list" aria-label="{{ trans('blocks.header.main_menu')|default('Creator Cards') }}">
+      <div class="influencer-pack__creators" role="list" aria-label="{{ creators_aria_label }}">
         {% for creator in creators %}
           {% set profile_url = creator.profile_url|default('') %}
           {% if profile_url is iterable %}
@@ -59,35 +67,37 @@
           {% endif %}
           {% set creator_name = creator.name|default('') %}
           <article class="influencer-pack__creator" role="listitem">
-            {% if profile_url %}
-              <a href="{{ profile_url }}" class="influencer-pack__creator-link" aria-label="{{ creator_name ? creator_name : 'Creator Profile' }}">
-            {% else %}
-              <div class="influencer-pack__creator-link">
-            {% endif %}
-              <span class="influencer-pack__creator-avatar">
-                {% if creator.avatar %}
-                  <img src="{{ creator.avatar }}" alt="{{ creator_name ? creator_name : 'Creator avatar' }}" loading="lazy">
-                {% endif %}
-              </span>
-              <span class="influencer-pack__creator-meta">
-                {% if creator_name %}
-                  <strong class="influencer-pack__creator-name">{{ creator_name }}</strong>
-                {% endif %}
-                {% if creator.handle %}
-                  <span class="influencer-pack__creator-handle" dir="ltr">{{ creator.handle }}</span>
-                {% endif %}
-              </span>
-            {% if profile_url %}
-              </a>
-            {% else %}
-              </div>
-            {% endif %}
-            {% if creator.promo_code %}
-              <span class="influencer-pack__code-group">
-                <span class="influencer-pack__creator-code" dir="ltr">{{ creator.promo_code }}</span>
-                <button type="button" class="influencer-pack__copy-code" data-code="{{ creator.promo_code|e('html_attr') }}">{{ copy_button_text }}</button>
-              </span>
-            {% endif %}
+            <div class="influencer-pack__creator-card">
+              {% if profile_url %}
+                <a href="{{ profile_url }}" class="influencer-pack__creator-link" aria-label="{{ creator_name ? creator_name : 'Creator Profile' }}">
+              {% else %}
+                <div class="influencer-pack__creator-link">
+              {% endif %}
+                <span class="influencer-pack__creator-avatar">
+                  {% if creator.avatar %}
+                    <img src="{{ creator.avatar }}" alt="{{ creator_name ? creator_name : 'Creator avatar' }}" loading="lazy">
+                  {% endif %}
+                </span>
+                <span class="influencer-pack__creator-meta">
+                  {% if creator_name %}
+                    <strong class="influencer-pack__creator-name">{{ creator_name }}</strong>
+                  {% endif %}
+                  {% if creator.handle %}
+                    <span class="influencer-pack__creator-handle" dir="ltr">{{ creator.handle }}</span>
+                  {% endif %}
+                </span>
+              {% if profile_url %}
+                </a>
+              {% else %}
+                </div>
+              {% endif %}
+              {% if creator.promo_code %}
+                <span class="influencer-pack__code-group influencer-pack__code-group--creator">
+                  <span class="influencer-pack__creator-code" dir="ltr">{{ creator.promo_code }}</span>
+                  <button type="button" class="influencer-pack__copy-code" data-code="{{ creator.promo_code|e('html_attr') }}">{{ copy_button_text }}</button>
+                </span>
+              {% endif %}
+            </div>
           </article>
         {% endfor %}
       </div>
@@ -204,7 +214,7 @@
     {% endif %}
 
     {% if show_promo_blocks %}
-      <section class="influencer-pack__promos" aria-label="{{ trans('pages.offers.title')|default('Promo blocks') }}">
+      <section class="influencer-pack__promos" aria-label="{{ promo_aria_label }}">
         {% for promo in promo_blocks %}
           {% set promo_cta_url = promo.cta_url|default('') %}
           {% if promo_cta_url is iterable %}
@@ -216,15 +226,17 @@
             {% endif %}
           {% endif %}
           <article class="influencer-pack__promo">
-            {% if promo.title %}
-              <h3 class="influencer-pack__promo-title">{{ promo.title }}</h3>
-            {% endif %}
-            {% if promo.code %}
-              <span class="influencer-pack__code-group">
-                <p class="influencer-pack__promo-code" dir="ltr">{{ promo.code }}</p>
-                <button type="button" class="influencer-pack__copy-code" data-code="{{ promo.code|e('html_attr') }}">{{ copy_button_text }}</button>
-              </span>
-            {% endif %}
+            <div class="influencer-pack__promo-head">
+              {% if promo.title %}
+                <h3 class="influencer-pack__promo-title">{{ promo.title }}</h3>
+              {% endif %}
+              {% if promo.code %}
+                <span class="influencer-pack__code-group influencer-pack__code-group--promo">
+                  <p class="influencer-pack__promo-code" dir="ltr">{{ promo.code }}</p>
+                  <button type="button" class="influencer-pack__copy-code" data-code="{{ promo.code|e('html_attr') }}">{{ copy_button_text }}</button>
+                </span>
+              {% endif %}
+            </div>
             {% if promo.description %}
               <p class="influencer-pack__promo-description">{{ promo.description }}</p>
             {% endif %}
@@ -244,7 +256,7 @@
           {% set picked_limit = 12 %}
         {% endif %}
         {% if picked_products_title %}
-          <div class="s-block__title">
+          <div class="s-block__title influencer-pack__products-title">
             <div class="right-side">
               <h2>{{ picked_products_title }}</h2>
             </div>
