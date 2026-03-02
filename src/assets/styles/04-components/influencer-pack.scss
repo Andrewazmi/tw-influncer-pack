@@ -356,15 +356,15 @@
     flex-shrink: 0;
   }
 
-  .influencer-pack__play-toggle i,
+  .influencer-pack__play-toggle .influencer-pack__play-glyph,
   .influencer-pack__mute-toggle i {
     font-size: 1rem;
     line-height: 1;
   }
 
-  .influencer-pack__play-toggle i,
-  .influencer-pack__play-toggle i::before {
+  .influencer-pack__play-toggle .influencer-pack__play-glyph {
     color: #111111 !important;
+    font-weight: 800;
   }
 
   .influencer-pack__mute-toggle i,

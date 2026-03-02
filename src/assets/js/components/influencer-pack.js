@@ -436,13 +436,12 @@ function setToggleState(toggle, isPlaying) {
     return;
   }
 
-  const icon = toggle.querySelector('i');
+  const glyph = toggle.querySelector('.influencer-pack__play-glyph');
   toggle.classList.toggle('is-playing', isPlaying);
   toggle.setAttribute('aria-label', isPlaying ? 'Pause reel' : 'Play reel');
 
-  if (icon) {
-    icon.classList.remove('sicon-play2', 'sicon-pause');
-    icon.classList.add(isPlaying ? 'sicon-pause' : 'sicon-play2');
+  if (glyph) {
+    glyph.textContent = isPlaying ? '❚❚' : '▶';
   }
 }
 
