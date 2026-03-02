@@ -422,17 +422,12 @@ function setToggleState(toggle, isPlaying) {
   }
 
   const icon = toggle.querySelector('i');
-  const fallback = toggle.querySelector('.influencer-pack__play-fallback');
   toggle.classList.toggle('is-playing', isPlaying);
   toggle.setAttribute('aria-label', isPlaying ? 'Pause reel' : 'Play reel');
 
   if (icon) {
     icon.classList.remove('sicon-play2', 'sicon-pause');
     icon.classList.add(isPlaying ? 'sicon-pause' : 'sicon-play2');
-  }
-
-  if (fallback) {
-    fallback.textContent = isPlaying ? '❚❚' : '▶';
   }
 }
 
