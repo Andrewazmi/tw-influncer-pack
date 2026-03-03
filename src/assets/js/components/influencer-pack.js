@@ -558,7 +558,6 @@ function bindReelStripInteractions(block) {
     }
   });
 
-  hydrateReelPins(block, productCache);
 }
 
 function hydrateStripProducts(strip, productCache) {
@@ -721,71 +720,6 @@ function getProductPriceValue(product) {
   return asString || '—';
 }
 
-function hydrateReelPins(block, productCache) {
-  const pinButtons = Array.from(block.querySelectorAll('.influencer-pack__reel-product-pin[data-product-ids]'));
-  if (!pinButtons.length) {
-    return;
-  }
-
-  const firstIds = pinButtons
-    .map((button) => {
-      const firstId = (button.dataset.productIds || '')
-        .split(',')
-        .map((id) => Number(String(id).trim()))
-        .find((id) => Number.isFinite(id) && id > 0);
-      return firstId || null;
-    })
-    .filter(Boolean);
-
-  if (!firstIds.length) {
-    return;
-  }
-
-  fetchProductsByIds(firstIds, productCache)
-    .then((products) => {
-      const byId = new Map(products.map((product) => [Number(product?.id || 0), product]).filter(([id]) => id > 0));
-
-      pinButtons.forEach((button) => {
-        const firstId = (button.dataset.productIds || '')
-          .split(',')
-          .map((id) => Number(String(id).trim()))
-          .find((id) => Number.isFinite(id) && id > 0);
-        if (!firstId) {
-          return;
-        }
-
-        const product = byId.get(firstId);
-        if (!product) {
-          return;
-        }
-
-        const title = product?.name || product?.title || '';
-        if (title) {
-          const titleNode = button.querySelector('.influencer-pack__reel-product-pin-title');
-          if (titleNode) {
-            titleNode.textContent = title;
-          }
-        }
-
-        const imageUrl = product?.image?.url || product?.thumbnail || '';
-        if (imageUrl) {
-          let image = button.querySelector('.influencer-pack__reel-product-pin-image');
-          if (!image) {
-            image = document.createElement('img');
-            image.className = 'influencer-pack__reel-product-pin-image';
-            image.loading = 'lazy';
-            button.prepend(image);
-          }
-          image.src = imageUrl;
-          image.alt = title || 'منتج الريل';
-        }
-      });
-    })
-    .catch(() => {
-      // Keep server-rendered fallback pin content.
-    });
-}
-
 async function fetchProductsByIds(ids, productCache) {
   const uniqueIds = Array.from(new Set(ids.map((id) => Number(id)).filter((id) => id > 0)));
   const missingIds = uniqueIds.filter((id) => !productCache.has(id));
@@ -801,13 +735,12 @@ async function fetchProductsByIds(ids, productCache) {
 
     const unresolved = missingIds.filter((id) => !productCache.has(id));
     if (unresolved.length) {
-      const singles = await Promise.allSettled(unresolved.map((id) => salla.api.get(`/products/${id}`)));
+      const singles = await Promise.allSettled(unresolved.map((id) => fetchProductById(id)));
       singles.forEach((result) => {
         if (result.status !== 'fulfilled') {
           return;
         }
-        const payload = result.value?.data?.data || result.value?.data;
-        const product = Array.isArray(payload) ? payload[0] : payload;
+        const product = result.value;
         const productId = Number(product?.id || 0);
         if (productId) {
           productCache.set(productId, product);
@@ -820,6 +753,11 @@ async function fetchProductsByIds(ids, productCache) {
 }
 
 async function fetchProductsBatch(ids) {
+  const apiGet = salla?.api && typeof salla.api.get === 'function' ? salla.api.get.bind(salla.api) : null;
+  if (!apiGet) {
+    return [];
+  }
+
   const queries = [];
 
   const idsArrayParams = new URLSearchParams();
@@ -836,7 +774,7 @@ async function fetchProductsBatch(ids) {
 
   for (const endpoint of queries) {
     try {
-      const response = await salla.api.get(endpoint);
+      const response = await apiGet(endpoint);
       const payload = response?.data?.data || response?.data;
       if (Array.isArray(payload) && payload.length) {
         return payload;
@@ -847,6 +785,27 @@ async function fetchProductsBatch(ids) {
   }
 
   return [];
+}
+
+async function fetchProductById(id) {
+  const productApi = salla?.api?.product;
+  if (productApi && typeof productApi.getDetails === 'function') {
+    const response = await productApi.getDetails(String(id));
+    const payload = response?.data?.data || response?.data;
+    const product = Array.isArray(payload) ? payload[0] : payload;
+    if (product) {
+      return product;
+    }
+  }
+
+  const apiGet = salla?.api && typeof salla.api.get === 'function' ? salla.api.get.bind(salla.api) : null;
+  if (!apiGet) {
+    throw new Error('No supported product API method');
+  }
+
+  const response = await apiGet(`/products/${id}`);
+  const payload = response?.data?.data || response?.data;
+  return Array.isArray(payload) ? payload[0] : payload;
 }
 
 function lockPageScroll() {

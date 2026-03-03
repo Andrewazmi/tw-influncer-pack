@@ -12,16 +12,29 @@
 {% set button_url = component.button_url|default(component.alrabt|default(component.url|default(''))) %}
 {% set button_text_color = component.text_color_button|default('#ffffff') %}
 {% set button_bg_color = component.background_button_color|default('#004956') %}
+{% set video_src = component.video_banner|default('') %}
+{% set video_poster = component.video_poster|default('') %}
 
 <section id="{{ section_id }}" class="s-block s-block--influencer-pack-video relative">
-  {% if component.video_banner %}
+  {% if video_src %}
     <video
-      class="influencer-pack-video__media"
+      class="influencer-pack-video__media js-influencer-pack-video"
       playsinline
       loop
-      src="{{ component.video_banner }}"
-      autoplay
+      preload="none"
+      data-src="{{ video_src|e('html_attr') }}"
+      {% if video_poster %}poster="{{ video_poster|e('html_attr') }}"{% endif %}
       muted></video>
+    <noscript>
+      <video
+        class="influencer-pack-video__media"
+        playsinline
+        loop
+        src="{{ video_src|e('html_attr') }}"
+        {% if video_poster %}poster="{{ video_poster|e('html_attr') }}"{% endif %}
+        autoplay
+        muted></video>
+    </noscript>
   {% endif %}
 
   {% if component.title %}

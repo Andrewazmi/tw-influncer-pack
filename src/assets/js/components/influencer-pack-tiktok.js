@@ -1,6 +1,8 @@
 const TIKTOK_EMBED_SCRIPT_SRC = 'https://www.tiktok.com/embed.js';
+const TIKTOK_AUTO_SCROLL_INTERVAL = 4200;
 
 let tiktokEmbedScriptPromise = null;
+let tiktokEmbedPreloadScheduled = false;
 
 salla.onReady(() => {
   const blocks = Array.from(document.querySelectorAll('.s-block--influencer-pack-tiktok'));
@@ -10,6 +12,7 @@ salla.onReady(() => {
 
   document.documentElement.classList.add('has-tiktok-pack');
   document.body.classList.add('has-tiktok-pack');
+  scheduleTikTokEmbedPreload();
   blocks.forEach((block) => setupTikTokPack(block));
 });
 
@@ -49,9 +52,13 @@ function setupTikTokPack(block) {
   syncNavIcons(navPrev, navNext, isRtl);
 
   let activeIndex = 0;
+  let autoScrollTimer = null;
+  let isAutoScrollPausedByHover = false;
+
   setActiveCard(0);
   resetPageHorizontalShift();
   resetInitialTrackPosition();
+  startAutoScroll();
 
   if (navPrev) {
     navPrev.addEventListener('click', () => scrollToCard(activeIndex - 1));
@@ -117,6 +124,9 @@ function setupTikTokPack(block) {
   window.addEventListener('load', resetPageHorizontalShift, { once: true });
   window.addEventListener('resize', resetInitialTrackPosition);
   window.addEventListener('resize', resetPageHorizontalShift);
+  document.addEventListener('visibilitychange', syncAutoScrollVisibilityState);
+  block.addEventListener('mouseenter', pauseAutoScrollOnHover);
+  block.addEventListener('mouseleave', resumeAutoScrollAfterHover);
 
   function scrollToCard(index) {
     const safeIndex = clamp(index, 0, cards.length - 1);
@@ -138,6 +148,45 @@ function setupTikTokPack(block) {
     });
 
     syncNavDisabledState(navPrev, navNext, activeIndex, cards.length);
+  }
+
+  function startAutoScroll() {
+    if (cards.length <= 1 || reduceMotion || autoScrollTimer || isAutoScrollPausedByHover || document.hidden) {
+      return;
+    }
+
+    autoScrollTimer = window.setInterval(() => {
+      const nextIndex = activeIndex >= cards.length - 1 ? 0 : activeIndex + 1;
+      scrollToCard(nextIndex);
+    }, TIKTOK_AUTO_SCROLL_INTERVAL);
+  }
+
+  function stopAutoScroll() {
+    if (!autoScrollTimer) {
+      return;
+    }
+
+    window.clearInterval(autoScrollTimer);
+    autoScrollTimer = null;
+  }
+
+  function pauseAutoScrollOnHover() {
+    isAutoScrollPausedByHover = true;
+    stopAutoScroll();
+  }
+
+  function resumeAutoScrollAfterHover() {
+    isAutoScrollPausedByHover = false;
+    startAutoScroll();
+  }
+
+  function syncAutoScrollVisibilityState() {
+    if (document.hidden) {
+      stopAutoScroll();
+      return;
+    }
+
+    startAutoScroll();
   }
 
   function resetInitialTrackPosition() {
@@ -191,7 +240,7 @@ function setupLazyEmbedScriptLoad(block, track) {
       },
       {
         root: null,
-        rootMargin: '320px 0px',
+        rootMargin: '900px 0px',
         threshold: 0.01,
       }
     );
@@ -201,6 +250,37 @@ function setupLazyEmbedScriptLoad(block, track) {
   }
 
   requestLoad();
+}
+
+function scheduleTikTokEmbedPreload() {
+  if (tiktokEmbedPreloadScheduled) {
+    return;
+  }
+  tiktokEmbedPreloadScheduled = true;
+
+  const loadScriptWhenVisible = () => {
+    if (document.hidden) {
+      document.addEventListener(
+        'visibilitychange',
+        () => {
+          if (!document.hidden) {
+            ensureTikTokEmbedScript().catch(() => {});
+          }
+        },
+        { once: true }
+      );
+      return;
+    }
+
+    ensureTikTokEmbedScript().catch(() => {});
+  };
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(loadScriptWhenVisible, { timeout: 2200 });
+    return;
+  }
+
+  window.setTimeout(loadScriptWhenVisible, 1200);
 }
 
 function ensureTikTokEmbedScript() {

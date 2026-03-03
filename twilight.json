@@ -690,6 +690,18 @@
                     "required": false
                 },
                 {
+                    "id": "video_poster",
+                    "type": "string",
+                    "format": "url",
+                    "inputType": "url",
+                    "label": "رابط صورة غلاف الفيديو",
+                    "description": "صورة تظهر قبل تحميل وتشغيل الفيديو",
+                    "placeholder": "https://example.com/video-poster.jpg",
+                    "icon": "sicon-image",
+                    "value": null,
+                    "required": false
+                },
+                {
                     "id": "title",
                     "type": "string",
                     "format": "text",

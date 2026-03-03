@@ -19731,53 +19731,25 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   left: 0.75rem;
   bottom: 4.35rem;
   width: auto;
-  max-width: min(78%, 12.25rem);
-  min-height: 2.5rem;
+  max-width: min(78%, 11.5rem);
+  min-height: 2.2rem;
   border: 0;
   border-radius: 999px;
   background: rgba(15, 15, 15, 0.86);
   color: #ffffff;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.42rem;
-  padding: 0.28rem 0.45rem 0.28rem 0.3rem;
-  text-align: left;
+  justify-content: center;
+  padding: 0.35rem 0.75rem;
+  text-align: center;
   cursor: pointer;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
-.s-block--influencer-pack .influencer-pack__reel-product-pin-image {
-  width: 1.95rem;
-  height: 1.95rem;
-  border-radius: 999px;
-  -o-object-fit: cover;
-     object-fit: cover;
-  flex-shrink: 0;
-  display: block;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-}
-.s-block--influencer-pack .influencer-pack__reel-product-pin-meta {
-  min-width: 0;
-  display: flex;
-  align-items: center;
-}
-.s-block--influencer-pack .influencer-pack__reel-product-pin-title {
-  font-size: 0.7rem;
+.s-block--influencer-pack .influencer-pack__reel-product-pin-label {
+  font-size: 0.74rem;
   font-weight: 700;
-  line-height: 1.15;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.s-block--influencer-pack .influencer-pack__reel-product-pin-count {
-  margin-left: 0.05rem;
-  font-size: 0.69rem;
-  font-weight: 800;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 999px;
-  padding: 0.15rem 0.42rem;
-  flex-shrink: 0;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 .s-block--influencer-pack .influencer-pack__play-toggle {
   width: 2.3rem;
@@ -20198,6 +20170,7 @@ body.has-tiktok-pack {
   --tiktok-nav-icon: #5f4c4c;
   --tiktok-nav-border: #5f4c4c;
   --tiktok-edge-padding: 1rem;
+  --tiktok-shell-bottom-space: calc(var(--tiktok-nav-size) + 1.5rem);
   background: #c9ddd1;
   background: var(--tiktok-section-bg);
   box-sizing: border-box;
@@ -20207,7 +20180,7 @@ body.has-tiktok-pack {
   max-width: min(100%, 100vw);
   margin: 1.5rem auto;
   overflow-x: clip;
-  padding: 2rem 0;
+  padding: 2rem 0 2.75rem;
 }
 .s-block--influencer-pack-tiktok *,
 .s-block--influencer-pack-tiktok *::before,
@@ -20254,7 +20227,7 @@ body.has-tiktok-pack {
   max-width: 100%;
   overflow-x: clip;
   position: relative;
-  padding-bottom: 4.25rem;
+  padding-bottom: var(--tiktok-shell-bottom-space);
 }
 .s-block--influencer-pack-tiktok .influencer-pack-tiktok__track {
   display: flex;
@@ -20323,7 +20296,7 @@ body.has-tiktok-pack {
   background: var(--tiktok-nav-bg);
   border: 2px solid var(--tiktok-nav-border);
   border-radius: 999px;
-  bottom: -3.75rem;
+  bottom: 0.5rem;
   color: var(--tiktok-nav-icon);
   display: inline-flex;
   height: var(--tiktok-nav-size);
@@ -20352,8 +20325,9 @@ body.has-tiktok-pack {
     --tiktok-track-gap: 0.875rem;
     --tiktok-nav-size: 2.5rem;
     --tiktok-edge-padding: 0.75rem;
+    --tiktok-shell-bottom-space: calc(var(--tiktok-nav-size) + 1.1rem);
     border-radius: 0.9rem;
-    padding: 1.5rem 0 2.25rem;
+    padding: 1.5rem 0 2.4rem;
   }
   .s-block--influencer-pack-tiktok .influencer-pack-tiktok__title {
     font-size: max(1.5rem, min(8vw, 2.2rem));
@@ -20366,7 +20340,7 @@ body.has-tiktok-pack {
     min-height: max(28rem, min(74vh, 34rem));
   }
   .s-block--influencer-pack-tiktok .influencer-pack-tiktok__nav {
-    bottom: 0.25rem;
+    bottom: 0.35rem;
   }
 }
 @media (max-width: 575px) {

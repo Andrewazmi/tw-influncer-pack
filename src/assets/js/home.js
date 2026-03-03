@@ -4,6 +4,7 @@ import Lightbox from "fslightbox";
 import "./components/influencer-pack";
 import "./components/social-follow-floating";
 import "./components/influencer-pack-tiktok";
+import "./components/influencer-pack-video";
 window.fslightbox = Lightbox;
 
 class Home extends BasePage {

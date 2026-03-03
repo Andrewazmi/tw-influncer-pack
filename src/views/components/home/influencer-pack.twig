@@ -227,20 +227,8 @@
                     class="influencer-pack__reel-product-pin"
                     data-open-strip="{{ reel_strip_id }}"
                     data-product-ids="{{ reel_product_ids|join(',') }}"
-                    aria-label="تسوق منتجات الريل">
-                    {% if reel_primary_image %}
-                      <img class="influencer-pack__reel-product-pin-image" src="{{ reel_primary_image }}" alt="{{ reel_primary_title ? reel_primary_title : 'منتج الريل' }}" loading="lazy">
-                    {% endif %}
-                    <span class="influencer-pack__reel-product-pin-meta">
-                      {% if reel_primary_title %}
-                        <span class="influencer-pack__reel-product-pin-title">{{ reel_primary_title }}</span>
-                      {% else %}
-                        <span class="influencer-pack__reel-product-pin-title">عرض المنتج</span>
-                      {% endif %}
-                    </span>
-                    {% if reel_product_count > 1 %}
-                      <span class="influencer-pack__reel-product-pin-count">+{{ reel_product_count - 1 }}</span>
-                    {% endif %}
+                    aria-label="عرض المنتجات">
+                    <span class="influencer-pack__reel-product-pin-label">عرض المنتجات</span>
                   </button>
                 {% endif %}
 

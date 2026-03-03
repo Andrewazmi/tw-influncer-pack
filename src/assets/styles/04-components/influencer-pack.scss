@@ -292,56 +292,26 @@
     inset-inline-start: 0.75rem;
     bottom: 4.35rem;
     width: auto;
-    max-width: min(78%, 12.25rem);
-    min-height: 2.5rem;
+    max-width: min(78%, 11.5rem);
+    min-height: 2.2rem;
     border: 0;
     border-radius: 999px;
     background: rgba(15, 15, 15, 0.86);
     color: #ffffff;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.42rem;
-    padding: 0.28rem 0.45rem 0.28rem 0.3rem;
-    text-align: start;
+    justify-content: center;
+    padding: 0.35rem 0.75rem;
+    text-align: center;
     cursor: pointer;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
   }
 
-  .influencer-pack__reel-product-pin-image {
-    width: 1.95rem;
-    height: 1.95rem;
-    border-radius: 999px;
-    object-fit: cover;
-    flex-shrink: 0;
-    display: block;
-    border: 1px solid rgba(255, 255, 255, 0.24);
-  }
-
-  .influencer-pack__reel-product-pin-meta {
-    min-width: 0;
-    display: flex;
-    align-items: center;
-  }
-
-  .influencer-pack__reel-product-pin-title {
-    font-size: 0.7rem;
+  .influencer-pack__reel-product-pin-label {
+    font-size: 0.74rem;
     font-weight: 700;
-    line-height: 1.15;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .influencer-pack__reel-product-pin-count {
-    margin-inline-start: 0.05rem;
-    font-size: 0.69rem;
-    font-weight: 800;
-    background: rgba(255, 255, 255, 0.16);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 999px;
-    padding: 0.15rem 0.42rem;
-    flex-shrink: 0;
+    line-height: 1.2;
+    white-space: nowrap;
   }
 
   .influencer-pack__play-toggle {
