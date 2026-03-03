@@ -728,7 +728,7 @@
                         {
                             "label": "بالمنتصف",
                             "value": "center",
-                            "key": "button_position-center-0"
+                            "key": "button_position-center-2"
                         }
                     ],
                     "options": [
@@ -925,7 +925,7 @@
                         {
                             "label": "متوسط",
                             "value": "regular",
-                            "key": "card_size-regular-0"
+                            "key": "card_size-regular-1"
                         }
                     ],
                     "options": [
@@ -1049,7 +1049,7 @@
                         {
                             "label": "يمين المنتصف",
                             "value": "right-center",
-                            "key": "social_follow_position-right-center-0"
+                            "key": "social_follow_position-right-center-1"
                         }
                     ],
                     "options": [
@@ -1210,7 +1210,7 @@
                         {
                             "label": "متوسط",
                             "value": "regular",
-                            "key": "social_follow_size-regular-0"
+                            "key": "social_follow_size-regular-1"
                         }
                     ],
                     "options": [
@@ -1243,7 +1243,7 @@
                         {
                             "label": "حبّة",
                             "value": "pill",
-                            "key": "social_follow_shape-pill-0"
+                            "key": "social_follow_shape-pill-1"
                         }
                     ],
                     "options": [
