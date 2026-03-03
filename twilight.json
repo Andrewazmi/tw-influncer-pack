@@ -830,21 +830,6 @@
                             "value": "blog_categories"
                         },
                         {
-                            "label": "صفحة تواصل معنا",
-                            "key": "contact_link",
-                            "value": "contact_link"
-                        },
-                        {
-                            "label": "الصفحة الرئيسية",
-                            "key": "home_link",
-                            "value": "home_link"
-                        },
-                        {
-                            "label": "كل المنتجات",
-                            "key": "products_link",
-                            "value": "products_link"
-                        },
-                        {
                             "label": "التخفيضات",
                             "key": "offers_link",
                             "value": "offers_link"
