@@ -3,12 +3,12 @@
         "ar": "الصفوة",
         "en": "Al Safwa"
     },
-    "repository": "https://github.com/Andrewazmi/theme-safwa",
+    "repository": "https://github.com/Andrewazmi/tw-influncer-pack",
     "author_email": "contact@grovlix.com",
-    "support_url": "",
+    "support_url": "https://github.com/Andrewazmi/tw-influncer-pack/issues",
     "description": {
-        "ar": null,
-        "en": null
+        "ar": "ثيم يركز على عرض فيديوهات المؤثرين (Reels و TikTok) مع منتجات قابلة للشراء داخل التجربة.",
+        "en": "A theme focused on influencer video commerce with shoppable Reels and TikTok-based product discovery."
     },
     "features": [
         "mega-menu",
@@ -26,10 +26,8 @@
         "component-square-photos",
         "component-store-features",
         "component-youtube",
-        "component-hero-media",
         "menu-images",
-        "filters",
-        "component-video-with-products"
+        "filters"
     ],
     "settings": [
         {
@@ -56,7 +54,7 @@
         {
             "id": "albred_alilktrone_lltoasl",
             "type": "string",
-            "format": "email",
+            "format": "text",
             "inputType": "email",
             "label": "البريد الإلكتروني للتواصل",
             "description": "سيظهر في الشريط العلوي للمتجر. اتركه فارغاً لإخفائه",
@@ -620,7 +618,7 @@
                     "placeholder": "يمكنك إضافة العنوان الرئيسي هنا...",
                     "hide": false,
                     "minLength": 0,
-                    "maxLength": "80"
+                    "maxLength": 80
                 },
                 {
                     "type": "string",
@@ -634,7 +632,7 @@
                     "required": false,
                     "placeholder": "يمكنك إضافة وصف لهذا القسم هنا...",
                     "minLength": 0,
-                    "maxLength": "256"
+                    "maxLength": 256
                 },
                 {
                     "type": "items",
@@ -1590,7 +1588,7 @@
                 },
                 {
                     "id": "products_count",
-                    "type": "string",
+                    "type": "number",
                     "format": "number",
                     "inputType": "number",
                     "label": "عدد المنتجات",
