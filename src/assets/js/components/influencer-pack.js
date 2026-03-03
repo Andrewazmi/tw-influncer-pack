@@ -302,12 +302,23 @@ function setupInfluencerPack(block) {
       return;
     }
     const nextIndex = clamp(index, 0, reels.length - 1);
-    reels[nextIndex].scrollIntoView({
+    track.scrollTo({
+      left: getReelCenteredLeft(reels[nextIndex]),
       behavior: reduceMotion ? 'auto' : 'smooth',
-      inline: 'center',
-      block: 'nearest',
     });
     setActiveReel(nextIndex, isUserIntent);
+  }
+
+  function getReelCenteredLeft(reel) {
+    if (!reel) {
+      return track.scrollLeft;
+    }
+
+    const trackRect = track.getBoundingClientRect();
+    const reelRect = reel.getBoundingClientRect();
+    const deltaToCenter = reelRect.left - trackRect.left - (track.clientWidth - reelRect.width) / 2;
+
+    return track.scrollLeft + deltaToCenter;
   }
 
   function setActiveReel(index, isUserIntent) {

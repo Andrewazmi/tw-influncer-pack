@@ -54,6 +54,7 @@ function setupTikTokPack(block) {
   let activeIndex = 0;
   let autoScrollTimer = null;
   let isAutoScrollPausedByHover = false;
+  let sectionInView = isSectionInViewport();
 
   setActiveCard(0);
   resetPageHorizontalShift();
@@ -113,6 +114,26 @@ function setupTikTokPack(block) {
     );
 
     cards.forEach((card) => observer.observe(card));
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        const sectionEntry = entries[0];
+        if (!sectionEntry) {
+          return;
+        }
+
+        sectionInView = sectionEntry.isIntersecting;
+        if (sectionInView) {
+          startAutoScroll();
+          return;
+        }
+
+        stopAutoScroll();
+      },
+      { threshold: [0.12] }
+    );
+
+    sectionObserver.observe(block);
   }
 
   window.setTimeout(resetInitialTrackPosition, 120);
@@ -130,10 +151,9 @@ function setupTikTokPack(block) {
 
   function scrollToCard(index) {
     const safeIndex = clamp(index, 0, cards.length - 1);
-    cards[safeIndex].scrollIntoView({
+    track.scrollTo({
+      left: getCardCenteredLeft(cards[safeIndex]),
       behavior: reduceMotion ? 'auto' : 'smooth',
-      inline: 'center',
-      block: 'nearest',
     });
     setActiveCard(safeIndex);
   }
@@ -151,7 +171,14 @@ function setupTikTokPack(block) {
   }
 
   function startAutoScroll() {
-    if (cards.length <= 1 || reduceMotion || autoScrollTimer || isAutoScrollPausedByHover || document.hidden) {
+    if (
+      cards.length <= 1 ||
+      reduceMotion ||
+      autoScrollTimer ||
+      isAutoScrollPausedByHover ||
+      document.hidden ||
+      !sectionInView
+    ) {
       return;
     }
 
@@ -187,6 +214,21 @@ function setupTikTokPack(block) {
     }
 
     startAutoScroll();
+  }
+
+  function getCardCenteredLeft(card) {
+    if (!card) {
+      return track.scrollLeft;
+    }
+
+    const rawLeft = card.offsetLeft + card.offsetWidth / 2 - track.clientWidth / 2;
+    const maxLeft = Math.max(track.scrollWidth - track.clientWidth, 0);
+    return clamp(rawLeft, 0, maxLeft);
+  }
+
+  function isSectionInViewport() {
+    const rect = block.getBoundingClientRect();
+    return rect.bottom > 0 && rect.top < window.innerHeight;
   }
 
   function resetInitialTrackPosition() {
