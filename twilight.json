@@ -358,17 +358,20 @@
                             "selected": [
                                 {
                                     "label": "رابط خارجي MP4/HLS",
-                                    "value": "external"
+                                    "value": "external",
+                                    "key": "reels.video_mode-external-0"
                                 }
                             ],
                             "options": [
                                 {
                                     "label": "رابط خارجي MP4/HLS",
-                                    "value": "external"
+                                    "value": "external",
+                                    "key": "reels.video_mode-external-0"
                                 },
                                 {
                                     "label": "YouTube ID",
-                                    "value": "youtube"
+                                    "value": "youtube",
+                                    "key": "reels.video_mode-youtube-1"
                                 }
                             ],
                             "source": "Manual"
@@ -424,21 +427,25 @@
                             "selected": [
                                 {
                                     "label": "تلقائي (منتجات ثم رابط)",
-                                    "value": "auto"
+                                    "value": "auto",
+                                    "key": "reels.cta_mode-auto-0"
                                 }
                             ],
                             "options": [
                                 {
                                     "label": "تلقائي (منتجات ثم رابط)",
-                                    "value": "auto"
+                                    "value": "auto",
+                                    "key": "reels.cta_mode-auto-0"
                                 },
                                 {
                                     "label": "منتجات الريل",
-                                    "value": "products"
+                                    "value": "products",
+                                    "key": "reels.cta_mode-products-1"
                                 },
                                 {
                                     "label": "رابط فقط",
-                                    "value": "link"
+                                    "value": "link",
+                                    "key": "reels.cta_mode-link-2"
                                 }
                             ],
                             "source": "Manual"
@@ -712,21 +719,25 @@
                     "selected": [
                         {
                             "label": "بالمنتصف",
-                            "value": "center"
+                            "value": "center",
+                            "key": "button_position-center-0"
                         }
                     ],
                     "options": [
                         {
                             "label": "يسار",
-                            "value": "end"
+                            "value": "end",
+                            "key": "button_position-end-0"
                         },
                         {
                             "label": "يمين",
-                            "value": "start"
+                            "value": "start",
+                            "key": "button_position-start-1"
                         },
                         {
                             "label": "بالمنتصف",
-                            "value": "center"
+                            "value": "center",
+                            "key": "button_position-center-2"
                         }
                     ],
                     "source": "Manual",
@@ -905,21 +916,25 @@
                     "selected": [
                         {
                             "label": "متوسط",
-                            "value": "regular"
+                            "value": "regular",
+                            "key": "card_size-regular-0"
                         }
                     ],
                     "options": [
                         {
                             "label": "صغير",
-                            "value": "compact"
+                            "value": "compact",
+                            "key": "card_size-compact-0"
                         },
                         {
                             "label": "متوسط",
-                            "value": "regular"
+                            "value": "regular",
+                            "key": "card_size-regular-1"
                         },
                         {
                             "label": "كبير",
-                            "value": "large"
+                            "value": "large",
+                            "key": "card_size-large-2"
                         }
                     ],
                     "source": "Manual"
@@ -1025,25 +1040,30 @@
                     "selected": [
                         {
                             "label": "يمين المنتصف",
-                            "value": "right-center"
+                            "value": "right-center",
+                            "key": "social_follow_position-right-center-0"
                         }
                     ],
                     "options": [
                         {
                             "label": "يسار المنتصف",
-                            "value": "left-center"
+                            "value": "left-center",
+                            "key": "social_follow_position-left-center-0"
                         },
                         {
                             "label": "يمين المنتصف",
-                            "value": "right-center"
+                            "value": "right-center",
+                            "key": "social_follow_position-right-center-1"
                         },
                         {
                             "label": "أسفل اليمين",
-                            "value": "bottom-right"
+                            "value": "bottom-right",
+                            "key": "social_follow_position-bottom-right-2"
                         },
                         {
                             "label": "موضع مخصص",
-                            "value": "custom"
+                            "value": "custom",
+                            "key": "social_follow_position-custom-3"
                         }
                     ],
                     "source": "Manual"
@@ -1058,17 +1078,20 @@
                     "selected": [
                         {
                             "label": "شريط سفلي",
-                            "value": "bottom-dock"
+                            "value": "bottom-dock",
+                            "key": "social_follow_mobile_mode-bottom-dock-0"
                         }
                     ],
                     "options": [
                         {
                             "label": "شريط سفلي",
-                            "value": "bottom-dock"
+                            "value": "bottom-dock",
+                            "key": "social_follow_mobile_mode-bottom-dock-0"
                         },
                         {
                             "label": "عمودي عائم",
-                            "value": "floating-stack"
+                            "value": "floating-stack",
+                            "key": "social_follow_mobile_mode-floating-stack-1"
                         }
                     ],
                     "source": "Manual"
@@ -1083,21 +1106,25 @@
                     "selected": [
                         {
                             "label": "ألوان المنصات",
-                            "value": "brand"
+                            "value": "brand",
+                            "key": "social_follow_style_preset-brand-0"
                         }
                     ],
                     "options": [
                         {
                             "label": "ألوان المنصات",
-                            "value": "brand"
+                            "value": "brand",
+                            "key": "social_follow_style_preset-brand-0"
                         },
                         {
                             "label": "أحادي",
-                            "value": "monochrome"
+                            "value": "monochrome",
+                            "key": "social_follow_style_preset-monochrome-1"
                         },
                         {
                             "label": "مخصص",
-                            "value": "custom"
+                            "value": "custom",
+                            "key": "social_follow_style_preset-custom-2"
                         }
                     ],
                     "source": "Manual"
@@ -1146,17 +1173,20 @@
                     "selected": [
                         {
                             "label": "أيقونة فقط",
-                            "value": "icon-only"
+                            "value": "icon-only",
+                            "key": "social_follow_icon_mode-icon-only-0"
                         }
                     ],
                     "options": [
                         {
                             "label": "أيقونة فقط",
-                            "value": "icon-only"
+                            "value": "icon-only",
+                            "key": "social_follow_icon_mode-icon-only-0"
                         },
                         {
                             "label": "أيقونة + نص",
-                            "value": "icon-label"
+                            "value": "icon-label",
+                            "key": "social_follow_icon_mode-icon-label-1"
                         }
                     ],
                     "source": "Manual"
@@ -1171,21 +1201,25 @@
                     "selected": [
                         {
                             "label": "متوسط",
-                            "value": "regular"
+                            "value": "regular",
+                            "key": "social_follow_size-regular-0"
                         }
                     ],
                     "options": [
                         {
                             "label": "صغير",
-                            "value": "compact"
+                            "value": "compact",
+                            "key": "social_follow_size-compact-0"
                         },
                         {
                             "label": "متوسط",
-                            "value": "regular"
+                            "value": "regular",
+                            "key": "social_follow_size-regular-1"
                         },
                         {
                             "label": "كبير",
-                            "value": "large"
+                            "value": "large",
+                            "key": "social_follow_size-large-2"
                         }
                     ],
                     "source": "Manual"
@@ -1200,21 +1234,25 @@
                     "selected": [
                         {
                             "label": "حبّة",
-                            "value": "pill"
+                            "value": "pill",
+                            "key": "social_follow_shape-pill-0"
                         }
                     ],
                     "options": [
                         {
                             "label": "ناعم",
-                            "value": "soft"
+                            "value": "soft",
+                            "key": "social_follow_shape-soft-0"
                         },
                         {
                             "label": "حبّة",
-                            "value": "pill"
+                            "value": "pill",
+                            "key": "social_follow_shape-pill-1"
                         },
                         {
                             "label": "مربع",
-                            "value": "square"
+                            "value": "square",
+                            "key": "social_follow_shape-square-2"
                         }
                     ],
                     "source": "Manual"
