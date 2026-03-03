@@ -14,6 +14,10 @@ salla.onReady(() => {
   blocks.forEach((block) => setupInfluencerPack(block));
 });
 
+const REELS_AUTO_ADVANCE_INTERVAL = 4200;
+const REELS_TOUCH_RESUME_DELAY = 900;
+const REELS_MANUAL_RESUME_DELAY = 5000;
+
 function setupInfluencerPack(block) {
   const copyButtonColor = block.dataset.copyButtonColor;
   if (copyButtonColor) {
@@ -49,6 +53,14 @@ function setupInfluencerPack(block) {
 
   let activeIndex = 0;
   let sectionVisible = true;
+  let autoAdvanceTimer = null;
+  let touchResumeTimer = null;
+  let manualResumeTimer = null;
+  let manualPauseUntil = 0;
+  let isHovering = false;
+  let isTouching = false;
+  let isFocused = false;
+  const ownerDocument = block.ownerDocument || document;
 
   reels.forEach((reel, index) => {
     reel.dataset.index = String(index);
@@ -152,11 +164,11 @@ function setupInfluencerPack(block) {
   });
 
   if (navPrev) {
-    navPrev.addEventListener('click', () => scrollToReel(activeIndex - 1));
+    navPrev.addEventListener('click', () => scrollToReel(activeIndex - 1, true));
   }
 
   if (navNext) {
-    navNext.addEventListener('click', () => scrollToReel(activeIndex + 1));
+    navNext.addEventListener('click', () => scrollToReel(activeIndex + 1, true));
   }
 
   track.addEventListener('keydown', (event) => {
@@ -165,13 +177,13 @@ function setupInfluencerPack(block) {
 
     if (event.key === nextKey) {
       event.preventDefault();
-      scrollToReel(activeIndex + 1);
+      scrollToReel(activeIndex + 1, true);
       return;
     }
 
     if (event.key === prevKey) {
       event.preventDefault();
-      scrollToReel(activeIndex - 1);
+      scrollToReel(activeIndex - 1, true);
       return;
     }
 
@@ -181,7 +193,55 @@ function setupInfluencerPack(block) {
     }
   });
 
-  bindWheelNavigation(track, reels, () => activeIndex, scrollToReel, reduceMotion);
+  track.addEventListener('pointerenter', (event) => {
+    if (event.pointerType && event.pointerType !== 'mouse') {
+      return;
+    }
+    isHovering = true;
+    stopAutoAdvance();
+  });
+
+  track.addEventListener('pointerleave', (event) => {
+    if (event.pointerType && event.pointerType !== 'mouse') {
+      return;
+    }
+    isHovering = false;
+    startAutoAdvanceIfNeeded();
+  });
+
+  track.addEventListener('touchstart', () => {
+    isTouching = true;
+    window.clearTimeout(touchResumeTimer);
+    stopAutoAdvance();
+  }, { passive: true });
+
+  track.addEventListener('touchend', scheduleTouchResume, { passive: true });
+  track.addEventListener('touchcancel', scheduleTouchResume, { passive: true });
+
+  track.addEventListener('focusin', () => {
+    isFocused = true;
+    stopAutoAdvance();
+  });
+
+  track.addEventListener('focusout', () => {
+    const nextFocus = ownerDocument.activeElement;
+    isFocused = Boolean(nextFocus && track.contains(nextFocus));
+    if (!isFocused) {
+      startAutoAdvanceIfNeeded();
+    }
+  });
+
+  ownerDocument.addEventListener('visibilitychange', () => {
+    if (ownerDocument.hidden) {
+      stopAutoAdvance();
+      return;
+    }
+    startAutoAdvanceIfNeeded();
+  });
+
+  bindWheelNavigation(track, reels, () => activeIndex, scrollToReel, reduceMotion, () => {
+    holdAutoAdvanceAfterManualInteraction();
+  });
 
   if ('IntersectionObserver' in window) {
     const reelObserver = new IntersectionObserver(
@@ -217,10 +277,12 @@ function setupInfluencerPack(block) {
         entries.forEach((entry) => {
           sectionVisible = entry.isIntersecting;
           if (!sectionVisible) {
+            stopAutoAdvance();
             pauseAllMedia();
             return;
           }
 
+          startAutoAdvanceIfNeeded();
           autoplayMutedReels();
         });
       },
@@ -233,8 +295,9 @@ function setupInfluencerPack(block) {
   setActiveReel(0, false);
   window.setTimeout(() => autoplayMutedReels(), 120);
   window.setTimeout(() => autoplayMutedReels(), 420);
+  startAutoAdvanceIfNeeded();
 
-  function scrollToReel(index) {
+  function scrollToReel(index, isUserIntent = true) {
     if (!reels.length) {
       return;
     }
@@ -244,10 +307,14 @@ function setupInfluencerPack(block) {
       inline: 'center',
       block: 'nearest',
     });
-    setActiveReel(nextIndex, true);
+    setActiveReel(nextIndex, isUserIntent);
   }
 
   function setActiveReel(index, isUserIntent) {
+    if (isUserIntent) {
+      holdAutoAdvanceAfterManualInteraction();
+    }
+
     const safeIndex = clamp(index, 0, reels.length - 1);
     if (safeIndex === activeIndex && reels[safeIndex].classList.contains('is-active')) {
       return;
@@ -315,6 +382,9 @@ function setupInfluencerPack(block) {
     if (!reel) {
       return;
     }
+    if (isUserIntent) {
+      holdAutoAdvanceAfterManualInteraction();
+    }
 
     const video = reel.querySelector('.influencer-pack__video');
     const youtubeShell = reel.querySelector('.influencer-pack__youtube');
@@ -358,6 +428,75 @@ function setupInfluencerPack(block) {
       resetYoutube(reel);
       setToggleState(reel.querySelector('.influencer-pack__play-toggle'), false);
     });
+  }
+
+  function shouldAutoAdvance() {
+    return (
+      reels.length > 1 &&
+      !reduceMotion &&
+      sectionVisible &&
+      !ownerDocument.hidden &&
+      !isHovering &&
+      !isTouching &&
+      !isFocused &&
+      Date.now() >= manualPauseUntil
+    );
+  }
+
+  function startAutoAdvanceIfNeeded() {
+    if (autoAdvanceTimer || !shouldAutoAdvance()) {
+      return;
+    }
+
+    autoAdvanceTimer = window.setInterval(() => {
+      if (!shouldAutoAdvance()) {
+        stopAutoAdvance();
+        return;
+      }
+      scrollToReel(getNextVisualIndex(), false);
+    }, REELS_AUTO_ADVANCE_INTERVAL);
+  }
+
+  function stopAutoAdvance() {
+    if (!autoAdvanceTimer) {
+      return;
+    }
+    window.clearInterval(autoAdvanceTimer);
+    autoAdvanceTimer = null;
+  }
+
+  function holdAutoAdvanceAfterManualInteraction() {
+    manualPauseUntil = Date.now() + REELS_MANUAL_RESUME_DELAY;
+    stopAutoAdvance();
+    window.clearTimeout(manualResumeTimer);
+    manualResumeTimer = window.setTimeout(() => {
+      startAutoAdvanceIfNeeded();
+    }, REELS_MANUAL_RESUME_DELAY + 40);
+  }
+
+  function scheduleTouchResume() {
+    window.clearTimeout(touchResumeTimer);
+    touchResumeTimer = window.setTimeout(() => {
+      isTouching = false;
+      startAutoAdvanceIfNeeded();
+    }, REELS_TOUCH_RESUME_DELAY);
+  }
+
+  function getNextVisualIndex() {
+    const visualOrder = reels
+      .map((reel, index) => ({ index, left: reel.getBoundingClientRect().left }))
+      .sort((a, b) => a.left - b.left)
+      .map((item) => item.index);
+
+    if (!visualOrder.length) {
+      return activeIndex;
+    }
+
+    const currentPosition = visualOrder.indexOf(activeIndex);
+    if (currentPosition === -1) {
+      return visualOrder[0];
+    }
+    return visualOrder[(currentPosition + 1) % visualOrder.length];
   }
 }
 
@@ -1065,7 +1204,7 @@ function isInteractiveMediaTarget(target) {
   return Boolean(target.closest('a, button, input, select, textarea, label, [role="button"], lite-youtube, video'));
 }
 
-function bindWheelNavigation(track, reels, getActiveIndex, scrollToReel, reduceMotion) {
+function bindWheelNavigation(track, reels, getActiveIndex, scrollToReel, reduceMotion, onUserNavigate) {
   if (!track || !reels.length) {
     return;
   }
@@ -1092,7 +1231,10 @@ function bindWheelNavigation(track, reels, getActiveIndex, scrollToReel, reduceM
       }
 
       wheelLock = true;
-      scrollToReel(nextIndex);
+      if (typeof onUserNavigate === 'function') {
+        onUserNavigate();
+      }
+      scrollToReel(nextIndex, true);
       window.setTimeout(() => {
         wheelLock = false;
       }, reduceMotion ? 80 : 260);
