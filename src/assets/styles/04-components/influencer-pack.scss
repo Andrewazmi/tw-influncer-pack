@@ -444,7 +444,7 @@
   }
 
   .influencer-pack__reel-strip {
-    position: fixed;
+    position: absolute;
     inset: 0;
     z-index: 8;
     display: block;
@@ -532,45 +532,96 @@
     display: none !important;
   }
 
-  .influencer-pack__reel-strip-products salla-products-slider,
-  .influencer-pack__reel-strip-products .s-products-slider-wrapper,
-  .influencer-pack__reel-strip-products .s-products-list-wrapper,
-  .influencer-pack__reel-strip-products .swiper,
-  .influencer-pack__reel-strip-products .swiper-wrapper {
-    margin: 0 !important;
-    padding-inline: 0 !important;
-    max-width: 100% !important;
-    overflow-x: clip !important;
+  .influencer-pack__strip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .influencer-pack__reel-strip-products .s-product-card-entry {
+  .influencer-pack__strip-message {
+    margin: 0;
+    padding: 0.8rem 0.3rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .influencer-pack__strip-item {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
     border: 1px solid #ececf0;
-    border-radius: 0.7rem;
-    padding: 0.35rem;
-    margin-bottom: 0.45rem;
-    box-shadow: none;
+    border-radius: 0.75rem;
+    padding: 0.45rem;
+    background: #fff;
   }
 
-  .influencer-pack__reel-strip-products .s-product-card-image {
+  .influencer-pack__strip-thumb {
+    width: 4.2rem;
+    min-width: 4.2rem;
+    height: 4.2rem;
     border-radius: 0.55rem;
+    overflow: hidden;
+    background: #f3f3f5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #8b8b90;
+    text-decoration: none;
+  }
+
+  .influencer-pack__strip-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .influencer-pack__strip-body {
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.34rem;
+  }
+
+  .influencer-pack__strip-title {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #191919;
+    line-height: 1.28;
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  .influencer-pack__reel-strip-products .s-product-card-content-title a {
-    font-size: 0.76rem;
-    line-height: 1.25;
-  }
-
-  .influencer-pack__reel-strip-products .s-product-card-price,
-  .influencer-pack__reel-strip-products .s-product-card-sale-price h4 {
-    font-size: 0.78rem;
+  .influencer-pack__strip-price {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    font-size: 0.83rem;
+    color: #111;
     font-weight: 800;
   }
 
-  .influencer-pack__reel-strip-products .s-product-card-content-subtitle,
-  .influencer-pack__reel-strip-products .s-product-card-btn,
-  .influencer-pack__reel-strip-products .s-product-card-wishlist-btn {
-    display: none !important;
+  .influencer-pack__strip-price-value {
+    line-height: 1;
+  }
+
+  .influencer-pack__strip-cta {
+    align-self: flex-start;
+    margin-top: 0.05rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #171717;
+    background: #f2f3f6;
+    border-radius: 999px;
+    padding: 0.3rem 0.58rem;
+    text-decoration: none;
   }
 
   .influencer-pack__caption {

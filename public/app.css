@@ -19869,7 +19869,7 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   display: inline-flex;
 }
 .s-block--influencer-pack .influencer-pack__reel-strip {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -19952,41 +19952,91 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   height: 0 !important;
   display: none !important;
 }
-.s-block--influencer-pack .influencer-pack__reel-strip-products salla-products-slider,
-.s-block--influencer-pack .influencer-pack__reel-strip-products .s-products-slider-wrapper,
-.s-block--influencer-pack .influencer-pack__reel-strip-products .s-products-list-wrapper,
-.s-block--influencer-pack .influencer-pack__reel-strip-products .swiper,
-.s-block--influencer-pack .influencer-pack__reel-strip-products .swiper-wrapper {
-  margin: 0 !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  max-width: 100% !important;
-  overflow-x: clip !important;
+.s-block--influencer-pack .influencer-pack__strip-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
-.s-block--influencer-pack .influencer-pack__reel-strip-products .s-product-card-entry {
+.s-block--influencer-pack .influencer-pack__strip-message {
+  margin: 0;
+  padding: 0.8rem 0.3rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #666;
+}
+.s-block--influencer-pack .influencer-pack__strip-item {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
   border: 1px solid #ececf0;
-  border-radius: 0.7rem;
-  padding: 0.35rem;
-  margin-bottom: 0.45rem;
-  box-shadow: none;
+  border-radius: 0.75rem;
+  padding: 0.45rem;
+  background: #fff;
 }
-.s-block--influencer-pack .influencer-pack__reel-strip-products .s-product-card-image {
+.s-block--influencer-pack .influencer-pack__strip-thumb {
+  width: 4.2rem;
+  min-width: 4.2rem;
+  height: 4.2rem;
   border-radius: 0.55rem;
   overflow: hidden;
+  background: #f3f3f5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b8b90;
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
-.s-block--influencer-pack .influencer-pack__reel-strip-products .s-product-card-content-title a {
-  font-size: 0.76rem;
-  line-height: 1.25;
+.s-block--influencer-pack .influencer-pack__strip-thumb img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
 }
-.s-block--influencer-pack .influencer-pack__reel-strip-products .s-product-card-price,
-.s-block--influencer-pack .influencer-pack__reel-strip-products .s-product-card-sale-price h4 {
+.s-block--influencer-pack .influencer-pack__strip-body {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.34rem;
+}
+.s-block--influencer-pack .influencer-pack__strip-title {
+  margin: 0;
   font-size: 0.78rem;
+  font-weight: 700;
+  color: #191919;
+  line-height: 1.28;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.s-block--influencer-pack .influencer-pack__strip-price {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  font-size: 0.83rem;
+  color: #111;
   font-weight: 800;
 }
-.s-block--influencer-pack .influencer-pack__reel-strip-products .s-product-card-content-subtitle,
-.s-block--influencer-pack .influencer-pack__reel-strip-products .s-product-card-btn,
-.s-block--influencer-pack .influencer-pack__reel-strip-products .s-product-card-wishlist-btn {
-  display: none !important;
+.s-block--influencer-pack .influencer-pack__strip-price-value {
+  line-height: 1;
+}
+.s-block--influencer-pack .influencer-pack__strip-cta {
+  align-self: flex-start;
+  margin-top: 0.05rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #171717;
+  background: #f2f3f6;
+  border-radius: 999px;
+  padding: 0.3rem 0.58rem;
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
 .s-block--influencer-pack .influencer-pack__caption {
   margin-top: 0.55rem;
@@ -20339,6 +20389,28 @@ body.has-tiktok-pack {
   .s-block--influencer-pack-tiktok .influencer-pack-tiktok__nav {
     display: none;
   }
+}
+html[dir=rtl] .s-block--influencer-pack-tiktok .tiktok-embed [data-e2e=video-v2-Card-LeftWrapper],
+html[dir=rtl] .s-block--influencer-pack-tiktok .tiktok-embed [data-e2e=video-v2-ClampedText-StyledResponsiveEllipsis],
+html[dir=rtl] .s-block--influencer-pack-tiktok .tiktok-embed [data-e2e=video-v2-Card-CardUser],
+html[dir=rtl] .s-block--influencer-pack-tiktok .tiktok-embed [data-e2e=video-v2-Card-CardMusic] {
+  direction: rtl !important;
+  text-align: right !important;
+}
+html[dir=rtl] .s-block--influencer-pack-tiktok .tiktok-embed [data-e2e=video-v2-Card-LeftWrapper],
+html[dir=rtl] .s-block--influencer-pack-tiktok .tiktok-embed [data-e2e=video-v2-ClampedText-StyledResponsiveEllipsis],
+html[dir=rtl] .s-block--influencer-pack-tiktok .tiktok-embed [data-e2e=video-v2-Card-CardUser],
+html[dir=rtl] .s-block--influencer-pack-tiktok .tiktok-embed [data-e2e=video-v2-Card-CardMusic] {
+  unicode-bidi: plaintext;
+}
+html[dir=rtl] .s-block--influencer-pack-tiktok .tiktok-embed [data-e2e=video-v2-Card-CardUser],
+html[dir=rtl] .s-block--influencer-pack-tiktok .tiktok-embed [data-e2e=video-v2-Card-CardMusic] {
+  display: flex;
+  justify-content: flex-end;
+}
+html[dir=rtl] .s-block--influencer-pack-tiktok .tiktok-embed [data-e2e=video-v2-Card-CardMusic] {
+  flex-direction: row-reverse;
+  gap: 0.35rem;
 }
 .s-block--influencer-pack-video {
   position: relative;

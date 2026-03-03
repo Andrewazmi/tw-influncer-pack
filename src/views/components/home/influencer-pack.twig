@@ -290,13 +290,7 @@
                         </button>
                       </header>
                       <div class="influencer-pack__reel-strip-products">
-                        <salla-products-slider
-                          source="selected"
-                          source-value="[{{ reel_product_ids|join(',') }}]"
-                          limit="{{ reel_product_count }}"
-                          slider-id="influencer-pack-reel-inline-{{ position }}-{{ loop.index0 }}"
-                          block-title=" ">
-                        </salla-products-slider>
+                        <div class="influencer-pack__strip-list" data-strip-products data-loading-text="جاري تحميل المنتجات..." data-error-text="تعذر تحميل المنتجات حالياً"></div>
                       </div>
                     </div>
                   </div>

@@ -227,3 +227,27 @@ body.has-tiktok-pack {
     }
   }
 }
+
+html[dir='rtl'] {
+  .s-block--influencer-pack-tiktok {
+    .tiktok-embed [data-e2e='video-v2-Card-LeftWrapper'],
+    .tiktok-embed [data-e2e='video-v2-ClampedText-StyledResponsiveEllipsis'],
+    .tiktok-embed [data-e2e='video-v2-Card-CardUser'],
+    .tiktok-embed [data-e2e='video-v2-Card-CardMusic'] {
+      direction: rtl !important;
+      text-align: right !important;
+      unicode-bidi: plaintext;
+    }
+
+    .tiktok-embed [data-e2e='video-v2-Card-CardUser'],
+    .tiktok-embed [data-e2e='video-v2-Card-CardMusic'] {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .tiktok-embed [data-e2e='video-v2-Card-CardMusic'] {
+      flex-direction: row-reverse;
+      gap: 0.35rem;
+    }
+  }
+}

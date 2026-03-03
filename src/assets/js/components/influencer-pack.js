@@ -441,6 +441,7 @@ function bindReelStripInteractions(block) {
     return;
   }
 
+  const productCache = new Map();
   let activeStrip = null;
   let activeStripTrigger = null;
 
@@ -468,7 +469,7 @@ function bindReelStripInteractions(block) {
       return;
     }
 
-    const strip = document.getElementById(stripId);
+    const strip = block.querySelector(`#${stripId}`);
     if (!strip) {
       return;
     }
@@ -481,6 +482,7 @@ function bindReelStripInteractions(block) {
 
     strip.hidden = false;
     strip.setAttribute('aria-hidden', 'false');
+    hydrateStripProducts(strip, productCache);
     lockPageScroll();
     window.requestAnimationFrame(() => {
       strip.classList.add('is-open');
@@ -556,8 +558,167 @@ function bindReelStripInteractions(block) {
     }
   });
 
-  const productCache = new Map();
   hydrateReelPins(block, productCache);
+}
+
+function hydrateStripProducts(strip, productCache) {
+  if (!strip) {
+    return;
+  }
+
+  const list = ensureStripList(strip);
+  if (!list) {
+    return;
+  }
+
+  const ids = (strip.dataset.productIds || '')
+    .split(',')
+    .map((id) => Number(String(id).trim()))
+    .filter((id) => Number.isFinite(id) && id > 0);
+
+  if (!ids.length) {
+    list.textContent = list.dataset.errorText || 'تعذر تحميل المنتجات حالياً';
+    list.classList.add('is-empty');
+    return;
+  }
+
+  if (list.dataset.loaded === 'true') {
+    return;
+  }
+
+  list.classList.remove('is-empty');
+  list.innerHTML = '';
+  const loadingText = list.dataset.loadingText || 'جاري تحميل المنتجات...';
+  const loading = document.createElement('p');
+  loading.className = 'influencer-pack__strip-message';
+  loading.textContent = loadingText;
+  list.appendChild(loading);
+
+  fetchProductsByIds(ids, productCache)
+    .then((products) => {
+      const available = products.filter(Boolean);
+      if (!available.length) {
+        throw new Error('No products');
+      }
+      renderStripProducts(list, available);
+      list.dataset.loaded = 'true';
+    })
+    .catch(() => {
+      list.classList.add('is-empty');
+      list.innerHTML = '';
+      const errorText = list.dataset.errorText || 'تعذر تحميل المنتجات حالياً';
+      const errorMessage = document.createElement('p');
+      errorMessage.className = 'influencer-pack__strip-message';
+      errorMessage.textContent = errorText;
+      list.appendChild(errorMessage);
+    });
+}
+
+function ensureStripList(strip) {
+  if (!strip) {
+    return null;
+  }
+
+  const productsShell = strip.querySelector('.influencer-pack__reel-strip-products');
+  if (!productsShell) {
+    return null;
+  }
+
+  let list = productsShell.querySelector('[data-strip-products]');
+  if (list) {
+    return list;
+  }
+
+  // Backward-compatibility for older twig markup that still renders salla-products-slider.
+  productsShell.innerHTML = '';
+  list = document.createElement('div');
+  list.className = 'influencer-pack__strip-list';
+  list.setAttribute('data-strip-products', '');
+  list.dataset.loadingText = 'جاري تحميل المنتجات...';
+  list.dataset.errorText = 'تعذر تحميل المنتجات حالياً';
+  productsShell.appendChild(list);
+
+  return list;
+}
+
+function renderStripProducts(list, products) {
+  list.innerHTML = '';
+
+  products.forEach((product) => {
+    const card = document.createElement('article');
+    card.className = 'influencer-pack__strip-item';
+
+    const productUrl = product?.url || product?.permalink || (product?.id ? `/products/${product.id}` : '#');
+    const imageUrl = product?.image?.url || product?.thumbnail || '';
+    const productName = product?.name || product?.title || 'منتج';
+
+    const thumb = document.createElement('a');
+    thumb.className = 'influencer-pack__strip-thumb';
+    thumb.href = productUrl;
+    thumb.setAttribute('aria-label', productName);
+
+    if (imageUrl) {
+      const image = document.createElement('img');
+      image.src = imageUrl;
+      image.alt = productName;
+      image.loading = 'lazy';
+      thumb.appendChild(image);
+    } else {
+      thumb.classList.add('is-placeholder');
+      thumb.textContent = '—';
+    }
+
+    const body = document.createElement('div');
+    body.className = 'influencer-pack__strip-body';
+
+    const title = document.createElement('a');
+    title.className = 'influencer-pack__strip-title';
+    title.href = productUrl;
+    title.textContent = productName;
+
+    const price = document.createElement('p');
+    price.className = 'influencer-pack__strip-price';
+    const priceValue = document.createElement('span');
+    priceValue.className = 'influencer-pack__strip-price-value';
+    priceValue.textContent = getProductPriceValue(product);
+    const sarIcon = document.createElement('i');
+    sarIcon.className = 'sicon-sar';
+    sarIcon.setAttribute('aria-hidden', 'true');
+    price.appendChild(priceValue);
+    price.appendChild(sarIcon);
+
+    const cta = document.createElement('a');
+    cta.className = 'influencer-pack__strip-cta';
+    cta.href = productUrl;
+    cta.textContent = 'عرض المنتج';
+
+    body.appendChild(title);
+    body.appendChild(price);
+    body.appendChild(cta);
+
+    card.appendChild(thumb);
+    card.appendChild(body);
+    list.appendChild(card);
+  });
+}
+
+function getProductPriceValue(product) {
+  const candidates = [
+    product?.price?.amount,
+    product?.regular_price?.amount,
+    product?.sale_price?.amount,
+    product?.price,
+    product?.regular_price,
+    product?.sale_price,
+  ];
+
+  const value = candidates.find((candidate) => candidate !== undefined && candidate !== null && candidate !== '');
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return new Intl.NumberFormat('ar-SA').format(value);
+  }
+
+  const asString = String(value || '').trim();
+  return asString || '—';
 }
 
 function hydrateReelPins(block, productCache) {
