@@ -26,6 +26,10 @@
         "component-square-photos",
         "component-store-features",
         "component-youtube",
+        "component-influencer-pack",
+        "component-influencer-pack-video",
+        "component-influencer-pack-tiktok",
+        "component-social-follow-floating",
         "menu-images",
         "filters"
     ],
