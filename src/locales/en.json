@@ -23,5 +23,18 @@
   "common": {
     "bank_offer_sub_title_multiple": "Pay for your purchases via one of the following bank cards and get the specified discount",
     "bank_offer_sub_title_single": "Pay for your purchases via :bank_name bank card and get discount"
+  },
+  "social_follow": {
+    "nav_label": "Follow us",
+    "toggle_open": "Show social links",
+    "toggle_close": "Hide social links",
+    "platform": {
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "snapchat": "Snapchat",
+      "youtube": "YouTube",
+      "x": "X",
+      "whatsapp": "WhatsApp"
+    }
   }
 }
