@@ -5,10 +5,10 @@
     },
     "repository": "https://github.com/Andrewazmi/tw-influncer-pack",
     "author_email": "cs@grovlix.com",
-    "support_url": "https://grovlix.com/",
+    "support_url": "https://github.com/Andrewazmi/tw-influncer-pack/issues",
     "description": {
-        "ar": null,
-        "en": null
+        "ar": "ثيم يركز على عرض فيديوهات المؤثرين (Reels و TikTok) مع منتجات قابلة للشراء داخل التجربة.",
+        "en": "A theme focused on influencer video commerce with shoppable Reels and TikTok-based product discovery."
     },
     "features": [
         "mega-menu",
