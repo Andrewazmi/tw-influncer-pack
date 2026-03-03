@@ -53,6 +53,10 @@ function bindMobileToggle(block) {
   const setExpanded = (expanded) => {
     toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
     list.classList.toggle('is-collapsed-mobile', isMobile() && !expanded);
+    const label = expanded ? toggle.dataset.labelClose : toggle.dataset.labelOpen;
+    if (label) {
+      toggle.setAttribute('aria-label', label);
+    }
   };
 
   const initialExpanded = block.dataset.expandedMobile === 'true';

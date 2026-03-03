@@ -99,12 +99,16 @@
       data-custom-icon-color="{{ custom_icon_color }}">
       <nav class="social-follow-floating__nav" aria-label="{{ trans('social_follow.nav_label')|default('Follow us') }}">
         {% if expandable_mobile %}
+          {% set toggle_open_label = trans('social_follow.toggle_open')|default('Show social links') %}
+          {% set toggle_close_label = trans('social_follow.toggle_close')|default('Hide social links') %}
           <button
             type="button"
             class="social-follow-floating__toggle"
             aria-controls="{{ block_id }}-list"
             aria-expanded="{{ expanded_mobile ? 'true' : 'false' }}"
-            aria-label="{{ expanded_mobile ? trans('social_follow.toggle_close')|default('Hide social links') : trans('social_follow.toggle_open')|default('Show social links') }}">
+            aria-label="{{ expanded_mobile ? toggle_close_label : toggle_open_label }}"
+            data-label-open="{{ toggle_open_label|e('html_attr') }}"
+            data-label-close="{{ toggle_close_label|e('html_attr') }}">
             <i class="sicon-share-alt" aria-hidden="true"></i>
           </button>
         {% endif %}
