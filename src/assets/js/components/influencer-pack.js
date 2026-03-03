@@ -44,7 +44,7 @@ function setupInfluencerPack(block) {
     bodyDir === 'rtl' ||
     htmlLang.startsWith('ar');
 
-  syncNavIcons(navPrev, navNext);
+  syncNavIcons(navPrev, navNext, isRtl);
   syncNavDisabledState(navPrev, navNext, 0, reels.length);
 
   let activeIndex = 0;
@@ -479,10 +479,6 @@ function bindReelStripInteractions(block) {
       activeStrip.hidden = true;
     }
 
-    if (strip.parentElement !== document.body) {
-      document.body.appendChild(strip);
-    }
-
     strip.hidden = false;
     strip.setAttribute('aria-hidden', 'false');
     lockPageScroll();
@@ -806,15 +802,17 @@ function updateMuteToggle(toggle, isMuted) {
   }
 }
 
-function syncNavIcons(navPrev, navNext) {
+function syncNavIcons(navPrev, navNext, _isRtl) {
   const prevArrow = navPrev ? navPrev.querySelector('.influencer-pack__nav-arrow') : null;
   const nextArrow = navNext ? navNext.querySelector('.influencer-pack__nav-arrow') : null;
   const prevIcon = navPrev ? navPrev.querySelector('i') : null;
   const nextIcon = navNext ? navNext.querySelector('i') : null;
-  const prevChar = '‹';
-  const nextChar = '›';
-  const prevIconClass = 'sicon-keyboard_arrow_right';
-  const nextIconClass = 'sicon-keyboard_arrow_left';
+  // Keep visual order by button position: left shows "<", right shows ">".
+  const prevChar = _isRtl ? '›' : '‹';
+  const nextChar = _isRtl ? '‹' : '›';
+  // Salla icon names are visually inverted in this context.
+  const prevIconClass = _isRtl ? 'sicon-keyboard_arrow_left' : 'sicon-keyboard_arrow_right';
+  const nextIconClass = _isRtl ? 'sicon-keyboard_arrow_right' : 'sicon-keyboard_arrow_left';
 
   if (prevArrow) {
     prevArrow.textContent = prevChar;
