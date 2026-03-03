@@ -3,12 +3,12 @@
         "ar": "الصفوة",
         "en": "Al Safwa"
     },
-    "repository": "https://github.com/Andrewazmi/tw-influncer-pack",
+    "repository": "https://github.com/Andrewazmi/theme-safwa",
     "author_email": "contact@grovlix.com",
-    "support_url": "https://github.com/Andrewazmi/tw-influncer-pack/issues",
+    "support_url": "",
     "description": {
-        "ar": "ثيم يركز على عرض فيديوهات المؤثرين (Reels و TikTok) مع منتجات قابلة للشراء داخل التجربة.",
-        "en": "A theme focused on influencer video commerce with shoppable Reels and TikTok-based product discovery."
+        "ar": null,
+        "en": null
     },
     "features": [
         "mega-menu",
@@ -26,8 +26,10 @@
         "component-square-photos",
         "component-store-features",
         "component-youtube",
+        "component-hero-media",
         "menu-images",
-        "filters"
+        "filters",
+        "component-video-with-products"
     ],
     "settings": [
         {
