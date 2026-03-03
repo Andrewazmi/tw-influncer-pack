@@ -22,11 +22,7 @@
         "component-parallax-background",
         "component-square-photos",
         "menu-images",
-        "filters",
-        "component-influencer-pack",
-        "component-influencer-pack-video",
-        "component-influencer-pack-tiktok",
-        "component-social-follow-floating"
+        "filters"
     ],
     "settings": [
         {
