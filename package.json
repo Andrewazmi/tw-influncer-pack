@@ -1,11 +1,11 @@
 {
-  "name": "Influencer Pack",
-  "version": "1.2.7",
+  "name": "tw-influncer-pack",
+  "version": "1.2.30",
   "description": "Grovlix",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SallaApp/theme-raed.git"
+    "url": "git+https://github.com/Andrewazmi/tw-influncer-pack.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -14,7 +14,7 @@
     "development": "webpack --mode development",
     "watch": "webpack --mode development --watch"
   },
-  "author": "Salla",
+  "author": "Andrew Azmi",
   "dependencies": {
     "@salla.sa/twilight": "^2.14.76",
     "@salla.sa/twilight-tailwind-theme": "^2.14.76",
