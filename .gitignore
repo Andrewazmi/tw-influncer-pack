@@ -62,3 +62,6 @@ var/
 venv/
 .env
 
+# Handoff documents
+handoffs/
+HANDOFF*.md
