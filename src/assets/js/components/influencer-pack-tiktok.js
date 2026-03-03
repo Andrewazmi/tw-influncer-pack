@@ -4,6 +4,8 @@ salla.onReady(() => {
     return;
   }
 
+  document.documentElement.classList.add('has-tiktok-pack');
+  document.body.classList.add('has-tiktok-pack');
   ensureTikTokEmbedScript();
   blocks.forEach((block) => setupTikTokPack(block));
 });

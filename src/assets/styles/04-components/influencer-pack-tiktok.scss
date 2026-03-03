@@ -1,3 +1,8 @@
+.has-tiktok-pack,
+body.has-tiktok-pack {
+  overflow-x: hidden !important;
+}
+
 .s-block--influencer-pack-tiktok {
   --tiktok-section-bg: #c9ddd1;
   --tiktok-card-width: 20.3125rem;
@@ -10,6 +15,9 @@
 
   background: var(--tiktok-section-bg);
   border-radius: 1.25rem;
+  contain: layout paint;
+  inline-size: 100%;
+  max-inline-size: 100%;
   margin: 1.5rem auto;
   overflow-x: hidden;
   padding: 2rem 0;

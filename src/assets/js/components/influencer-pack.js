@@ -443,8 +443,6 @@ function bindReelStripInteractions(block) {
 
   let activeStrip = null;
   let activeStripTrigger = null;
-  const productCache = new Map();
-  hydrateReelPins(block, productCache);
 
   const closeActiveStrip = () => {
     if (!activeStrip) {
@@ -456,6 +454,7 @@ function bindReelStripInteractions(block) {
     strip.setAttribute('aria-hidden', 'true');
     window.setTimeout(() => {
       strip.hidden = true;
+      unlockPageScroll();
     }, 220);
     activeStrip = null;
     if (activeStripTrigger && typeof activeStripTrigger.focus === 'function') {
@@ -469,7 +468,7 @@ function bindReelStripInteractions(block) {
       return;
     }
 
-    const strip = block.querySelector(`#${stripId}`);
+    const strip = document.getElementById(stripId);
     if (!strip) {
       return;
     }
@@ -480,8 +479,13 @@ function bindReelStripInteractions(block) {
       activeStrip.hidden = true;
     }
 
+    if (strip.parentElement !== document.body) {
+      document.body.appendChild(strip);
+    }
+
     strip.hidden = false;
     strip.setAttribute('aria-hidden', 'false');
+    lockPageScroll();
     window.requestAnimationFrame(() => {
       strip.classList.add('is-open');
       const closeButton = strip.querySelector('.influencer-pack__reel-strip-close');
@@ -501,9 +505,15 @@ function bindReelStripInteractions(block) {
       openStrip(openButton.dataset.openStrip || '', openButton);
       return;
     }
+  });
+
+  block.ownerDocument.addEventListener('click', (event) => {
+    if (!activeStrip) {
+      return;
+    }
 
     const closeButton = event.target.closest('[data-close-strip]');
-    if (closeButton && block.contains(closeButton)) {
+    if (closeButton && activeStrip.contains(closeButton)) {
       event.preventDefault();
       event.stopPropagation();
       closeActiveStrip();
@@ -549,6 +559,9 @@ function bindReelStripInteractions(block) {
       first.focus();
     }
   });
+
+  const productCache = new Map();
+  hydrateReelPins(block, productCache);
 }
 
 function hydrateReelPins(block, productCache) {
@@ -677,6 +690,38 @@ async function fetchProductsBatch(ids) {
   }
 
   return [];
+}
+
+function lockPageScroll() {
+  const body = document.body;
+  if (!body) {
+    return;
+  }
+
+  if (body.dataset.influencerScrollLock !== 'true') {
+    body.dataset.influencerPreviousOverflow = body.style.overflow || '';
+  }
+  body.dataset.influencerScrollLock = 'true';
+  body.style.overflow = 'hidden';
+}
+
+function unlockPageScroll() {
+  const body = document.body;
+  if (!body) {
+    return;
+  }
+
+  if (document.querySelector('.influencer-pack__reel-strip.is-open')) {
+    return;
+  }
+
+  if (body.dataset.influencerPreviousOverflow !== undefined) {
+    body.style.overflow = body.dataset.influencerPreviousOverflow;
+    delete body.dataset.influencerPreviousOverflow;
+  } else {
+    body.style.removeProperty('overflow');
+  }
+  delete body.dataset.influencerScrollLock;
 }
 
 function copyText(value) {

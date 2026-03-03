@@ -237,7 +237,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "influencer-pack-desc",
-                    "value": "<div><h6>معاينة العنصر</h6><img class='w-full' src='https://cdn.salla.network/images/themes/safwa/preview-images/influencer-pack.png'></div>"
+                    "value": "<div><h6>معاينة العنصر</h6><img class='w-full' src='/images/component-previews/influencer-pack.png'></div>"
                 },
                 {
                     "type": "string",
@@ -672,6 +672,12 @@
             "path": "home.influencer-pack-video",
             "fields": [
                 {
+                    "type": "static",
+                    "format": "description",
+                    "id": "influencer-pack-video-desc",
+                    "value": "<div><h6>معاينة العنصر</h6><img class='w-full' src='/images/component-previews/influencer-pack-video.png'></div>"
+                },
+                {
                     "id": "video_banner",
                     "type": "string",
                     "format": "url",
@@ -850,7 +856,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "influencer-pack-tiktok-desc",
-                    "value": "<div><h6>معاينة العنصر</h6><p>اعرض فيديوهات TikTok داخل سلايدر أفقي مشابه للمثال.</p></div>"
+                    "value": "<div><h6>معاينة العنصر</h6><img class='w-full' src='/images/component-previews/influencer-pack-tiktok.png'></div>"
                 },
                 {
                     "type": "string",
@@ -1001,7 +1007,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "social-follow-floating-desc",
-                    "value": "<div><h6>معاينة العنصر</h6><p>أزرار متابعة عائمة للسوشال ميديا في الصفحة الرئيسية.</p></div>"
+                    "value": "<div><h6>معاينة العنصر</h6><img class='w-full' src='/images/component-previews/social-follow-floating.png'></div>"
                 },
                 {
                     "type": "boolean",

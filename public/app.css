@@ -12937,6 +12937,13 @@ h5.subtitle {
 html {
   scroll-behavior: smooth;
 }
+@media (max-width: 767px) {
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+}
 .cursor-pointer * {
   pointer-events: none;
 }
@@ -19862,7 +19869,7 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   display: inline-flex;
 }
 .s-block--influencer-pack .influencer-pack__reel-strip {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -20122,6 +20129,10 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
     filter: none;
   }
 }
+.has-tiktok-pack,
+body.has-tiktok-pack {
+  overflow-x: hidden !important;
+}
 .s-block--influencer-pack-tiktok {
   --tiktok-section-bg: #c9ddd1;
   --tiktok-card-width: 20.3125rem;
@@ -20134,6 +20145,9 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   background: #c9ddd1;
   background: var(--tiktok-section-bg);
   border-radius: 1.25rem;
+  contain: layout paint;
+  width: 100%;
+  max-width: 100%;
   margin: 1.5rem auto;
   overflow-x: hidden;
   padding: 2rem 0;
