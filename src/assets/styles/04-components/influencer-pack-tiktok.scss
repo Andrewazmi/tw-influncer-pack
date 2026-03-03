@@ -1,6 +1,13 @@
-.has-tiktok-pack,
+html.has-tiktok-pack,
 body.has-tiktok-pack {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
+}
+
+@supports not (overflow: clip) {
+  html.has-tiktok-pack,
+  body.has-tiktok-pack {
+    overflow-x: hidden !important;
+  }
 }
 
 .s-block--influencer-pack-tiktok {
@@ -14,19 +21,26 @@ body.has-tiktok-pack {
   --tiktok-edge-padding: 1rem;
 
   background: var(--tiktok-section-bg);
+  box-sizing: border-box;
   border-radius: 1.25rem;
   contain: layout paint;
-  inline-size: 100%;
-  max-inline-size: 100%;
+  inline-size: min(100%, 100vw);
+  max-inline-size: min(100%, 100vw);
   margin: 1.5rem auto;
-  overflow-x: hidden;
+  overflow-x: clip;
   padding: 2rem 0;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
   .influencer-pack-tiktok__container {
     inline-size: 100% !important;
     max-inline-size: 100% !important;
     margin-inline: auto;
-    overflow-x: hidden;
+    overflow-x: clip;
     padding-inline: 0.75rem;
   }
 
@@ -76,6 +90,7 @@ body.has-tiktok-pack {
     max-inline-size: 100%;
     min-inline-size: 0;
     overflow-x: auto;
+    overflow-y: hidden;
     overscroll-behavior-inline: contain;
     padding: 0.5rem var(--tiktok-edge-padding);
     scroll-behavior: smooth;
@@ -83,6 +98,7 @@ body.has-tiktok-pack {
     scroll-snap-type: inline mandatory;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
 
     &::-webkit-scrollbar {
       display: none;
@@ -99,7 +115,7 @@ body.has-tiktok-pack {
     border: 1px solid rgba(76, 59, 65, 0.2);
     border-radius: 0.75rem;
     box-shadow: 0 14px 34px rgba(33, 24, 27, 0.14);
-    overflow: hidden;
+    overflow: clip;
     scroll-snap-align: center;
     transition: transform 0.28s ease, box-shadow 0.28s ease;
   }
@@ -110,14 +126,21 @@ body.has-tiktok-pack {
   }
 
   .influencer-pack-tiktok__card .tiktok-embed {
+    inline-size: 100% !important;
     margin: 0;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
   }
 
+  .influencer-pack-tiktok__card .tiktok-embed > * {
+    inline-size: 100% !important;
+    max-inline-size: 100% !important;
+  }
+
   .influencer-pack-tiktok__card iframe {
     display: block;
+    inline-size: 100% !important;
     width: 100% !important;
     max-width: 100% !important;
     min-height: 39rem;

@@ -1,16 +1,24 @@
+const TIKTOK_EMBED_SCRIPT_SRC = 'https://www.tiktok.com/embed.js';
+
+let tiktokEmbedScriptPromise = null;
+
 salla.onReady(() => {
-  const blocks = document.querySelectorAll('.s-block--influencer-pack-tiktok');
+  const blocks = Array.from(document.querySelectorAll('.s-block--influencer-pack-tiktok'));
   if (!blocks.length) {
     return;
   }
 
   document.documentElement.classList.add('has-tiktok-pack');
   document.body.classList.add('has-tiktok-pack');
-  ensureTikTokEmbedScript();
   blocks.forEach((block) => setupTikTokPack(block));
 });
 
 function setupTikTokPack(block) {
+  if (block.dataset.jsInitialized === 'true') {
+    return;
+  }
+  block.dataset.jsInitialized = 'true';
+
   const bgColor = block.dataset.bgColor;
   if (bgColor) {
     block.style.setProperty('--tiktok-section-bg', bgColor);
@@ -30,6 +38,8 @@ function setupTikTokPack(block) {
   if (!track || !cards.length) {
     return;
   }
+
+  setupLazyEmbedScriptLoad(block, track);
 
   const navPrev = block.querySelector('.influencer-pack-tiktok__nav--prev');
   const navNext = block.querySelector('.influencer-pack-tiktok__nav--next');
@@ -147,16 +157,100 @@ function setupTikTokPack(block) {
   }
 }
 
-function ensureTikTokEmbedScript() {
-  const scriptSrc = 'https://www.tiktok.com/embed.js';
-  if (document.querySelector(`script[src="${scriptSrc}"]`)) {
+function setupLazyEmbedScriptLoad(block, track) {
+  let isLoadingRequested = false;
+  let viewportObserver = null;
+
+  const requestLoad = () => {
+    if (isLoadingRequested) {
+      return;
+    }
+
+    isLoadingRequested = true;
+    ensureTikTokEmbedScript()
+      .then(() => {
+        if (viewportObserver) {
+          viewportObserver.disconnect();
+        }
+      })
+      .catch(() => {
+        isLoadingRequested = false;
+      });
+  };
+
+  block.addEventListener('pointerenter', requestLoad, { once: true });
+  track.addEventListener('pointerdown', requestLoad, { once: true, passive: true });
+  track.addEventListener('focusin', requestLoad, { once: true });
+
+  if ('IntersectionObserver' in window) {
+    viewportObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          requestLoad();
+        }
+      },
+      {
+        root: null,
+        rootMargin: '320px 0px',
+        threshold: 0.01,
+      }
+    );
+
+    viewportObserver.observe(block);
     return;
   }
 
+  requestLoad();
+}
+
+function ensureTikTokEmbedScript() {
+  if (tiktokEmbedScriptPromise) {
+    return tiktokEmbedScriptPromise;
+  }
+
+  const existingScript = document.querySelector(`script[src="${TIKTOK_EMBED_SCRIPT_SRC}"]`);
+  if (existingScript) {
+    tiktokEmbedScriptPromise = waitForTikTokEmbedScript(existingScript);
+    return tiktokEmbedScriptPromise;
+  }
+
   const script = document.createElement('script');
-  script.src = scriptSrc;
+  script.src = TIKTOK_EMBED_SCRIPT_SRC;
   script.async = true;
+  tiktokEmbedScriptPromise = waitForTikTokEmbedScript(script);
   document.head.appendChild(script);
+
+  return tiktokEmbedScriptPromise;
+}
+
+function waitForTikTokEmbedScript(script) {
+  if (
+    script.dataset.loaded === 'true' ||
+    script.readyState === 'loaded' ||
+    script.readyState === 'complete' ||
+    isTikTokEmbedReady()
+  ) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve, reject) => {
+    const handleLoad = () => {
+      script.dataset.loaded = 'true';
+      resolve();
+    };
+
+    const handleError = () => {
+      tiktokEmbedScriptPromise = null;
+      reject(new Error('TikTok embed script failed to load'));
+    };
+
+    script.addEventListener('load', handleLoad, { once: true });
+    script.addEventListener('error', handleError, { once: true });
+  });
+}
+
+function isTikTokEmbedReady() {
+  return typeof window.tiktokEmbed === 'object' && window.tiktokEmbed !== null;
 }
 
 function syncNavIcons(navPrev, navNext, isRtl) {
