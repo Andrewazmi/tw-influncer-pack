@@ -19505,6 +19505,7 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
 }
 .s-block--influencer-pack .influencer-pack__reels-shell {
   position: relative;
+  overflow-x: hidden;
 }
 .s-block--influencer-pack .influencer-pack__nav {
   border: 1px solid #e8e8e8;
@@ -19572,6 +19573,13 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
 }
 .s-block--influencer-pack .influencer-pack__reels-track::-webkit-scrollbar {
   background: transparent;
+}
+.s-block--influencer-pack .influencer-pack__reels-track::-webkit-scrollbar-track,
+.s-block--influencer-pack .influencer-pack__reels-track::-webkit-scrollbar-thumb {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+  background: transparent !important;
 }
 .s-block--influencer-pack .influencer-pack__reels-track.is-single {
   display: flex;
@@ -19927,7 +19935,26 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
 }
 .s-block--influencer-pack .influencer-pack__reel-strip-products {
   padding: 0.35rem 0.6rem 0.7rem;
+  overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.s-block--influencer-pack .influencer-pack__reel-strip-products::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+.s-block--influencer-pack .influencer-pack__reel-strip-products salla-products-slider,
+.s-block--influencer-pack .influencer-pack__reel-strip-products .s-products-slider-wrapper,
+.s-block--influencer-pack .influencer-pack__reel-strip-products .s-products-list-wrapper,
+.s-block--influencer-pack .influencer-pack__reel-strip-products .swiper,
+.s-block--influencer-pack .influencer-pack__reel-strip-products .swiper-wrapper {
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+  overflow-x: clip !important;
 }
 .s-block--influencer-pack .influencer-pack__reel-strip-products .s-product-card-entry {
   border: 1px solid #ececf0;
@@ -20064,9 +20091,9 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
 }
 @media (min-width: 1024px) {
   .s-block--influencer-pack .influencer-pack__reels {
-    --influencer-reel-column: 40%;
-    --influencer-reel-min-width: 17rem;
-    --influencer-reel-max-width: 25rem;
+    --influencer-reel-column: 38%;
+    --influencer-reel-min-width: 20rem;
+    --influencer-reel-max-width: 26rem;
   }
   .s-block--influencer-pack .influencer-pack__reels-track {
     gap: 1.35rem;
@@ -20103,12 +20130,24 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   --tiktok-nav-bg: #dff0a8;
   --tiktok-nav-icon: #5f4c4c;
   --tiktok-nav-border: #5f4c4c;
-  --tiktok-edge-padding: max(0.5rem, min(calc((100% - var(--tiktok-card-width)) / 2), 5rem));
+  --tiktok-edge-padding: 1rem;
   background: #c9ddd1;
   background: var(--tiktok-section-bg);
   border-radius: 1.25rem;
   margin: 1.5rem auto;
+  overflow-x: hidden;
   padding: 2rem 0;
+}
+.s-block--influencer-pack-tiktok .influencer-pack-tiktok__container {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.s-block--influencer-pack-tiktok .influencer-pack-tiktok__container {
+  margin-left: auto;
+  margin-right: auto;
+  overflow-x: hidden;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 .s-block--influencer-pack-tiktok[data-size=compact] {
   --tiktok-card-width: 17.5rem;
@@ -20135,15 +20174,20 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   margin: 0.75rem 0 0;
 }
 .s-block--influencer-pack-tiktok .influencer-pack-tiktok__shell {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
   position: relative;
   padding-bottom: 4.25rem;
 }
 .s-block--influencer-pack-tiktok .influencer-pack-tiktok__track {
-  display: grid;
-  grid-gap: var(--tiktok-track-gap);
+  display: flex;
+  direction: ltr;
   gap: var(--tiktok-track-gap);
-  grid-auto-flow: column;
-  grid-auto-columns: var(--tiktok-card-width);
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
   padding: 0.5rem var(--tiktok-edge-padding);
@@ -20158,6 +20202,10 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   height: 0;
 }
 .s-block--influencer-pack-tiktok .influencer-pack-tiktok__card {
+  flex: 0 0 var(--tiktok-card-width);
+  min-width: 0;
+  max-width: var(--tiktok-card-width);
+  width: var(--tiktok-card-width);
   background: #f2ece9;
   border: 1px solid rgba(76, 59, 65, 0.2);
   border-radius: 0.75rem;
@@ -20171,13 +20219,19 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
   transform: translateY(-3px);
 }
 .s-block--influencer-pack-tiktok .influencer-pack-tiktok__card .tiktok-embed {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+.s-block--influencer-pack-tiktok .influencer-pack-tiktok__card .tiktok-embed {
   margin: 0;
-  max-width: 100%;
-  min-width: 100%;
+}
+.s-block--influencer-pack-tiktok .influencer-pack-tiktok__card iframe {
+  width: 100% !important;
+  max-width: 100% !important;
 }
 .s-block--influencer-pack-tiktok .influencer-pack-tiktok__card iframe {
   display: block;
-  width: 100%;
   min-height: 39rem;
 }
 .s-block--influencer-pack-tiktok .influencer-pack-tiktok__nav {
@@ -20213,6 +20267,7 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
     --tiktok-card-width: min(85vw, 20rem);
     --tiktok-track-gap: 0.875rem;
     --tiktok-nav-size: 2.5rem;
+    --tiktok-edge-padding: 0.75rem;
     border-radius: 0.9rem;
     padding: 1.5rem 0 2.25rem;
   }
@@ -20233,13 +20288,33 @@ html[dir=rtl] .s-block--video-products .product-list-container salla-products-li
 @media (max-width: 575px) {
   .s-block--influencer-pack-tiktok {
     --tiktok-card-width: min(90vw, 22rem);
+    --tiktok-edge-padding: 0.5rem;
   }
   .s-block--influencer-pack-tiktok .influencer-pack-tiktok__header {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
     padding: 0 0.5rem;
+    text-align: center;
+    width: 100%;
+  }
+  .s-block--influencer-pack-tiktok .influencer-pack-tiktok__title,
+  .s-block--influencer-pack-tiktok .influencer-pack-tiktok__subtitle {
+    text-align: center;
+    width: 100%;
+  }
+  .s-block--influencer-pack-tiktok .influencer-pack-tiktok__container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
   .s-block--influencer-pack-tiktok .influencer-pack-tiktok__track {
-    --tiktok-edge-padding: max(0.5rem, min(calc((100% - var(--tiktok-card-width)) / 2), 2rem));
+    padding-left: var(--tiktok-edge-padding);
+    padding-right: var(--tiktok-edge-padding);
+    scroll-padding-inline: var(--tiktok-edge-padding);
   }
   .s-block--influencer-pack-tiktok .influencer-pack-tiktok__card iframe {
     min-height: max(24rem, min(72vh, 30rem));

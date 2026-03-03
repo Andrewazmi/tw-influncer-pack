@@ -38,6 +38,8 @@ function setupTikTokPack(block) {
 
   let activeIndex = 0;
   setActiveCard(0);
+  resetPageHorizontalShift();
+  resetInitialTrackPosition();
 
   if (navPrev) {
     navPrev.addEventListener('click', () => scrollToCard(activeIndex - 1));
@@ -94,6 +96,16 @@ function setupTikTokPack(block) {
     cards.forEach((card) => observer.observe(card));
   }
 
+  window.setTimeout(resetInitialTrackPosition, 120);
+  window.setTimeout(resetInitialTrackPosition, 500);
+  window.setTimeout(resetPageHorizontalShift, 40);
+  window.setTimeout(resetPageHorizontalShift, 240);
+  window.setTimeout(resetPageHorizontalShift, 700);
+  window.addEventListener('load', resetInitialTrackPosition, { once: true });
+  window.addEventListener('load', resetPageHorizontalShift, { once: true });
+  window.addEventListener('resize', resetInitialTrackPosition);
+  window.addEventListener('resize', resetPageHorizontalShift);
+
   function scrollToCard(index) {
     const safeIndex = clamp(index, 0, cards.length - 1);
     cards[safeIndex].scrollIntoView({
@@ -114,6 +126,22 @@ function setupTikTokPack(block) {
     });
 
     syncNavDisabledState(navPrev, navNext, activeIndex, cards.length);
+  }
+
+  function resetInitialTrackPosition() {
+    if (!cards.length) {
+      return;
+    }
+
+    track.scrollTo({ left: 0, behavior: 'auto' });
+    track.scrollLeft = 0;
+    setActiveCard(0);
+  }
+
+  function resetPageHorizontalShift() {
+    if (window.scrollX !== 0) {
+      window.scrollTo({ left: 0, top: window.scrollY, behavior: 'auto' });
+    }
   }
 }
 

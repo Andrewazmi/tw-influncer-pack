@@ -61,6 +61,7 @@
 
   .influencer-pack__reels-shell {
     position: relative;
+    overflow-x: hidden;
   }
 
   .influencer-pack__nav {
@@ -128,6 +129,14 @@
     height: 0 !important;
     display: none !important;
     background: transparent;
+  }
+
+  .influencer-pack__reels-track::-webkit-scrollbar-track,
+  .influencer-pack__reels-track::-webkit-scrollbar-thumb {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+    background: transparent !important;
   }
 
   .influencer-pack__reels-track.is-single {
@@ -511,7 +520,27 @@
 
   .influencer-pack__reel-strip-products {
     padding: 0.35rem 0.6rem 0.7rem;
+    overflow-x: hidden;
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .influencer-pack__reel-strip-products::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+
+  .influencer-pack__reel-strip-products salla-products-slider,
+  .influencer-pack__reel-strip-products .s-products-slider-wrapper,
+  .influencer-pack__reel-strip-products .s-products-list-wrapper,
+  .influencer-pack__reel-strip-products .swiper,
+  .influencer-pack__reel-strip-products .swiper-wrapper {
+    margin: 0 !important;
+    padding-inline: 0 !important;
+    max-width: 100% !important;
+    overflow-x: clip !important;
   }
 
   .influencer-pack__reel-strip-products .s-product-card-entry {
@@ -672,9 +701,9 @@
 
   @media (min-width: 1024px) {
     .influencer-pack__reels {
-      --influencer-reel-column: 40%;
-      --influencer-reel-min-width: 17rem;
-      --influencer-reel-max-width: 25rem;
+      --influencer-reel-column: 38%;
+      --influencer-reel-min-width: 20rem;
+      --influencer-reel-max-width: 26rem;
     }
 
     .influencer-pack__reels-track {

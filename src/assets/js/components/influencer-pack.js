@@ -44,7 +44,7 @@ function setupInfluencerPack(block) {
     bodyDir === 'rtl' ||
     htmlLang.startsWith('ar');
 
-  syncNavIcons(navPrev, navNext, isRtl);
+  syncNavIcons(navPrev, navNext);
   syncNavDisabledState(navPrev, navNext, 0, reels.length);
 
   let activeIndex = 0;
@@ -761,16 +761,15 @@ function updateMuteToggle(toggle, isMuted) {
   }
 }
 
-function syncNavIcons(navPrev, navNext, _isRtl) {
+function syncNavIcons(navPrev, navNext) {
   const prevArrow = navPrev ? navPrev.querySelector('.influencer-pack__nav-arrow') : null;
   const nextArrow = navNext ? navNext.querySelector('.influencer-pack__nav-arrow') : null;
   const prevIcon = navPrev ? navPrev.querySelector('i') : null;
   const nextIcon = navNext ? navNext.querySelector('i') : null;
-  // Keep visual order as "< >" by button position in both LTR and RTL.
-  const prevChar = _isRtl ? '›' : '‹';
-  const nextChar = _isRtl ? '‹' : '›';
-  const prevIconClass = _isRtl ? 'sicon-keyboard_arrow_left' : 'sicon-keyboard_arrow_right';
-  const nextIconClass = _isRtl ? 'sicon-keyboard_arrow_right' : 'sicon-keyboard_arrow_left';
+  const prevChar = '‹';
+  const nextChar = '›';
+  const prevIconClass = 'sicon-keyboard_arrow_right';
+  const nextIconClass = 'sicon-keyboard_arrow_left';
 
   if (prevArrow) {
     prevArrow.textContent = prevChar;

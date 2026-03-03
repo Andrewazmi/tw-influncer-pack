@@ -6,11 +6,21 @@
   --tiktok-nav-bg: #dff0a8;
   --tiktok-nav-icon: #5f4c4c;
   --tiktok-nav-border: #5f4c4c;
+  --tiktok-edge-padding: 1rem;
 
   background: var(--tiktok-section-bg);
   border-radius: 1.25rem;
   margin: 1.5rem auto;
+  overflow-x: hidden;
   padding: 2rem 0;
+
+  .influencer-pack-tiktok__container {
+    inline-size: 100% !important;
+    max-inline-size: 100% !important;
+    margin-inline: auto;
+    overflow-x: hidden;
+    padding-inline: 0.75rem;
+  }
 
   &[data-size='compact'] {
     --tiktok-card-width: 17.5rem;
@@ -42,19 +52,26 @@
   }
 
   .influencer-pack-tiktok__shell {
+    inline-size: 100%;
+    max-inline-size: 100%;
+    overflow-x: clip;
     position: relative;
+    padding-bottom: 4.25rem;
   }
 
   .influencer-pack-tiktok__track {
-    display: grid;
+    display: flex;
+    direction: ltr;
     gap: var(--tiktok-track-gap);
-    grid-auto-flow: column;
-    grid-auto-columns: var(--tiktok-card-width);
+    justify-content: flex-start;
+    inline-size: 100%;
+    max-inline-size: 100%;
+    min-inline-size: 0;
     overflow-x: auto;
     overscroll-behavior-inline: contain;
-    padding: 0.5rem max(1rem, calc((100% - var(--tiktok-card-width)) / 2));
+    padding: 0.5rem var(--tiktok-edge-padding);
     scroll-behavior: smooth;
-    scroll-padding-inline: max(1rem, calc((100% - var(--tiktok-card-width)) / 2));
+    scroll-padding-inline: var(--tiktok-edge-padding);
     scroll-snap-type: inline mandatory;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -66,6 +83,10 @@
   }
 
   .influencer-pack-tiktok__card {
+    flex: 0 0 var(--tiktok-card-width);
+    min-inline-size: 0;
+    max-inline-size: var(--tiktok-card-width);
+    width: var(--tiktok-card-width);
     background: #f2ece9;
     border: 1px solid rgba(76, 59, 65, 0.2);
     border-radius: 0.75rem;
@@ -82,13 +103,15 @@
 
   .influencer-pack-tiktok__card .tiktok-embed {
     margin: 0;
-    max-width: 100%;
-    min-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
   }
 
   .influencer-pack-tiktok__card iframe {
     display: block;
-    width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
     min-height: 39rem;
   }
 
@@ -126,8 +149,13 @@
   }
 
   @media (max-width: 991px) {
+    --tiktok-card-width: min(85vw, 20rem);
+    --tiktok-track-gap: 0.875rem;
+    --tiktok-nav-size: 2.5rem;
+    --tiktok-edge-padding: 0.75rem;
+
     border-radius: 0.9rem;
-    padding: 1.5rem 0 2.5rem;
+    padding: 1.5rem 0 2.25rem;
 
     .influencer-pack-tiktok__title {
       font-size: clamp(1.5rem, 8vw, 2.2rem);
@@ -139,11 +167,55 @@
     }
 
     .influencer-pack-tiktok__card iframe {
-      min-height: 34rem;
+      min-height: clamp(28rem, 74vh, 34rem);
     }
 
     .influencer-pack-tiktok__nav {
-      bottom: -3.5rem;
+      bottom: 0.25rem;
+    }
+  }
+
+  @media (max-width: 575px) {
+    --tiktok-card-width: min(90vw, 22rem);
+    --tiktok-edge-padding: 0.5rem;
+
+    .influencer-pack-tiktok__header {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      margin-inline: auto;
+      max-inline-size: 100%;
+      padding: 0 0.5rem;
+      text-align: center;
+      width: 100%;
+    }
+
+    .influencer-pack-tiktok__title,
+    .influencer-pack-tiktok__subtitle {
+      text-align: center;
+      width: 100%;
+    }
+
+    .influencer-pack-tiktok__container {
+      padding-inline: 0.5rem;
+    }
+
+    .influencer-pack-tiktok__track {
+      padding-inline: var(--tiktok-edge-padding);
+      scroll-padding-inline: var(--tiktok-edge-padding);
+    }
+
+    .influencer-pack-tiktok__card iframe {
+      min-height: clamp(24rem, 72vh, 30rem);
+    }
+
+    .influencer-pack-tiktok__shell {
+      padding-bottom: 0;
+    }
+
+    .influencer-pack-tiktok__nav {
+      display: none;
     }
   }
 }
