@@ -237,7 +237,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "influencer-pack-desc",
-                    "value": "<div><h6>معاينة العنصر</h6><img class='w-full' src='/images/component-previews/influencer-pack.png'></div>"
+                    "value": "<div style='padding-top:10px;margin-bottom:30px;border:1px solid #ebebeb;border-radius:5px;text-align:center;overflow:hidden'><h6 style='margin-bottom:10px'>معاينة العنصر</h6><img src='https://raw.githubusercontent.com/Andrewazmi/tw-influncer-pack/main/public/images/component-previews/influencer-pack.png'></div>"
                 },
                 {
                     "type": "string",
@@ -675,7 +675,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "influencer-pack-video-desc",
-                    "value": "<div><h6>معاينة العنصر</h6><img class='w-full' src='/images/component-previews/influencer-pack-video.png'></div>"
+                    "value": "<div style='padding-top:10px;margin-bottom:30px;border:1px solid #ebebeb;border-radius:5px;text-align:center;overflow:hidden'><h6 style='margin-bottom:10px'>معاينة العنصر</h6><img src='https://raw.githubusercontent.com/Andrewazmi/tw-influncer-pack/main/public/images/component-previews/influencer-pack-video.png'></div>"
                 },
                 {
                     "id": "video_banner",
@@ -856,7 +856,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "influencer-pack-tiktok-desc",
-                    "value": "<div><h6>معاينة العنصر</h6><img class='w-full' src='/images/component-previews/influencer-pack-tiktok.png'></div>"
+                    "value": "<div style='padding-top:10px;margin-bottom:30px;border:1px solid #ebebeb;border-radius:5px;text-align:center;overflow:hidden'><h6 style='margin-bottom:10px'>معاينة العنصر</h6><img src='https://raw.githubusercontent.com/Andrewazmi/tw-influncer-pack/main/public/images/component-previews/influencer-pack-tiktok.png'></div>"
                 },
                 {
                     "type": "string",
@@ -1007,7 +1007,7 @@
                     "type": "static",
                     "format": "description",
                     "id": "social-follow-floating-desc",
-                    "value": "<div><h6>معاينة العنصر</h6><img class='w-full' src='/images/component-previews/social-follow-floating.png'></div>"
+                    "value": "<div style='padding-top:10px;margin-bottom:30px;border:1px solid #ebebeb;border-radius:5px;text-align:center;overflow:hidden'><h6 style='margin-bottom:10px'>معاينة العنصر</h6><img src='https://raw.githubusercontent.com/Andrewazmi/tw-influncer-pack/main/public/images/component-previews/social-follow-floating.png'></div>"
                 },
                 {
                     "type": "boolean",
