@@ -1,12 +1,18 @@
 salla.onReady(() => {
-  const block = document.querySelector('.s-social-follow-floating');
-  if (!block || block.dataset.jsInitialized === 'true') {
+  const blocks = document.querySelectorAll('.s-block--social-follow-floating');
+  if (!blocks.length) {
     return;
   }
 
-  block.dataset.jsInitialized = 'true';
-  syncCssVariables(block);
-  bindMobileToggle(block);
+  blocks.forEach((block) => {
+    if (block.dataset.jsInitialized === 'true') {
+      return;
+    }
+
+    block.dataset.jsInitialized = 'true';
+    syncCssVariables(block);
+    bindMobileToggle(block);
+  });
 });
 
 function syncCssVariables(block) {

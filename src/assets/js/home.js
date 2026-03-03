@@ -2,6 +2,7 @@ import "lite-youtube-embed";
 import BasePage from "./base-page";
 import Lightbox from "fslightbox";
 import "./components/influencer-pack";
+import "./components/social-follow-floating";
 import "./components/influencer-pack-tiktok";
 window.fslightbox = Lightbox;
 

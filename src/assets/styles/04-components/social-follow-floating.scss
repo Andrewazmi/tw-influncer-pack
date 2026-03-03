@@ -1,4 +1,4 @@
-.s-social-follow-floating {
+.s-block--social-follow-floating {
   --ssf-size: 3rem;
   --ssf-gap: 0.5rem;
   --ssf-z: 90;
@@ -245,15 +245,15 @@
   }
 }
 
-body.is-sticky-product-bar .s-social-follow-floating[data-mobile-mode='bottom-dock'] {
+body.is-sticky-product-bar .s-block--social-follow-floating[data-mobile-mode='bottom-dock'] {
   @media (max-width: 767px) {
     inset-block-end: calc(env(safe-area-inset-bottom) + var(--ssf-mobile-offset-y) + 62px);
   }
 }
 
-body.dropdown--is-opened .s-social-follow-floating,
-body.modal-is-open .s-social-follow-floating,
-body.mm-ocd-opened .s-social-follow-floating {
+body.dropdown--is-opened .s-block--social-follow-floating,
+body.modal-is-open .s-block--social-follow-floating,
+body.mm-ocd-opened .s-block--social-follow-floating {
   opacity: 0;
   pointer-events: none;
 }

@@ -2,7 +2,6 @@ import MobileMenu from 'mmenu-light';
 import Swal from 'sweetalert2';
 import AppHelpers from "./app-helpers";
 import './components/video-products';
-import './components/social-follow-floating';
 import './helpers/product-helpers';
 import Anime from './partials/anime';
 import initTootTip from './partials/tooltip';
