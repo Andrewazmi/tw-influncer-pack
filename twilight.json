@@ -2788,8 +2788,8 @@
         {
             "key": "6f0d8fd6-24a8-46f0-a9f7-3fe8a26f31fd",
             "title": {
-                "en": "Influencer Pack Video Banner",
-                "ar": "باقة المؤثرين فيديو بانر"
+                "en": "Influencer Pack Video",
+                "ar": "باقة المؤثرين - فيديو مع زر"
             },
             "icon": "sicon-video",
             "path": "home.influencer-pack-video",
@@ -2799,7 +2799,7 @@
                     "type": "string",
                     "format": "url",
                     "inputType": "url",
-                    "label": "رابط الفيديو",
+                    "label": "رابط فيديو باقة المؤثرين",
                     "description": "أدخل رابط مباشر لملف فيديو (MP4)",
                     "placeholder": "https://example.com/video.mp4",
                     "icon": "sicon-video",
@@ -2810,8 +2810,8 @@
                     "id": "title",
                     "type": "string",
                     "format": "text",
-                    "label": "عنوان رئيسي",
-                    "description": "عنوان يظهر فوق الفيديو",
+                    "label": "عنوان الفيديو",
+                    "description": "عنوان يظهر فوق فيديو باقة المؤثرين",
                     "placeholder": "اكتب عنواناً رئيسياً",
                     "icon": "sicon-format-text-alt",
                     "value": null,
@@ -2822,7 +2822,7 @@
                     "id": "button_position",
                     "type": "items",
                     "format": "dropdown-list",
-                    "label": "تموضع الزر",
+                    "label": "موضع زر الدعوة",
                     "icon": "sicon-keyboard_arrow_down",
                     "selected": [
                         {
@@ -2854,7 +2854,7 @@
                     "type": "string",
                     "format": "color",
                     "inputType": "color",
-                    "label": "لون نص الزر",
+                    "label": "لون نص زر الدعوة",
                     "icon": "sicon-format-color-text",
                     "value": "#ffffff",
                     "required": false
@@ -2864,7 +2864,7 @@
                     "type": "string",
                     "format": "color",
                     "inputType": "color",
-                    "label": "لون خلفية الزر",
+                    "label": "لون خلفية زر الدعوة",
                     "icon": "sicon-format-fill",
                     "value": "#004956",
                     "required": false
@@ -2873,7 +2873,7 @@
                     "id": "button",
                     "type": "string",
                     "format": "text",
-                    "label": "نص الزر",
+                    "label": "نص زر الدعوة",
                     "placeholder": "تسوق الآن",
                     "icon": "sicon-format-text-alt",
                     "value": null,
@@ -2883,7 +2883,7 @@
                 {
                     "type": "items",
                     "icon": "sicon-link",
-                    "label": "رابط الزر",
+                    "label": "رابط زر الدعوة",
                     "id": "button_url",
                     "value": null,
                     "required": false,
