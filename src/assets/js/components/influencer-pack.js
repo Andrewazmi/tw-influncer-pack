@@ -443,6 +443,8 @@ function bindReelStripInteractions(block) {
 
   let activeStrip = null;
   let activeStripTrigger = null;
+  const productCache = new Map();
+  hydrateReelPins(block, productCache);
 
   const closeActiveStrip = () => {
     if (!activeStrip) {
@@ -454,7 +456,6 @@ function bindReelStripInteractions(block) {
     strip.setAttribute('aria-hidden', 'true');
     window.setTimeout(() => {
       strip.hidden = true;
-      unlockPageScroll();
     }, 220);
     activeStrip = null;
     if (activeStripTrigger && typeof activeStripTrigger.focus === 'function') {
@@ -468,7 +469,7 @@ function bindReelStripInteractions(block) {
       return;
     }
 
-    const strip = document.getElementById(stripId);
+    const strip = block.querySelector(`#${stripId}`);
     if (!strip) {
       return;
     }
@@ -479,13 +480,8 @@ function bindReelStripInteractions(block) {
       activeStrip.hidden = true;
     }
 
-    if (strip.parentElement !== document.body) {
-      document.body.appendChild(strip);
-    }
-
     strip.hidden = false;
     strip.setAttribute('aria-hidden', 'false');
-    lockPageScroll();
     window.requestAnimationFrame(() => {
       strip.classList.add('is-open');
       const closeButton = strip.querySelector('.influencer-pack__reel-strip-close');
@@ -505,26 +501,12 @@ function bindReelStripInteractions(block) {
       openStrip(openButton.dataset.openStrip || '', openButton);
       return;
     }
-  });
-
-  block.ownerDocument.addEventListener('click', (event) => {
-    if (!activeStrip) {
-      return;
-    }
 
     const closeButton = event.target.closest('[data-close-strip]');
-    if (closeButton && activeStrip.contains(closeButton)) {
+    if (closeButton && block.contains(closeButton)) {
       event.preventDefault();
       event.stopPropagation();
       closeActiveStrip();
-      return;
-    }
-
-    const addButton = event.target.closest('.influencer-pack__strip-item-cart');
-    if (addButton && activeStrip.contains(addButton)) {
-      event.preventDefault();
-      event.stopPropagation();
-      addStripProductToCart(addButton);
     }
   });
 
@@ -569,79 +551,132 @@ function bindReelStripInteractions(block) {
   });
 }
 
-function addStripProductToCart(button) {
-  if (!button) {
+function hydrateReelPins(block, productCache) {
+  const pinButtons = Array.from(block.querySelectorAll('.influencer-pack__reel-product-pin[data-product-ids]'));
+  if (!pinButtons.length) {
     return;
   }
 
-  const productId = Number(button.dataset.productId || 0);
-  if (!productId) {
+  const firstIds = pinButtons
+    .map((button) => {
+      const firstId = (button.dataset.productIds || '')
+        .split(',')
+        .map((id) => Number(String(id).trim()))
+        .find((id) => Number.isFinite(id) && id > 0);
+      return firstId || null;
+    })
+    .filter(Boolean);
+
+  if (!firstIds.length) {
     return;
   }
 
-  const card = button.closest('.influencer-pack__strip-item');
-  const productLink = card ? card.querySelector('.influencer-pack__strip-item-link') : null;
-  const fallbackUrl = productLink ? productLink.getAttribute('href') : '';
-  const originalText = button.dataset.originalText || button.textContent || 'أضف للسلة';
-  button.dataset.originalText = originalText;
+  fetchProductsByIds(firstIds, productCache)
+    .then((products) => {
+      const byId = new Map(products.map((product) => [Number(product?.id || 0), product]).filter(([id]) => id > 0));
 
-  if (!salla.cart || typeof salla.cart.addItem !== 'function') {
-    if (fallbackUrl && fallbackUrl !== '#') {
-      window.location.href = fallbackUrl;
-    }
-    return;
-  }
+      pinButtons.forEach((button) => {
+        const firstId = (button.dataset.productIds || '')
+          .split(',')
+          .map((id) => Number(String(id).trim()))
+          .find((id) => Number.isFinite(id) && id > 0);
+        if (!firstId) {
+          return;
+        }
 
-  button.disabled = true;
-  Promise.resolve(salla.cart.addItem(productId, 1))
-    .then(() => {
-      button.textContent = 'تمت الإضافة';
-      button.classList.add('is-added');
-      window.setTimeout(() => {
-        button.classList.remove('is-added');
-        button.textContent = originalText;
-      }, 1200);
+        const product = byId.get(firstId);
+        if (!product) {
+          return;
+        }
+
+        const title = product?.name || product?.title || '';
+        if (title) {
+          const titleNode = button.querySelector('.influencer-pack__reel-product-pin-title');
+          if (titleNode) {
+            titleNode.textContent = title;
+          }
+        }
+
+        const imageUrl = product?.image?.url || product?.thumbnail || '';
+        if (imageUrl) {
+          let image = button.querySelector('.influencer-pack__reel-product-pin-image');
+          if (!image) {
+            image = document.createElement('img');
+            image.className = 'influencer-pack__reel-product-pin-image';
+            image.loading = 'lazy';
+            button.prepend(image);
+          }
+          image.src = imageUrl;
+          image.alt = title || 'منتج الريل';
+        }
+      });
     })
     .catch(() => {
-      if (fallbackUrl && fallbackUrl !== '#') {
-        window.location.href = fallbackUrl;
-      }
-    })
-    .finally(() => {
-      button.disabled = false;
+      // Keep server-rendered fallback pin content.
     });
 }
 
-function lockPageScroll() {
-  const body = document.body;
-  if (!body) {
-    return;
+async function fetchProductsByIds(ids, productCache) {
+  const uniqueIds = Array.from(new Set(ids.map((id) => Number(id)).filter((id) => id > 0)));
+  const missingIds = uniqueIds.filter((id) => !productCache.has(id));
+
+  if (missingIds.length) {
+    const batchProducts = await fetchProductsBatch(missingIds);
+    batchProducts.forEach((product) => {
+      const productId = Number(product?.id || 0);
+      if (productId) {
+        productCache.set(productId, product);
+      }
+    });
+
+    const unresolved = missingIds.filter((id) => !productCache.has(id));
+    if (unresolved.length) {
+      const singles = await Promise.allSettled(unresolved.map((id) => salla.api.get(`/products/${id}`)));
+      singles.forEach((result) => {
+        if (result.status !== 'fulfilled') {
+          return;
+        }
+        const payload = result.value?.data?.data || result.value?.data;
+        const product = Array.isArray(payload) ? payload[0] : payload;
+        const productId = Number(product?.id || 0);
+        if (productId) {
+          productCache.set(productId, product);
+        }
+      });
+    }
   }
 
-  if (body.dataset.influencerScrollLock !== 'true') {
-    body.dataset.influencerPreviousOverflow = body.style.overflow || '';
-  }
-  body.dataset.influencerScrollLock = 'true';
-  body.style.overflow = 'hidden';
+  return ids.map((id) => productCache.get(Number(id))).filter(Boolean);
 }
 
-function unlockPageScroll() {
-  const body = document.body;
-  if (!body) {
-    return;
+async function fetchProductsBatch(ids) {
+  const queries = [];
+
+  const idsArrayParams = new URLSearchParams();
+  ids.forEach((id) => idsArrayParams.append('ids[]', String(id)));
+  idsArrayParams.append('limit', String(ids.length));
+  idsArrayParams.append('format', 'light');
+  queries.push(`/products?${idsArrayParams.toString()}`);
+
+  const idsCsvParams = new URLSearchParams();
+  idsCsvParams.append('ids', ids.join(','));
+  idsCsvParams.append('limit', String(ids.length));
+  idsCsvParams.append('format', 'light');
+  queries.push(`/products?${idsCsvParams.toString()}`);
+
+  for (const endpoint of queries) {
+    try {
+      const response = await salla.api.get(endpoint);
+      const payload = response?.data?.data || response?.data;
+      if (Array.isArray(payload) && payload.length) {
+        return payload;
+      }
+    } catch (_error) {
+      // Try next endpoint format.
+    }
   }
 
-  if (document.querySelector('.influencer-pack__reel-strip.is-open')) {
-    return;
-  }
-
-  if (body.dataset.influencerPreviousOverflow !== undefined) {
-    body.style.overflow = body.dataset.influencerPreviousOverflow;
-    delete body.dataset.influencerPreviousOverflow;
-  } else {
-    body.style.removeProperty('overflow');
-  }
-  delete body.dataset.influencerScrollLock;
+  return [];
 }
 
 function copyText(value) {

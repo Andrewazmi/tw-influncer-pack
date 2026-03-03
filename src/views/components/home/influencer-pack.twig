@@ -226,15 +226,16 @@
                     type="button"
                     class="influencer-pack__reel-product-pin"
                     data-open-strip="{{ reel_strip_id }}"
+                    data-product-ids="{{ reel_product_ids|join(',') }}"
                     aria-label="تسوق منتجات الريل">
                     {% if reel_primary_image %}
-                      <img src="{{ reel_primary_image }}" alt="{{ reel_primary_title ? reel_primary_title : 'منتج الريل' }}" loading="lazy">
+                      <img class="influencer-pack__reel-product-pin-image" src="{{ reel_primary_image }}" alt="{{ reel_primary_title ? reel_primary_title : 'منتج الريل' }}" loading="lazy">
                     {% endif %}
                     <span class="influencer-pack__reel-product-pin-meta">
                       {% if reel_primary_title %}
                         <span class="influencer-pack__reel-product-pin-title">{{ reel_primary_title }}</span>
                       {% else %}
-                        <span class="influencer-pack__reel-product-pin-title">منتج مميز</span>
+                        <span class="influencer-pack__reel-product-pin-title">عرض المنتج</span>
                       {% endif %}
                     </span>
                     {% if reel_product_count > 1 %}
@@ -272,6 +273,34 @@
                     <a href="{{ reel_cta_url }}" class="influencer-pack__cta">{{ reel_cta_text }}</a>
                   {% endif %}
                 </div>
+
+                {% if reel_product_count %}
+                  <div
+                    class="influencer-pack__reel-strip"
+                    id="{{ reel_strip_id }}"
+                    hidden
+                    aria-hidden="true"
+                    data-product-ids="{{ reel_product_ids|join(',') }}">
+                    <button type="button" class="influencer-pack__reel-strip-backdrop" data-close-strip aria-label="إغلاق نافذة المنتجات"></button>
+                    <div class="influencer-pack__reel-strip-panel" role="dialog" aria-modal="false" aria-label="تسوق منتجات الريل">
+                      <header class="influencer-pack__reel-strip-head">
+                        <h3>تسوق منتجات الريل</h3>
+                        <button type="button" class="influencer-pack__reel-strip-close" data-close-strip aria-label="إغلاق">
+                          <i class="sicon-cancel"></i>
+                        </button>
+                      </header>
+                      <div class="influencer-pack__reel-strip-products">
+                        <salla-products-slider
+                          source="selected"
+                          source-value="[{{ reel_product_ids|join(',') }}]"
+                          limit="{{ reel_product_count }}"
+                          slider-id="influencer-pack-reel-inline-{{ position }}-{{ loop.index0 }}"
+                          block-title=" ">
+                        </salla-products-slider>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
               </div>
 
               {% if reel_caption %}
@@ -282,28 +311,6 @@
                 <a href="{{ reel_cta_url }}" class="influencer-pack__cta influencer-pack__cta--fallback">{{ reel_cta_text }}</a>
               {% endif %}
 
-              {% if reel_product_count %}
-                <div class="influencer-pack__reel-strip" id="{{ reel_strip_id }}" hidden aria-hidden="true">
-                  <button type="button" class="influencer-pack__reel-strip-backdrop" data-close-strip aria-label="إغلاق نافذة المنتجات"></button>
-                  <div class="influencer-pack__reel-strip-panel" role="dialog" aria-modal="true" aria-label="تسوق منتجات الريل">
-                    <header class="influencer-pack__reel-strip-head">
-                      <h3>تسوق منتجات الريل</h3>
-                      <button type="button" class="influencer-pack__reel-strip-close" data-close-strip aria-label="إغلاق">
-                        <i class="sicon-cancel"></i>
-                      </button>
-                    </header>
-                    <div class="influencer-pack__reel-strip-products">
-                      <salla-products-slider
-                        source="selected"
-                        source-value="[{{ reel_product_ids|join(',') }}]"
-                        limit="{{ reel_product_count }}"
-                        slider-id="influencer-pack-reel-strip-{{ position }}-{{ loop.index0 }}"
-                        block-title=" ">
-                      </salla-products-slider>
-                    </div>
-                  </div>
-                </div>
-              {% endif %}
               </article>
             {% endfor %}
           </div>

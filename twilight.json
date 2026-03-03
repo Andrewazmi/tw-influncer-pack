@@ -31,6 +31,7 @@
         "filters",
         "component-video-with-products",
         "component-influencer-pack",
+        "component-influencer-pack-video",
         "component-influencer-pack-tiktok"
     ],
     "settings": [
@@ -241,6 +242,670 @@
             "icon": "sicon-format-fill",
             "value": "#004956",
             "required": false
+        },
+        {
+            "type": "static",
+            "id": "static-line-social-follow",
+            "format": "line"
+        },
+        {
+            "type": "static",
+            "format": "title",
+            "id": "static-label-social-follow",
+            "value": "خيارات أزرار متابعة السوشال",
+            "variant": "h6"
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "تفعيل أزرار المتابعة العائمة",
+            "id": "social_follow_enabled",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
+        },
+        {
+            "id": "social_follow_position",
+            "type": "items",
+            "format": "dropdown-list",
+            "label": "موضع العنصر (سطح المكتب)",
+            "icon": "sicon-list",
+            "required": true,
+            "selected": [
+                {
+                    "label": "يمين المنتصف",
+                    "value": "right-center"
+                }
+            ],
+            "options": [
+                {
+                    "label": "يسار المنتصف",
+                    "value": "left-center"
+                },
+                {
+                    "label": "يمين المنتصف",
+                    "value": "right-center"
+                },
+                {
+                    "label": "أسفل اليمين",
+                    "value": "bottom-right"
+                },
+                {
+                    "label": "موضع مخصص",
+                    "value": "custom"
+                }
+            ],
+            "source": "Manual",
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_mobile_mode",
+            "type": "items",
+            "format": "dropdown-list",
+            "label": "عرض العنصر في الجوال",
+            "icon": "sicon-smartphone",
+            "required": true,
+            "selected": [
+                {
+                    "label": "شريط سفلي",
+                    "value": "bottom-dock"
+                }
+            ],
+            "options": [
+                {
+                    "label": "شريط سفلي",
+                    "value": "bottom-dock"
+                },
+                {
+                    "label": "عمودي عائم",
+                    "value": "floating-stack"
+                }
+            ],
+            "source": "Manual",
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_style_preset",
+            "type": "items",
+            "format": "dropdown-list",
+            "label": "نمط الألوان",
+            "icon": "sicon-format-fill",
+            "required": true,
+            "selected": [
+                {
+                    "label": "ألوان المنصات",
+                    "value": "brand"
+                }
+            ],
+            "options": [
+                {
+                    "label": "ألوان المنصات",
+                    "value": "brand"
+                },
+                {
+                    "label": "أحادي",
+                    "value": "monochrome"
+                },
+                {
+                    "label": "مخصص",
+                    "value": "custom"
+                }
+            ],
+            "source": "Manual",
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_custom_bg_color",
+            "type": "string",
+            "format": "color",
+            "inputType": "color",
+            "label": "لون الخلفية المخصص",
+            "icon": "sicon-format-fill",
+            "value": "#111111",
+            "required": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                },
+                {
+                    "id": "social_follow_style_preset",
+                    "operation": "=",
+                    "value": "custom"
+                }
+            ]
+        },
+        {
+            "id": "social_follow_custom_icon_color",
+            "type": "string",
+            "format": "color",
+            "inputType": "color",
+            "label": "لون الأيقونة/النص المخصص",
+            "icon": "sicon-format-color-text",
+            "value": "#ffffff",
+            "required": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                },
+                {
+                    "id": "social_follow_style_preset",
+                    "operation": "=",
+                    "value": "custom"
+                }
+            ]
+        },
+        {
+            "id": "social_follow_icon_mode",
+            "type": "items",
+            "format": "dropdown-list",
+            "label": "طريقة العرض",
+            "icon": "sicon-grid",
+            "required": true,
+            "selected": [
+                {
+                    "label": "أيقونة فقط",
+                    "value": "icon-only"
+                }
+            ],
+            "options": [
+                {
+                    "label": "أيقونة فقط",
+                    "value": "icon-only"
+                },
+                {
+                    "label": "أيقونة + نص",
+                    "value": "icon-label"
+                }
+            ],
+            "source": "Manual",
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_size",
+            "type": "items",
+            "format": "dropdown-list",
+            "label": "حجم الأزرار",
+            "icon": "sicon-expand",
+            "required": true,
+            "selected": [
+                {
+                    "label": "متوسط",
+                    "value": "regular"
+                }
+            ],
+            "options": [
+                {
+                    "label": "صغير",
+                    "value": "compact"
+                },
+                {
+                    "label": "متوسط",
+                    "value": "regular"
+                },
+                {
+                    "label": "كبير",
+                    "value": "large"
+                }
+            ],
+            "source": "Manual",
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_shape",
+            "type": "items",
+            "format": "dropdown-list",
+            "label": "شكل الأزرار",
+            "icon": "sicon-shape",
+            "required": true,
+            "selected": [
+                {
+                    "label": "حبّة",
+                    "value": "pill"
+                }
+            ],
+            "options": [
+                {
+                    "label": "ناعم",
+                    "value": "soft"
+                },
+                {
+                    "label": "حبّة",
+                    "value": "pill"
+                },
+                {
+                    "label": "مربع",
+                    "value": "square"
+                }
+            ],
+            "source": "Manual",
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_desktop_offset_x",
+            "type": "string",
+            "format": "number",
+            "inputType": "number",
+            "label": "إزاحة أفقية (سطح المكتب)",
+            "icon": "sicon-expand-alt",
+            "value": "20",
+            "required": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_desktop_offset_y",
+            "type": "string",
+            "format": "number",
+            "inputType": "number",
+            "label": "إزاحة عمودية (سطح المكتب)",
+            "icon": "sicon-expand-alt",
+            "value": "20",
+            "required": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_mobile_offset_x",
+            "type": "string",
+            "format": "number",
+            "inputType": "number",
+            "label": "إزاحة أفقية (الجوال)",
+            "icon": "sicon-expand-alt",
+            "value": "0",
+            "required": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_mobile_offset_y",
+            "type": "string",
+            "format": "number",
+            "inputType": "number",
+            "label": "إزاحة عمودية (الجوال)",
+            "icon": "sicon-expand-alt",
+            "value": "14",
+            "required": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "إظهار النص في الجوال عند نمط (أيقونة + نص)",
+            "id": "social_follow_show_mobile_labels",
+            "format": "switch",
+            "required": false,
+            "value": false,
+            "selected": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                },
+                {
+                    "id": "social_follow_icon_mode",
+                    "operation": "=",
+                    "value": "icon-label"
+                }
+            ]
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "إخفاء العنصر في السلة/الدفع",
+            "id": "social_follow_hide_on_cart_checkout",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "زر فتح/إغلاق في الجوال",
+            "id": "social_follow_expandable_mobile",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "فتح افتراضي في الجوال",
+            "id": "social_follow_default_expanded_mobile",
+            "format": "switch",
+            "required": false,
+            "value": false,
+            "selected": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                },
+                {
+                    "id": "social_follow_expandable_mobile",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "تفعيل Instagram",
+            "id": "social_follow_instagram_enabled",
+            "format": "switch",
+            "required": false,
+            "value": false,
+            "selected": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_instagram_url",
+            "type": "string",
+            "format": "url",
+            "inputType": "url",
+            "label": "رابط Instagram",
+            "icon": "sicon-link",
+            "value": null,
+            "required": false,
+            "placeholder": "https://instagram.com/username",
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                },
+                {
+                    "id": "social_follow_instagram_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "تفعيل TikTok",
+            "id": "social_follow_tiktok_enabled",
+            "format": "switch",
+            "required": false,
+            "value": false,
+            "selected": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_tiktok_url",
+            "type": "string",
+            "format": "url",
+            "inputType": "url",
+            "label": "رابط TikTok",
+            "icon": "sicon-link",
+            "value": null,
+            "required": false,
+            "placeholder": "https://www.tiktok.com/@username",
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                },
+                {
+                    "id": "social_follow_tiktok_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "تفعيل Snapchat",
+            "id": "social_follow_snapchat_enabled",
+            "format": "switch",
+            "required": false,
+            "value": false,
+            "selected": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_snapchat_url",
+            "type": "string",
+            "format": "url",
+            "inputType": "url",
+            "label": "رابط Snapchat",
+            "icon": "sicon-link",
+            "value": null,
+            "required": false,
+            "placeholder": "https://www.snapchat.com/add/username",
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                },
+                {
+                    "id": "social_follow_snapchat_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "تفعيل YouTube",
+            "id": "social_follow_youtube_enabled",
+            "format": "switch",
+            "required": false,
+            "value": false,
+            "selected": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_youtube_url",
+            "type": "string",
+            "format": "url",
+            "inputType": "url",
+            "label": "رابط YouTube",
+            "icon": "sicon-link",
+            "value": null,
+            "required": false,
+            "placeholder": "https://www.youtube.com/@channel",
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                },
+                {
+                    "id": "social_follow_youtube_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "تفعيل X",
+            "id": "social_follow_x_enabled",
+            "format": "switch",
+            "required": false,
+            "value": false,
+            "selected": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_x_url",
+            "type": "string",
+            "format": "url",
+            "inputType": "url",
+            "label": "رابط X",
+            "icon": "sicon-link",
+            "value": null,
+            "required": false,
+            "placeholder": "https://x.com/username",
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                },
+                {
+                    "id": "social_follow_x_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "تفعيل WhatsApp",
+            "id": "social_follow_whatsapp_enabled",
+            "format": "switch",
+            "required": false,
+            "value": false,
+            "selected": false,
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": "social_follow_whatsapp_url",
+            "type": "string",
+            "format": "url",
+            "inputType": "url",
+            "label": "رابط WhatsApp",
+            "icon": "sicon-link",
+            "value": null,
+            "required": false,
+            "placeholder": "https://wa.me/966500000000",
+            "conditions": [
+                {
+                    "id": "social_follow_enabled",
+                    "operation": "=",
+                    "value": true
+                },
+                {
+                    "id": "social_follow_whatsapp_enabled",
+                    "operation": "=",
+                    "value": true
+                }
+            ]
         }
     ],
     "components": [
@@ -2115,6 +2780,181 @@
                             "id": "show_picked_products",
                             "operation": "=",
                             "value": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "6f0d8fd6-24a8-46f0-a9f7-3fe8a26f31fd",
+            "title": {
+                "en": "Influencer Pack Video Banner",
+                "ar": "باقة المؤثرين فيديو بانر"
+            },
+            "icon": "sicon-video",
+            "path": "home.influencer-pack-video",
+            "fields": [
+                {
+                    "id": "video_banner",
+                    "type": "string",
+                    "format": "url",
+                    "inputType": "url",
+                    "label": "رابط الفيديو",
+                    "description": "أدخل رابط مباشر لملف فيديو (MP4)",
+                    "placeholder": "https://example.com/video.mp4",
+                    "icon": "sicon-video",
+                    "value": null,
+                    "required": false
+                },
+                {
+                    "id": "title",
+                    "type": "string",
+                    "format": "text",
+                    "label": "عنوان رئيسي",
+                    "description": "عنوان يظهر فوق الفيديو",
+                    "placeholder": "اكتب عنواناً رئيسياً",
+                    "icon": "sicon-format-text-alt",
+                    "value": null,
+                    "multilanguage": true,
+                    "required": false
+                },
+                {
+                    "id": "button_position",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "label": "تموضع الزر",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "selected": [
+                        {
+                            "label": "بالمنتصف",
+                            "value": "center"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "label": "يسار",
+                            "value": "end"
+                        },
+                        {
+                            "label": "يمين",
+                            "value": "start"
+                        },
+                        {
+                            "label": "بالمنتصف",
+                            "value": "center"
+                        }
+                    ],
+                    "source": "Manual",
+                    "multichoice": false,
+                    "searchable": false,
+                    "required": false
+                },
+                {
+                    "id": "text_color_button",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "لون نص الزر",
+                    "icon": "sicon-format-color-text",
+                    "value": "#ffffff",
+                    "required": false
+                },
+                {
+                    "id": "background_button_color",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "لون خلفية الزر",
+                    "icon": "sicon-format-fill",
+                    "value": "#004956",
+                    "required": false
+                },
+                {
+                    "id": "button",
+                    "type": "string",
+                    "format": "text",
+                    "label": "نص الزر",
+                    "placeholder": "تسوق الآن",
+                    "icon": "sicon-format-text-alt",
+                    "value": null,
+                    "multilanguage": true,
+                    "required": false
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-link",
+                    "label": "رابط الزر",
+                    "id": "button_url",
+                    "value": null,
+                    "required": false,
+                    "format": "variable-list",
+                    "searchable": true,
+                    "source": "custom",
+                    "sources": [
+                        {
+                            "label": "منتج",
+                            "key": "products",
+                            "value": "products"
+                        },
+                        {
+                            "label": "تصنيف",
+                            "key": "categories",
+                            "value": "categories"
+                        },
+                        {
+                            "label": "ماركة تجارية",
+                            "key": "brands",
+                            "value": "brands"
+                        },
+                        {
+                            "label": "صفحة تعريفية",
+                            "key": "pages",
+                            "value": "pages"
+                        },
+                        {
+                            "label": "مقالة",
+                            "key": "blog_articles",
+                            "value": "blog_articles"
+                        },
+                        {
+                            "label": "تصنيف ضمن المدونة",
+                            "key": "blog_categories",
+                            "value": "blog_categories"
+                        },
+                        {
+                            "label": "صفحة تواصل معنا",
+                            "key": "contact_link",
+                            "value": "contact_link"
+                        },
+                        {
+                            "label": "الصفحة الرئيسية",
+                            "key": "home_link",
+                            "value": "home_link"
+                        },
+                        {
+                            "label": "كل المنتجات",
+                            "key": "products_link",
+                            "value": "products_link"
+                        },
+                        {
+                            "label": "التخفيضات",
+                            "key": "offers_link",
+                            "value": "offers_link"
+                        },
+                        {
+                            "label": "الماركات التجارية",
+                            "key": "brands_link",
+                            "value": "brands_link"
+                        },
+                        {
+                            "label": "المدونة",
+                            "key": "blog_link",
+                            "value": "blog_link"
+                        },
+                        {
+                            "label": "رابط خارجي",
+                            "key": "custom",
+                            "value": "custom"
                         }
                     ]
                 }
