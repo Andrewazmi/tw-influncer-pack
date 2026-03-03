@@ -46,7 +46,7 @@
         {
             "id": "albred_alilktrone_lltoasl",
             "type": "string",
-            "format": "text",
+            "format": "email",
             "inputType": "email",
             "label": "البريد الإلكتروني للتواصل",
             "description": "سيظهر في الشريط العلوي للمتجر. اتركه فارغاً لإخفائه",
