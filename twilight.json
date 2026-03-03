@@ -222,10 +222,7 @@
     "components": [
         {
             "key": "e21f0d90-20a2-4b71-9a0f-912a73b1b811",
-            "title": {
-                "en": "Influencer Pack",
-                "ar": "باقة المؤثرين"
-            },
+            "title": "باقة المؤثرين",
             "icon": "sicon-play-circle",
             "path": "home.influencer-pack",
             "fields": [
@@ -660,10 +657,7 @@
         },
         {
             "key": "6f0d8fd6-24a8-46f0-a9f7-3fe8a26f31fd",
-            "title": {
-                "en": "Influencer Pack Video",
-                "ar": "باقة المؤثرين - فيديو مع زر"
-            },
+            "title": "باقة المؤثرين - فيديو مع زر",
             "icon": "sicon-video",
             "path": "home.influencer-pack-video",
             "fields": [
@@ -853,10 +847,7 @@
         },
         {
             "key": "28c3878c-5dbb-47c8-8f17-65fe2e5be1ca",
-            "title": {
-                "en": "Influencer Pack TikTok",
-                "ar": "باقة المؤثرين تيك توك"
-            },
+            "title": "باقة المؤثرين تيك توك",
             "icon": "sicon-video",
             "path": "home.influencer-pack-tiktok",
             "fields": [
@@ -1004,10 +995,7 @@
         },
         {
             "key": "a2ecf4a1-c36d-4db7-8e8d-3f0024de8f29",
-            "title": {
-                "en": "Social Follow Floating",
-                "ar": "أزرار متابعة السوشال العائمة"
-            },
+            "title": "أزرار متابعة السوشال العائمة",
             "icon": "sicon-share-alt",
             "path": "home.social-follow-floating",
             "fields": [
