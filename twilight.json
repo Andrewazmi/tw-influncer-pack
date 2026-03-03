@@ -40,9 +40,21 @@
             "icon": "sicon-format-text"
         },
         {
+            "id": "site_bg_color",
+            "type": "string",
+            "format": "color",
+            "inputType": "color",
+            "label": "لون خلفية المتجر",
+            "description": "اختر لون خلفية المتجر الرئيسية",
+            "labelHTML": null,
+            "icon": "sicon-format-fill",
+            "value": "#f4f3e5",
+            "required": false
+        },
+        {
             "id": "albred_alilktrone_lltoasl",
             "type": "string",
-            "format": "text",
+            "format": "email",
             "inputType": "email",
             "label": "البريد الإلكتروني للتواصل",
             "description": "سيظهر في الشريط العلوي للمتجر. اتركه فارغاً لإخفائه",
